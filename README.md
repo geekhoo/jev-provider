@@ -4,7 +4,7 @@
 
 jev-provider is a small Rust gateway that serves the System One (Jev) decision API ([TypeSafe API reference](https://docs.typesafe.ai/api)) at `POST /v1/systemone`. It translates each bounded decision request for an upstream LLM that speaks the Anthropic Messages API or the OpenAI Responses API (the official services or compatible endpoints), then maps the model's structured output back into Jev-shaped `noul`, `choice`, and `score` answers.
 
-**Status:** pre-release [v0.9.0](https://github.com/geekhoo/jev-provider/releases/tag/v0.9.0). CI runs on each published release, not on every push.
+**Status:** pre-release [v0.9.1](https://github.com/geekhoo/jev-provider/releases/tag/v0.9.1). CI runs on each published release, not on every push.
 
 Each provider declares a `type` that selects its wire mapping:
 
