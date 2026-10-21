@@ -1,0 +1,37 @@
+{
+  "case": "insurance-L1",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "with_user_instructions": {
+    "answers": {
+      "glass_damage_covered": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "gate_payment",
+        "confidence": 0.34,
+        "probabilities": {
+          "score_claim_complexity": 0.43,
+          "route_to_adjuster": 0.01,
+          "gate_payment": 0.5599999999999999
+        }
+      },
+      "claim_complexity": {
+        "type": "score",
+        "score": 0.17,
+        "confidence": 0.76,
+        "legend": {
+          "0": "Very simple",
+          "1": "Some checking needed",
+          "2": "Complex"
+        },
+        "probabilities": {
+          "0": 0.84,
+          "1": 0.16,
+          "2": 0.0
+        }
+      }
+    }
+  }
+}

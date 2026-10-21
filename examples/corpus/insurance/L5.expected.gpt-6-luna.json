@@ -1,0 +1,48 @@
+{
+  "case": "insurance-L5",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "invoice_predates_loss": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "claim_decision": {
+        "type": "choice",
+        "probabilities": {
+          "pay_full_claim": 0.01,
+          "pay_building_advance_only": 0.08,
+          "pay_all_scheduled_items": 0.02,
+          "hold_all_payments_pending_cause": 0.04,
+          "refer_to_special_investigations": 0.08,
+          "refer_equipment_part_to_siu": 0.62,
+          "request_inventory_and_receipts": 0.10,
+          "appoint_forensic_engineer": 0.01,
+          "reserve_rights_letter": 0.02,
+          "decline_claim": 0.01,
+          "escalate_to_claims_director": 0.01
+        }
+      },
+      "scheduled_coverage_fit": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.03,
+          "2": 0.18,
+          "3": 0.45,
+          "4": 0.20,
+          "5": 0.08,
+          "6": 0.03,
+          "7": 0.01,
+          "8": 0.01,
+          "9": 0.00
+        }
+      }
+    },
+    "reasons": {
+      "invoice_predates_loss": "The invoice is dated 2026-09-20, two days before the 2026-09-22 loss.",
+      "claim_decision": "The witness reports an unscheduled old oven was moved before the loss, so refer the equipment part to SIU and do not pay it; the evidence does not establish that building cover is undisputed.",
+      "scheduled_coverage_fit": "The policy lists two deck ovens, a mixer, and a cooler, but the claim gives no itemized inventory, a witness identifies an unscheduled old oven, and the equipment amount exceeds the listed sum insured."
+    }
+  }
+}

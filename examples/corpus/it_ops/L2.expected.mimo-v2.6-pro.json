@@ -1,0 +1,36 @@
+{
+  "case": "it_ops-L2",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "primary_healthy": {
+        "type": "noul",
+        "noul": 1.00
+      },
+      "page_decision": {
+        "type": "choice",
+        "probabilities": {
+          "page_now": 0.60,
+          "ticket_for_morning": 0.30,
+          "auto_cleanup_job": 0.08,
+          "ignore_known_noise": 0.02
+        }
+      },
+      "disk_urgency": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.08,
+          "2": 0.35,
+          "3": 0.45,
+          "4": 0.10
+        }
+      }
+    },
+    "reasons": {
+      "primary_healthy": "State explicitly records primary_database_healthy as true, so P(true) is 1.00.",
+      "page_decision": "Production replica at 94% disk under a conservative risk posture favors paging now, with a ticket for morning plausible given the slow 0.4%/h growth and healthy primary.",
+      "disk_urgency": "94% disk on a production database is a serious alert, but slow growth and healthy replication keep it below Critical, concentrating mass on High and Moderate."
+    }
+  }
+}

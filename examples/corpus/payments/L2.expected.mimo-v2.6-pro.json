@@ -1,0 +1,36 @@
+{
+  "case": "payments-L2",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "connection_differs_from_card": {
+        "type": "noul",
+        "noul": 1.00
+      },
+      "payment_action": {
+        "type": "choice",
+        "probabilities": {
+          "approve": 0.05,
+          "step_up_verification": 0.15,
+          "manual_review": 0.35,
+          "decline": 0.45
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.55,
+          "4": 0.27
+        }
+      }
+    },
+    "reasons": {
+      "connection_differs_from_card": "Card country US versus connection country RO is a direct mismatch in the state.",
+      "payment_action": "New account, high-value electronics, and RO connection against a US card under a conservative posture favor decline, with manual review and step-up as fallbacks.",
+      "fraud_signal_strength": "Geo mismatch, 3-day account, high amount, and resalable goods make signals strong, but matching US shipping and no chargeback history stop short of very strong."
+    }
+  }
+}

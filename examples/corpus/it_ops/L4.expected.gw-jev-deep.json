@@ -1,0 +1,51 @@
+{
+  "case": "it_ops-L4",
+  "source": "gateway route jev-deep",
+  "with_user_instructions": {
+    "answers": {
+      "record_complete": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "change_decision": {
+        "type": "choice",
+        "choice": "reschedule_to_quiet_window",
+        "confidence": 0.42,
+        "probabilities": {
+          "approve_as_scheduled": 0.01,
+          "approve_after_backup_check": 0.02,
+          "reschedule_to_quiet_window": 0.5,
+          "return_for_missing_information": 0.28,
+          "send_to_change_board": 0.13,
+          "approve_with_batched_backfill": 0.03,
+          "reject_change": 0.04
+        }
+      },
+      "change_risk": {
+        "type": "score",
+        "score": 6.61,
+        "confidence": 0.81,
+        "legend": {
+          "0": "Negligible",
+          "1": "Very low",
+          "2": "Low",
+          "3": "Lowish",
+          "4": "Moderate",
+          "5": "Moderately high",
+          "6": "High",
+          "7": "Very high"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.01,
+          "4": 0.01,
+          "5": 0.05,
+          "6": 0.25,
+          "7": 0.69
+        }
+      }
+    }
+  }
+}

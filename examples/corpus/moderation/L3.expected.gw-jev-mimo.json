@@ -1,0 +1,42 @@
+{
+  "case": "moderation-L3",
+  "source": "gateway route jev-mimo",
+  "with_user_instructions": {
+    "answers": {
+      "offers_item_for_sale": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "post_action": {
+        "type": "choice",
+        "choice": "soft_hold",
+        "confidence": 0.67,
+        "probabilities": {
+          "remove_post": 0.16,
+          "soft_hold": 0.75,
+          "leave_up": 0.03,
+          "escalate_trust_and_safety": 0.06
+        }
+      },
+      "scam_likelihood": {
+        "type": "score",
+        "score": 3.47,
+        "confidence": 0.56,
+        "legend": {
+          "0": "Very unlikely",
+          "1": "Unlikely",
+          "2": "Possible",
+          "3": "Likely",
+          "4": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.02,
+          "2": 0.08,
+          "3": 0.27,
+          "4": 0.62
+        }
+      }
+    }
+  }
+}

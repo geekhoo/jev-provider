@@ -1,0 +1,37 @@
+{
+  "case": "it_ops-L1",
+  "source": "gateway route jev-openai-deep",
+  "with_user_instructions": {
+    "answers": {
+      "wiki_unavailable": {
+        "type": "noul",
+        "noul": 1.0
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "label_incident_type",
+        "confidence": 0.99,
+        "probabilities": {
+          "label_incident_type": 0.99,
+          "route_to_oncall": 0.01,
+          "gate_next_deploy": 0.01
+        }
+      },
+      "user_impact": {
+        "type": "score",
+        "score": 1.17,
+        "confidence": 0.5,
+        "legend": {
+          "0": "Minor inconvenience",
+          "1": "Noticeable disruption",
+          "2": "Major disruption"
+        },
+        "probabilities": {
+          "0": 0.08,
+          "1": 0.67,
+          "2": 0.25
+        }
+      }
+    }
+  }
+}

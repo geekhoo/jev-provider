@@ -1,0 +1,33 @@
+{
+  "case": "insurance-L1",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "glass_damage_covered": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "handling_mode": {
+        "type": "choice",
+        "probabilities": {
+          "score_claim_complexity": 0.98,
+          "route_to_adjuster": 0.01,
+          "gate_payment": 0.01
+        }
+      },
+      "claim_complexity": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.82,
+          "1": 0.17,
+          "2": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "glass_damage_covered": "Windshield damage is glass damage, and the policy explicitly covers glass damage; the stated 100 EUR excess affects payment, not coverage.",
+      "handling_mode": "The objective is scoring, which calls for a numeric complexity score and matches score_claim_complexity.",
+      "claim_complexity": "The claim concerns one cracked windshield, with a photo and repair quote; stated coverage and excess make settlement straightforward, though the quote and evidence still need routine checking."
+    }
+  }
+}

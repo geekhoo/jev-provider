@@ -1,0 +1,36 @@
+{
+  "case": "ecommerce-L2",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "window_exceeded": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "return_outcome": {
+        "type": "choice",
+        "probabilities": {
+          "approve_refund": 0.52,
+          "offer_store_credit": 0.23,
+          "escalate_to_supervisor": 0.15,
+          "decline_return": 0.10
+        }
+      },
+      "goodwill_case_strength": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.15,
+          "2": 0.35,
+          "3": 0.32,
+          "4": 0.13
+        }
+      }
+    },
+    "reasons": {
+      "window_exceeded": "State gives 41 days since delivery against a 30-day window, so the window is exceeded.",
+      "return_outcome": "Unopened item, gold tier, and a claimed delivery delay under a permissive posture favor a full refund, with credit, escalation, and decline as weaker fallbacks.",
+      "goodwill_case_strength": "Unopened condition, loyalty tier, and a delay claim support a moderate-to-strong exception case, but the claimed delay alone does not fully explain holding the item 41 days."
+    }
+  }
+}

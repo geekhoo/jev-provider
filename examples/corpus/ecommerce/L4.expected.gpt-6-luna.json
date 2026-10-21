@@ -1,0 +1,42 @@
+{
+  "case": "ecommerce-L4",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "refund_claim_supported": {
+        "type": "noul",
+        "noul": 0.34
+      },
+      "claim_handling": {
+        "type": "choice",
+        "probabilities": {
+          "refund_in_full_now": 0.00,
+          "refund_after_investigation": 0.00,
+          "open_carrier_investigation": 1.00,
+          "request_more_evidence": 0.00,
+          "send_replacement": 0.00,
+          "partial_goodwill_credit": 0.00,
+          "decline_claim": 0.00
+        }
+      },
+      "fraud_risk": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.08,
+          "2": 0.18,
+          "3": 0.27,
+          "4": 0.27,
+          "5": 0.13,
+          "6": 0.04,
+          "7": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "refund_claim_supported": "Carrier marks delivery with a neighbor signature and a 140 m GPS offset, but the signer is unidentified and the manager has not replied; receipt remains unresolved and support for non-receipt is limited.",
+      "claim_handling": "The $640 request exceeds the $500 cap, so policy requires a formal carrier trace and holding payment while the case stays open.",
+      "fraud_risk": "The delivery scan and prior claims raise concern, but the unidentified signer, recent move, pending manager response, and lack of corroboration leave authenticity uncertain; repeat claims alone do not establish fraud."
+    }
+  }
+}

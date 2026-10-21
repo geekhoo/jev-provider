@@ -1,0 +1,16 @@
+{
+  "case": "moderation-L1",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "repeated_promotion": { "type": "noul", "noul": 0.98 },
+      "handling_mode": { "type": "choice", "probabilities": { "audit_for_quality": 0.30, "classify_content_type": 0.30, "remove_or_keep_now": 0.40 } },
+      "spam_likelihood": { "type": "score", "probabilities": { "0": 0.03, "1": 0.12, "2": 0.85 } }
+    },
+    "reasons": {
+      "repeated_promotion": "State states the same promotional link and identical text were posted to twelve threads within five minutes, so repetition is near certain.",
+      "handling_mode": "The question defers to an objective in user instructions that were not supplied, so all three output kinds remain plausible with slight weight on an immediate keep-or-remove call.",
+      "spam_likelihood": "Twelve identical promotional posts in five minutes from a two-day-old account is a strong bulk-promotion pattern, though a benign new-user explanation cannot be fully excluded."
+    }
+  }
+}

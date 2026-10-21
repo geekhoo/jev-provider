@@ -1,0 +1,42 @@
+{
+  "case": "insurance-L4",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "police_report_adequate": {
+        "type": "noul",
+        "noul": 0.10
+      },
+      "claim_status": {
+        "type": "choice",
+        "probabilities": {
+          "accept_and_pay": 0.10,
+          "accept_partial": 0.08,
+          "request_missing_evidence": 0.55,
+          "refer_to_investigator": 0.15,
+          "refer_to_legal_review": 0.05,
+          "decline_under_exclusion": 0.05,
+          "decline_for_late_report": 0.02
+        }
+      },
+      "evidence_reliability": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.15,
+          "2": 0.30,
+          "3": 0.28,
+          "4": 0.15,
+          "5": 0.05,
+          "6": 0.02,
+          "7": 0.00
+        }
+      }
+    },
+    "reasons": {
+      "police_report_adequate": "The report omits the loss date and is only two short lines, so it is unlikely to be dated and detailed enough.",
+      "claim_status": "Forced entry to a locked boot is plausible but under-documented, so the conservative posture favors requesting the receipt, a timestamped damage photo, and a corrected police report before any payment or refusal.",
+      "evidence_reliability": "Only a serial number and an untampered-looking but untimed lock photo support the claim, while the receipt, CCTV, report details, and witness corroboration are missing or unreliable."
+    }
+  }
+}

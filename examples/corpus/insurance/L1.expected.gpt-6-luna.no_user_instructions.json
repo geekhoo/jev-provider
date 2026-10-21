@@ -1,0 +1,16 @@
+{
+  "case": "insurance-L1",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "glass_damage_covered": { "type": "noul", "noul": 0.99 },
+      "handling_mode": { "type": "choice", "probabilities": { "score_claim_complexity": 0.34, "route_to_adjuster": 0.33, "gate_payment": 0.33 } },
+      "claim_complexity": { "type": "score", "probabilities": { "0": 0.88, "1": 0.11, "2": 0.01 } }
+    },
+    "reasons": {
+      "glass_damage_covered": "The state describes a cracked windshield from a stone, and says the policy covers glass damage.",
+      "handling_mode": "The user instructions were removed, so the requested output objective is unavailable; the options receive a near-even distribution with the rounding remainder assigned to the first listed option.",
+      "claim_complexity": "The reported windshield damage has a photo, a repair quote, and a stated excess, making settlement appear straightforward with limited checking."
+    }
+  }
+}

@@ -1,0 +1,16 @@
+[package]
+name = "jev-mock"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Deterministic mock Responses API and Messages API upstream for testing jev-provider"
+publish = false
+
+[dependencies]
+bytes.workspace = true
+http-body-util.workspace = true
+hyper.workspace = true
+hyper-util.workspace = true
+serde_json.workspace = true
+tokio.workspace = true

@@ -1,0 +1,36 @@
+{
+  "case": "moderation-L2",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "insults_others_generally": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "moderation_action": {
+        "type": "choice",
+        "probabilities": {
+          "leave_up": 0.34,
+          "add_warning_label": 0.56,
+          "remove_post": 0.07,
+          "escalate_to_senior": 0.03
+        }
+      },
+      "rudeness_level": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.10,
+          "2": 0.55,
+          "3": 0.32,
+          "4": 0.03
+        }
+      }
+    },
+    "reasons": {
+      "insults_others_generally": "The dismissive insult is aimed at people who disagree, which fits the general-target wording.",
+      "moderation_action": "The insult targets a broad, unnamed group; with a permissive posture, a civility note is likelier than removal or escalation.",
+      "rudeness_level": "The wording is condescending and insulting, but the single mild put-down is not severe or targeted."
+    }
+  }
+}

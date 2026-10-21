@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install   # installs the pinned 1.85.0 + rustfmt/clippy from rust-toolchain.toml
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --all-targets --locked -- -D warnings
+      - run: cargo test --locked        # unit and e2e tests (in-process jev-mock, no network)
+      - run: cargo build --release --locked -p jev-provider
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t jev-provider:ci .

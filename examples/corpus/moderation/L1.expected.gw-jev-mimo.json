@@ -1,0 +1,37 @@
+{
+  "case": "moderation-L1",
+  "source": "gateway route jev-mimo",
+  "with_user_instructions": {
+    "answers": {
+      "repeated_promotion": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "audit_for_quality",
+        "confidence": 0.77,
+        "probabilities": {
+          "audit_for_quality": 0.85,
+          "classify_content_type": 0.1,
+          "remove_or_keep_now": 0.05
+        }
+      },
+      "spam_likelihood": {
+        "type": "score",
+        "score": 1.89,
+        "confidence": 0.84,
+        "legend": {
+          "0": "Unlikely",
+          "1": "Possible",
+          "2": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.09,
+          "2": 0.9
+        }
+      }
+    }
+  }
+}

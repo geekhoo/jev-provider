@@ -1,0 +1,42 @@
+{
+ "case": "it_ops-L4",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "record_complete": {
+    "type": "noul",
+    "noul": 0.08
+   },
+   "change_decision": {
+    "type": "choice",
+    "probabilities": {
+     "approve_as_scheduled": 0.03,
+     "approve_after_backup_check": 0.07,
+     "reschedule_to_quiet_window": 0.40,
+     "return_for_missing_information": 0.22,
+     "send_to_change_board": 0.18,
+     "approve_with_batched_backfill": 0.08,
+     "reject_change": 0.02
+    }
+   },
+   "change_risk": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.00,
+     "1": 0.00,
+     "2": 0.01,
+     "3": 0.03,
+     "4": 0.10,
+     "5": 0.20,
+     "6": 0.42,
+     "7": 0.24
+    }
+   }
+  },
+  "reasons": {
+   "record_complete": "Batched-backfill detail missing (unmet DB-lead condition), backup unverified, load test not run, rollback untested, and 10%-data capacity evidence implies the backfill cannot fit the 90-minute window.",
+   "change_decision": "The scheduled window overlaps a marketing sale event and the backfill estimate implies a window overrun, so rescheduling to a quiet window dominates; missing batching details and unresolved approval scope keep return-for-info and change-board escalation plausible.",
+   "change_risk": "Non-null column plus 80M-row backfill against peak sale traffic with unverified backup, untested rollback, skipped test, and no load test puts risk at High to Very high if run as scheduled."
+  }
+ }
+}

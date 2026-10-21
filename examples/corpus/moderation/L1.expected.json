@@ -1,0 +1,104 @@
+{
+  "case": "moderation-L1",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "repeated_promotion": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "audit_for_quality",
+        "confidence": 0.58,
+        "probabilities": {
+          "audit_for_quality": 0.72,
+          "classify_content_type": 0.08,
+          "remove_or_keep_now": 0.2
+        }
+      },
+      "spam_likelihood": {
+        "type": "score",
+        "score": 1.88,
+        "confidence": 0.82,
+        "legend": {
+          "0": "Unlikely",
+          "1": "Possible",
+          "2": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.08,
+          "2": 0.9
+        }
+      }
+    },
+    "reasons": {
+      "handling_mode": "Domain objective is quality_control, which maps to recording the case for audit; some mass on a direct remove decision.",
+      "repeated_promotion": "Same promotional link and text posted to twelve threads in five minutes.",
+      "spam_likelihood": "Identical promo posts across many threads from a two-day-old account is classic spam."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "repeated_promotion": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "remove_or_keep_now",
+        "confidence": 0.33,
+        "probabilities": {
+          "audit_for_quality": 0.2,
+          "classify_content_type": 0.25,
+          "remove_or_keep_now": 0.55
+        }
+      },
+      "spam_likelihood": {
+        "type": "score",
+        "score": 1.88,
+        "confidence": 0.82,
+        "legend": {
+          "0": "Unlikely",
+          "1": "Possible",
+          "2": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.08,
+          "2": 0.9
+        }
+      }
+    },
+    "reasons": {
+      "handling_mode": "No user instructions/objective supplied; clear spam pattern slightly favors a remove/keep decision but objective is unknown.",
+      "repeated_promotion": "Same promotional link and text posted to twelve threads in five minutes.",
+      "spam_likelihood": "Rapid identical promotional posts from a two-day-old account is a classic spam pattern."
+    }
+  },
+  "ui_dependent_question": "handling_mode",
+  "ui_dependence": "The objective field in user_instructions is the only thing that tells the model which kind of output is wanted; without it the three options are equally plausible.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "audit_for_quality",
+      "confidence": 0.58,
+      "probabilities": {
+        "audit_for_quality": 0.72,
+        "classify_content_type": 0.08,
+        "remove_or_keep_now": 0.2
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "remove_or_keep_now",
+      "confidence": 0.33,
+      "probabilities": {
+        "audit_for_quality": 0.2,
+        "classify_content_type": 0.25,
+        "remove_or_keep_now": 0.55
+      }
+    }
+  }
+}

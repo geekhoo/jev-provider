@@ -1,0 +1,16 @@
+{
+  "case": "insurance-L1",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "glass_damage_covered": { "type": "noul", "noul": 0.95 },
+      "handling_mode": { "type": "choice", "probabilities": { "score_claim_complexity": 0.34, "route_to_adjuster": 0.33, "gate_payment": 0.33 } },
+      "claim_complexity": { "type": "score", "probabilities": { "0": 0.70, "1": 0.24, "2": 0.06 } }
+    },
+    "reasons": {
+      "glass_damage_covered": "State says the policy covers glass damage and a stone-cracked windshield is glass damage, so coverage is very likely true.",
+      "handling_mode": "The instructions defer to an absent user objective, so no handling mode is supported and probability is spread nearly evenly.",
+      "claim_complexity": "A single documented glass claim with a quote and a known excess is simple, though verification of the quote leaves some uncertainty."
+    }
+  }
+}

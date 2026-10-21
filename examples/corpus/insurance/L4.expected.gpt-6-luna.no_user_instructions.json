@@ -1,0 +1,39 @@
+{
+  "case": "insurance-L4",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "police_report_adequate": { "type": "noul", "noul": 0.20 },
+      "claim_status": {
+        "type": "choice",
+        "probabilities": {
+          "accept_and_pay": 0.01,
+          "accept_partial": 0.02,
+          "request_missing_evidence": 0.76,
+          "refer_to_investigator": 0.06,
+          "refer_to_legal_review": 0.12,
+          "decline_under_exclusion": 0.02,
+          "decline_for_late_report": 0.01
+        }
+      },
+      "evidence_reliability": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.08,
+          "2": 0.30,
+          "3": 0.35,
+          "4": 0.18,
+          "5": 0.05,
+          "6": 0.02,
+          "7": 0.00
+        }
+      }
+    },
+    "reasons": {
+      "police_report_adequate": "It is filed two days after the stated loss and gives a location, but omits the loss date and has only two short lines, so it is weak support.",
+      "claim_status": "Request the full unattended-vehicle clause, a dated police narrative, and ownership/value evidence; the back-seat witness account conflicts with the claimant's boot account.",
+      "evidence_reliability": "The serial number, police record, and damaged-lock photo offer some support, but the undated photo, sparse report, missing receipt, and conflicting witness account keep reliability low."
+    }
+  }
+}

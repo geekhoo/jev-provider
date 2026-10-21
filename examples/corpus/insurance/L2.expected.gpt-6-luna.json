@@ -1,0 +1,35 @@
+{
+  "case": "insurance-L2",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "policy_recently_started": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "claim_route": {
+        "type": "choice",
+        "probabilities": {
+          "fast_track_payout": 0.01,
+          "standard_adjuster": 0.78,
+          "special_investigations": 0.12,
+          "request_documents": 0.09
+        }
+      },
+      "loss_severity": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.06,
+          "1": 0.10,
+          "2": 0.68,
+          "3": 0.16
+        }
+      }
+    },
+    "reasons": {
+      "policy_recently_started": "The policy began 12 days ago, within the 30-day window.",
+      "claim_route": "The €12,000 claim has photos and a plumber invoice, but no adjuster inspection; a standard review fits conservative routing, while the supplied facts do not establish fraud.",
+      "loss_severity": "€12,000 is a substantial reported home loss, though no thresholds define the upper severity bands."
+    }
+  }
+}

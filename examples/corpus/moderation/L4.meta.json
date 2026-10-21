@@ -1,0 +1,16 @@
+{
+  "domain": "moderation",
+  "level": 4,
+  "description": "Hostile comment in a heated mutual exchange where the reporter is also a frequent reporter; the author has two earlier warnings of different ages.",
+  "ui_dependent_question": "penalty",
+  "ui_dependence": "A reference fact limits escalation to warnings inside a 90-day window and sets the third-warning penalty, which determines whether the earlier warnings count; without it the model must guess the escalation rule.",
+  "features": [
+    "partly contradictory state",
+    "true/false pair",
+    "7-option choice with descriptions",
+    "8-level score",
+    "constraints",
+    "reference_facts",
+    "uncertainty_policy"
+  ]
+}

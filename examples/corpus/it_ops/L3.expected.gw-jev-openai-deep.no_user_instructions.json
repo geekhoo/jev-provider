@@ -1,0 +1,45 @@
+{
+  "case": "it_ops-L3",
+  "source": "gateway route jev-openai-deep",
+  "no_user_instructions": {
+    "answers": {
+      "latency_after_deploy": {
+        "type": "noul",
+        "noul": 1.0
+      },
+      "next_action": {
+        "type": "choice",
+        "choice": "roll_back_deploy",
+        "confidence": 0.54,
+        "probabilities": {
+          "roll_back_deploy": 0.63,
+          "ship_hotfix": 0.02,
+          "restart_service": 0.03,
+          "wait_and_monitor": 0.03,
+          "escalate_to_change_board": 0.3
+        }
+      },
+      "customer_impact": {
+        "type": "score",
+        "score": 2.82,
+        "confidence": 0.74,
+        "legend": {
+          "0": "None",
+          "1": "Barely noticeable",
+          "2": "Mild",
+          "3": "Moderate",
+          "4": "Serious",
+          "5": "Severe"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.02,
+          "2": 0.24,
+          "3": 0.64,
+          "4": 0.1,
+          "5": 0.01
+        }
+      }
+    }
+  }
+}

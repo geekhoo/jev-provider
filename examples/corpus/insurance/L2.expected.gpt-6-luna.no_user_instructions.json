@@ -1,0 +1,35 @@
+{
+  "case": "insurance-L2",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "policy_recently_started": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "claim_route": {
+        "type": "choice",
+        "probabilities": {
+          "fast_track_payout": 0.02,
+          "standard_adjuster": 0.80,
+          "special_investigations": 0.12,
+          "request_documents": 0.06
+        }
+      },
+      "loss_severity": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.29,
+          "2": 0.60,
+          "3": 0.10
+        }
+      }
+    },
+    "reasons": {
+      "policy_recently_started": "The reported policy start was 12 days before the claim, within the stated 30-day window.",
+      "claim_route": "Policy inception 12 days before the loss calls for review, while zero prior claims and photos plus a plumber invoice support a normal adjuster path; no inspection has occurred.",
+      "loss_severity": "EUR 12,000 is a substantial reported home water loss, though no policy-specific severity thresholds are provided."
+    }
+  }
+}

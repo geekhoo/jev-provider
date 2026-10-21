@@ -1,0 +1,16 @@
+{
+  "case": "moderation-L5",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "contains_personal_attack": { "type": "noul", "noul": 0.72 },
+      "moderation_action": { "type": "choice", "probabilities": { "leave_up_no_action": 0.03, "leave_up_and_log": 0.14, "ask_targeted_user_first": 0.45, "hide_pending_review": 0.05, "remove_comment": 0.03, "remove_and_warn_author": 0.02, "temporary_mute_author": 0.01, "suspend_author": 0.01, "ask_author_for_context": 0.10, "route_to_senior_moderator": 0.11, "dismiss_reports": 0.05 } },
+      "classifier_agreement": { "type": "score", "probabilities": { "0": 0.02, "1": 0.03, "2": 0.05, "3": 0.07, "4": 0.10, "5": 0.15, "6": 0.20, "7": 0.21, "8": 0.12, "9": 0.05 } }
+    },
+    "reasons": {
+      "contains_personal_attack": "The text plainly insults and dismisses the targeted user, so a personal attack reading is likely though shared banter history softens it.",
+      "moderation_action": "The targeted user has not reported and prior banter is mutual, so the highest-priority rule favors contacting the targeted user first.",
+      "classifier_agreement": "High insult and moderate toxicity scores match a plain reading, while the very low threat score fits the text less well."
+    }
+  }
+}

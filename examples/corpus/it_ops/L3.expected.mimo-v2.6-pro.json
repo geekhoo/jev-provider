@@ -1,0 +1,38 @@
+{
+  "case": "it_ops-L3",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "latency_after_deploy": {
+        "type": "noul",
+        "noul": 0.90
+      },
+      "next_action": {
+        "type": "choice",
+        "probabilities": {
+          "roll_back_deploy": 0.62,
+          "ship_hotfix": 0.08,
+          "restart_service": 0.06,
+          "wait_and_monitor": 0.18,
+          "escalate_to_change_board": 0.06
+        }
+      },
+      "customer_impact": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.06,
+          "2": 0.22,
+          "3": 0.45,
+          "4": 0.20,
+          "5": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "latency_after_deploy": "Deployment D-771 at 14:20 preceded first symptoms at 14:31 on the same service, so the increase very likely began after it.",
+      "next_action": "Rolling back D-771 is the fastest causal fix and qualifies as an allowed emergency change during the freeze; evidence points to the new tax library but is not certain.",
+      "customer_impact": "Latency tripled with 6 customer reports but errors stayed flat at 0.2 percent, indicating moderate rather than serious impact."
+    }
+  }
+}

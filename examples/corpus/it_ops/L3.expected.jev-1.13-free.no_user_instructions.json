@@ -1,0 +1,45 @@
+{
+  "case": "it_ops-L3",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "no_user_instructions": {
+    "answers": {
+      "latency_after_deploy": {
+        "type": "noul",
+        "noul": 0.92
+      },
+      "next_action": {
+        "type": "choice",
+        "choice": "roll_back_deploy",
+        "confidence": 0.99,
+        "probabilities": {
+          "roll_back_deploy": 0.99,
+          "ship_hotfix": 0.0,
+          "restart_service": 0.0,
+          "wait_and_monitor": 0.0,
+          "escalate_to_change_board": 0.01
+        }
+      },
+      "customer_impact": {
+        "type": "score",
+        "score": 2.96,
+        "confidence": 0.87,
+        "legend": {
+          "0": "None",
+          "1": "Barely noticeable",
+          "2": "Mild",
+          "3": "Moderate",
+          "4": "Serious",
+          "5": "Severe"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.12,
+          "3": 0.8,
+          "4": 0.08,
+          "5": 0.0
+        }
+      }
+    }
+  }
+}

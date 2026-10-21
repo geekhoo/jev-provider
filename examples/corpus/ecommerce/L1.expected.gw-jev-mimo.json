@@ -1,0 +1,37 @@
+{
+  "case": "ecommerce-L1",
+  "source": "gateway route jev-mimo",
+  "with_user_instructions": {
+    "answers": {
+      "within_return_window": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "send_to_team_queue",
+        "confidence": 0.4,
+        "probabilities": {
+          "send_to_team_queue": 0.6,
+          "decide_return_now": 0.35,
+          "log_for_quality_audit": 0.05
+        }
+      },
+      "staff_effort": {
+        "type": "score",
+        "score": 0.22,
+        "confidence": 0.67,
+        "legend": {
+          "0": "Routine and quick",
+          "1": "Needs some checking",
+          "2": "Needs careful manual work"
+        },
+        "probabilities": {
+          "0": 0.8,
+          "1": 0.18,
+          "2": 0.02
+        }
+      }
+    }
+  }
+}

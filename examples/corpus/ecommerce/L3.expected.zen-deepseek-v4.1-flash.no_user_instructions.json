@@ -1,0 +1,16 @@
+{
+  "case": "ecommerce-L3",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "damage_after_delivery": { "type": "noul", "noul": 0.97 },
+      "resolution": { "type": "choice", "probabilities": { "full_refund": 0.07, "replacement": 0.10, "goodwill_credit": 0.20, "decline": 0.63 } },
+      "customer_distress": { "type": "score", "probabilities": { "0": 0.45, "1": 0.35, "2": 0.15, "3": 0.05, "4": 0.00 } }
+    },
+    "reasons": {
+      "damage_after_delivery": "Customer says they dropped the phone on the pavement yesterday, which is after the 2026-10-07 delivery date.",
+      "resolution": "Final-sale protector plus self-inflicted drop damage point to decline, with modest weight on goodwill or replacement.",
+      "customer_distress": "Message is a plain factual account of the drop with a refund request, showing little or no emotional escalation."
+    }
+  }
+}

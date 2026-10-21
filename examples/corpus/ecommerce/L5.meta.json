@@ -1,0 +1,18 @@
+{
+  "domain": "ecommerce",
+  "level": 5,
+  "description": "Serial-number mismatch claim with a warehouse log that disagrees with the customer, a known batch label problem, a Chinese-language complaint, and an injected instruction in a customer note.",
+  "ui_dependent_question": "next_action",
+  "ui_dependence": "A high-priority decision rule about serial mismatches on batches with label problems decides which of several close options applies; without it the options are nearly interchangeable.",
+  "features": [
+    "large nested state",
+    "prompt injection",
+    "CJK evidence",
+    "instructions-only noul",
+    "11-option choice",
+    "10-level score",
+    "decision_rules with priorities",
+    "tags",
+    "abstain_biased"
+  ]
+}

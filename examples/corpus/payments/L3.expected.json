@@ -1,0 +1,124 @@
+{
+  "case": "payments-L3",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "sender_identity_checked": {
+        "type": "noul",
+        "noul": 0.87
+      },
+      "compliance_action": {
+        "type": "choice",
+        "choice": "hold_for_enhanced_review",
+        "confidence": 0.62,
+        "probabilities": {
+          "release_transfer": 0.01,
+          "monitor_only": 0.02,
+          "request_information": 0.12,
+          "hold_for_enhanced_review": 0.7,
+          "file_suspicious_activity_report": 0.15
+        }
+      },
+      "pattern_suspicion": {
+        "type": "score",
+        "score": 3.53,
+        "confidence": 0.47,
+        "legend": {
+          "0": "Not suspicious",
+          "1": "Slightly odd",
+          "2": "Somewhat suspicious",
+          "3": "Suspicious",
+          "4": "Highly suspicious",
+          "5": "Almost certainly deliberate"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.03,
+          "2": 0.1,
+          "3": 0.3,
+          "4": 0.4,
+          "5": 0.16
+        }
+      }
+    },
+    "reasons": {
+      "compliance_action": "Cumulative 38500 EUR to one receiver within 4 days exceeds the 9000 EUR 7-day enhanced-review threshold, so a hold for enhanced review is required.",
+      "pattern_suspicion": "Four consecutive daily transfers just under 10000 EUR to a newly seen receiver of unknown relationship look like possible structuring; no sanctions or adverse media.",
+      "sender_identity_checked": "KYC status is verified (2025-11-02, under a year old); no sign of expiry or failure."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "sender_identity_checked": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "compliance_action": {
+        "type": "choice",
+        "choice": "file_suspicious_activity_report",
+        "confidence": 0.19,
+        "probabilities": {
+          "release_transfer": 0.02,
+          "monitor_only": 0.03,
+          "request_information": 0.25,
+          "hold_for_enhanced_review": 0.35,
+          "file_suspicious_activity_report": 0.35
+        }
+      },
+      "pattern_suspicion": {
+        "type": "score",
+        "score": 3.76,
+        "confidence": 0.51,
+        "legend": {
+          "0": "Not suspicious",
+          "1": "Slightly odd",
+          "2": "Somewhat suspicious",
+          "3": "Suspicious",
+          "4": "Highly suspicious",
+          "5": "Almost certainly deliberate"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.02,
+          "2": 0.07,
+          "3": 0.25,
+          "4": 0.4,
+          "5": 0.25
+        }
+      }
+    },
+    "reasons": {
+      "compliance_action": "Daily escalating transfers just under 10k EUR to a new, unknown-relationship receiver suggest structuring; hold, SAR or info request.",
+      "pattern_suspicion": "Four consecutive near-threshold transfers in four days to a receiver first seen days earlier.",
+      "sender_identity_checked": "KYC status verified on 2025-11-02, under a year old; no failure or expiry shown."
+    }
+  },
+  "ui_dependent_question": "compliance_action",
+  "ui_dependence": "The terminology sets the company's own cumulative enhanced-review trigger; without that definition the model has no basis for the specific hold action.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "hold_for_enhanced_review",
+      "confidence": 0.62,
+      "probabilities": {
+        "release_transfer": 0.01,
+        "monitor_only": 0.02,
+        "request_information": 0.12,
+        "hold_for_enhanced_review": 0.7,
+        "file_suspicious_activity_report": 0.15
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "file_suspicious_activity_report",
+      "confidence": 0.19,
+      "probabilities": {
+        "release_transfer": 0.02,
+        "monitor_only": 0.03,
+        "request_information": 0.25,
+        "hold_for_enhanced_review": 0.35,
+        "file_suspicious_activity_report": 0.35
+      }
+    }
+  }
+}

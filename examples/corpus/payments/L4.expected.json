@@ -1,0 +1,140 @@
+{
+  "case": "payments-L4",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "likely_authorized": {
+        "type": "noul",
+        "noul": 0.73
+      },
+      "dispute_outcome": {
+        "type": "choice",
+        "choice": "senior_analyst_review",
+        "confidence": 0.67,
+        "probabilities": {
+          "accept_chargeback": 0.02,
+          "represent_with_evidence": 0.1,
+          "senior_analyst_review": 0.72,
+          "request_cardholder_documents": 0.03,
+          "request_issuer_3ds_log": 0.1,
+          "split_liability": 0.02,
+          "close_no_action": 0.01
+        }
+      },
+      "unauthorized_likelihood": {
+        "type": "score",
+        "score": 2.7,
+        "confidence": 0.35,
+        "legend": {
+          "0": "Very unlikely",
+          "1": "Unlikely",
+          "2": "Somewhat unlikely",
+          "3": "Slightly less likely than not",
+          "4": "Slightly more likely than not",
+          "5": "Somewhat likely",
+          "6": "Likely",
+          "7": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.06,
+          "1": 0.18,
+          "2": 0.27,
+          "3": 0.22,
+          "4": 0.12,
+          "5": 0.08,
+          "6": 0.05,
+          "7": 0.02
+        }
+      }
+    },
+    "reasons": {
+      "dispute_outcome": "Merchant records frictionless 3DS but issuer log shows none, an unresolved 3DS conflict that the must-constraint routes to a senior analyst; 2 days remain before the response deadline.",
+      "likely_authorized": "Purchase on 2 Oct predates the claimed 3 Oct phone loss and came from the usual home IP and a device matching 6 prior purchases, though redeem-time ambiguity and missing evidence leave doubt.",
+      "unauthorized_likelihood": "Device, IP and timing point toward authorization; time-zone ambiguity, a prior cardholder win and missing records keep moderate mass on unauthorized."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "likely_authorized": {
+        "type": "noul",
+        "noul": 0.75
+      },
+      "dispute_outcome": {
+        "type": "choice",
+        "choice": "represent_with_evidence",
+        "confidence": 0.18,
+        "probabilities": {
+          "accept_chargeback": 0.05,
+          "represent_with_evidence": 0.3,
+          "senior_analyst_review": 0.15,
+          "request_cardholder_documents": 0.15,
+          "request_issuer_3ds_log": 0.25,
+          "split_liability": 0.07,
+          "close_no_action": 0.03
+        }
+      },
+      "unauthorized_likelihood": {
+        "type": "score",
+        "score": 2.18,
+        "confidence": 0.31,
+        "legend": {
+          "0": "Very unlikely",
+          "1": "Unlikely",
+          "2": "Somewhat unlikely",
+          "3": "Slightly less likely than not",
+          "4": "Slightly more likely than not",
+          "5": "Somewhat likely",
+          "6": "Likely",
+          "7": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.1,
+          "1": 0.3,
+          "2": 0.27,
+          "3": 0.15,
+          "4": 0.08,
+          "5": 0.05,
+          "6": 0.03,
+          "7": 0.02
+        }
+      }
+    },
+    "reasons": {
+      "dispute_outcome": "Merchant evidence is strong but 3DS log conflict and timing ambiguity remain; representment or issuer 3DS log request lead.",
+      "likely_authorized": "Known device, home IP, redemption likely before stated phone loss; tempered by 3DS discrepancy and timezone doubt.",
+      "unauthorized_likelihood": "Evidence leans authorized; unresolved 3DS and timestamp conflicts keep some weight on unauthorized."
+    }
+  },
+  "ui_dependent_question": "dispute_outcome",
+  "ui_dependence": "A constraint requires senior analyst review for unresolved 3DS conflicts, and a reference fact sets the response deadline; together they shift the choice relative to a general evidence-based reading.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "senior_analyst_review",
+      "confidence": 0.67,
+      "probabilities": {
+        "accept_chargeback": 0.02,
+        "represent_with_evidence": 0.1,
+        "senior_analyst_review": 0.72,
+        "request_cardholder_documents": 0.03,
+        "request_issuer_3ds_log": 0.1,
+        "split_liability": 0.02,
+        "close_no_action": 0.01
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "represent_with_evidence",
+      "confidence": 0.18,
+      "probabilities": {
+        "accept_chargeback": 0.05,
+        "represent_with_evidence": 0.3,
+        "senior_analyst_review": 0.15,
+        "request_cardholder_documents": 0.15,
+        "request_issuer_3ds_log": 0.25,
+        "split_liability": 0.07,
+        "close_no_action": 0.03
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "case": "it_ops-L1",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "with_user_instructions": {
+    "answers": {
+      "wiki_unavailable": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "label_incident_type",
+        "confidence": 0.82,
+        "probabilities": {
+          "label_incident_type": 0.88,
+          "route_to_oncall": 0.09,
+          "gate_next_deploy": 0.03
+        }
+      },
+      "user_impact": {
+        "type": "score",
+        "score": 1.22,
+        "confidence": 0.62,
+        "legend": {
+          "0": "Minor inconvenience",
+          "1": "Noticeable disruption",
+          "2": "Major disruption"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.75,
+          "2": 0.23
+        }
+      }
+    }
+  }
+}

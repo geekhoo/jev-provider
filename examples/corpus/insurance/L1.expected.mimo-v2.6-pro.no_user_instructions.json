@@ -1,0 +1,33 @@
+{
+ "case": "insurance-L1",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "glass_damage_covered": {
+    "type": "noul",
+    "noul": 0.97
+   },
+   "handling_mode": {
+    "type": "choice",
+    "probabilities": {
+     "score_claim_complexity": 0.30,
+     "route_to_adjuster": 0.20,
+     "gate_payment": 0.50
+    }
+   },
+   "claim_complexity": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.25,
+     "1": 0.60,
+     "2": 0.15
+    }
+   }
+  },
+  "reasons": {
+   "glass_damage_covered": "A cracked windshield is glass damage and the policy is stated to cover glass damage, so P(true) is very high with only minor scope-interpretation uncertainty.",
+   "handling_mode": "No user instructions exist to supply an objective, so I default to the most useful bounded output: a final pay or do-not-pay answer is feasible here because coverage, evidence, and excess are all in the state; scoring remains plausible and adjuster routing is overkill for a small routine claim.",
+   "claim_complexity": "Settlement is straightforward (clear covered peril, photo and quote on file, fixed 100 EUR excess), but some routine verification of the quote keeps most mass at the middle level."
+  }
+ }
+}

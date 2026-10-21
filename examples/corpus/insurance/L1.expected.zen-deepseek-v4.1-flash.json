@@ -1,0 +1,16 @@
+{
+  "case": "insurance-L1",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "glass_damage_covered": {"type": "noul", "noul": 0.94},
+      "handling_mode": {"type": "choice", "probabilities": {"score_claim_complexity": 0.85, "route_to_adjuster": 0.08, "gate_payment": 0.07}},
+      "claim_complexity": {"type": "score", "probabilities": {"0": 0.60, "1": 0.33, "2": 0.07}}
+    },
+    "reasons": {
+      "glass_damage_covered": "The state says the policy covers glass damage and the reported damage is a cracked windshield; only residual doubt is whether a stone crack counts as covered glass damage rather than excluded wear.",
+      "handling_mode": "User instructions set objective to scoring, so the needed output is a numeric complexity score; routing and payment gating are plausible but not what the stated objective asks for.",
+      "claim_complexity": "Single documented incident with photo and repair quote, coverage clear and amount modest above the 100 EUR excess, so settlement is mostly very simple with some verification of the quote and coverage wording."
+    }
+  }
+}

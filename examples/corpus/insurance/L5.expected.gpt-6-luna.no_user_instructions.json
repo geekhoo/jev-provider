@@ -1,0 +1,48 @@
+{
+  "case": "insurance-L5",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "invoice_predates_loss": {
+        "type": "noul",
+        "noul": 1.00
+      },
+      "claim_decision": {
+        "type": "choice",
+        "probabilities": {
+          "pay_full_claim": 0.00,
+          "pay_building_advance_only": 0.03,
+          "pay_all_scheduled_items": 0.02,
+          "hold_all_payments_pending_cause": 0.04,
+          "refer_to_special_investigations": 0.31,
+          "refer_equipment_part_to_siu": 0.20,
+          "request_inventory_and_receipts": 0.20,
+          "appoint_forensic_engineer": 0.10,
+          "reserve_rights_letter": 0.08,
+          "decline_claim": 0.01,
+          "escalate_to_claims_director": 0.01
+        }
+      },
+      "scheduled_coverage_fit": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.02,
+          "2": 0.23,
+          "3": 0.42,
+          "4": 0.21,
+          "5": 0.09,
+          "6": 0.03,
+          "7": 0.00,
+          "8": 0.00,
+          "9": 0.00
+        }
+      }
+    },
+    "reasons": {
+      "invoice_predates_loss": "The invoice is dated 2026-09-20, before the 2026-09-22 loss date.",
+      "claim_decision": "A pre-loss equipment invoice, an unlisted oven moved before the fire, and a disconnected alarm warrant investigation while coverage and cause remain unresolved.",
+      "scheduled_coverage_fit": "Equipment and business-interruption categories partly match the schedule, but building and stock lack schedule support, equipment exceeds its sum insured, and the claimed items are not itemized."
+    }
+  }
+}

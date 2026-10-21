@@ -1,0 +1,42 @@
+{
+  "case": "payments-L4",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "likely_authorized": {
+        "type": "noul",
+        "noul": 0.57
+      },
+      "dispute_outcome": {
+        "type": "choice",
+        "probabilities": {
+          "accept_chargeback": 0.07,
+          "represent_with_evidence": 0.02,
+          "senior_analyst_review": 0.15,
+          "request_cardholder_documents": 0.12,
+          "request_issuer_3ds_log": 0.62,
+          "split_liability": 0.01,
+          "close_no_action": 0.01
+        }
+      },
+      "unauthorized_likelihood": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.08,
+          "2": 0.21,
+          "3": 0.34,
+          "4": 0.25,
+          "5": 0.07,
+          "6": 0.02,
+          "7": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "likely_authorized": "A familiar device fingerprint, usual home IP and purchase date before the reported phone loss support authorization, while the missing issuer 3DS log and disputed redemption date leave material uncertainty.",
+      "dispute_outcome": "The issuer log could resolve the largest authentication conflict; the timing and lost-phone evidence can then be assessed against it.",
+      "unauthorized_likelihood": "The usual device and home IP and purchase-before-loss timing weigh against unauthorized use, but the issuer's missing 3DS record and unresolved redemption timing keep it plausible."
+    }
+  }
+}

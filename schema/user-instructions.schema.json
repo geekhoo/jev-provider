@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/jev-provider/user-instructions.schema.json",
+  "title": "Jev Gateway Domain User Instructions",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["domain", "objective"],
+  "properties": {
+    "domain": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "locale": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 35,
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "objective": {
+      "enum": ["classification", "routing", "gating", "scoring", "ranking", "compliance", "quality_control", "risk_assessment"]
+    },
+    "risk_posture": {
+      "enum": ["conservative", "balanced", "permissive"],
+      "default": "balanced"
+    },
+    "uncertainty_policy": {
+      "enum": ["calibrated", "conservative", "abstain_biased"],
+      "default": "calibrated"
+    },
+    "terminology": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["term", "definition"],
+        "properties": {
+          "term": {"type": "string", "minLength": 1, "maxLength": 64},
+          "definition": {"type": "string", "minLength": 1, "maxLength": 256}
+        }
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "statement"],
+        "properties": {
+          "kind": {"enum": ["must", "must_not", "prefer", "avoid"]},
+          "statement": {"type": "string", "minLength": 1, "maxLength": 256}
+        }
+      }
+    },
+    "reference_facts": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "value", "authority"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1, "maxLength": 64},
+          "value": {"type": "string", "minLength": 1, "maxLength": 256},
+          "authority": {"enum": ["contract", "policy", "taxonomy", "product", "regulatory", "domain_convention"]}
+        }
+      }
+    },
+    "decision_rules": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["priority", "when", "then"],
+        "properties": {
+          "priority": {"type": "integer", "minimum": 0, "maximum": 100},
+          "when": {"type": "string", "minLength": 1, "maxLength": 160},
+          "then": {"type": "string", "minLength": 1, "maxLength": 160}
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 48,
+        "pattern": "^[A-Za-z0-9._:-]+$"
+      }
+    }
+  }
+}

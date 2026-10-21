@@ -1,0 +1,16 @@
+{
+  "case": "insurance-L4",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "police_report_adequate": { "type": "noul", "noul": 0.15 },
+      "claim_status": { "type": "choice", "probabilities": { "accept_and_pay": 0.03, "accept_partial": 0.06, "request_missing_evidence": 0.34, "refer_to_investigator": 0.22, "refer_to_legal_review": 0.18, "decline_under_exclusion": 0.13, "decline_for_late_report": 0.04 } },
+      "evidence_reliability": { "type": "score", "probabilities": { "0": 0.10, "1": 0.24, "2": 0.30, "3": 0.20, "4": 0.10, "5": 0.04, "6": 0.01, "7": 0.01 } }
+    },
+    "reasons": {
+      "police_report_adequate": "Report is dated but states no loss date and only a two-line description, so it lacks the detail needed.",
+      "claim_status": "No receipt, unreliable witness, overwritten CCTV and an unattached policy clause make requesting evidence and further review most likely.",
+      "evidence_reliability": "Only an untimestamped lock photo and a self-reported serial number, so evidence sits in the weak band."
+    }
+  }
+}

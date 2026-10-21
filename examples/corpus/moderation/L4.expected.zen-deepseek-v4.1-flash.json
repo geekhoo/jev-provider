@@ -1,0 +1,16 @@
+{
+  "case": "moderation-L4",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "aimed_at_specific_person": { "type": "noul", "noul": 0.96 },
+      "penalty": { "type": "choice", "probabilities": { "no_action": 0.05, "remove_comment_only": 0.20, "private_warning": 0.38, "public_warning_note": 0.10, "mute_in_thread_24h": 0.08, "three_day_suspension": 0.04, "refer_to_senior_moderator": 0.15 } },
+      "harassment_severity": { "type": "score", "probabilities": { "0": 0.03, "1": 0.05, "2": 0.10, "3": 0.22, "4": 0.30, "5": 0.20, "6": 0.07, "7": 0.03 } }
+    },
+    "reasons": {
+      "aimed_at_specific_person": "You-language plus a direct reply to one member makes the hostility personally directed.",
+      "penalty": "One counted warning in the 90-day window and a mutual heated exchange bar suspension, so the lowest effective penalty dominates.",
+      "harassment_severity": "A single hostile exclusionary remark with mutual provocation reads mild to moderate, not severe."
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+ "case": "ecommerce-L5",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "fault_account_consistent": {
+    "type": "noul",
+    "noul": 0.78
+   },
+   "next_action": {
+    "type": "choice",
+    "probabilities": {
+     "refund_now": 0.02,
+     "refund_after_return_received": 0.15,
+     "replacement_same_sku": 0.01,
+     "replacement_after_inspection": 0.10,
+     "hold_for_warehouse_audit": 0.06,
+     "request_more_photos": 0.04,
+     "request_return_and_test": 0.55,
+     "partial_refund": 0.03,
+     "store_credit": 0.02,
+     "escalate_fraud_review": 0.01,
+     "decline_refund": 0.01
+    }
+   },
+   "evidence_conflict_level": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.05,
+     "1": 0.08,
+     "2": 0.16,
+     "3": 0.30,
+     "4": 0.21,
+     "5": 0.10,
+     "6": 0.05,
+     "7": 0.03,
+     "8": 0.01,
+     "9": 0.01
+    }
+   }
+  },
+  "reasons": {
+   "fault_account_consistent": "The serial mismatch (photo AIR2-554802 vs warehouse AIR2-554820, two swapped digits) is explained by the batch B-0917 misprinted-label note, and the untested right-ear fault is not contradicted by any evidence.",
+   "next_action": "With no return received and the fault untested while the serial discrepancy is already explained by the known batch misprint, the proportionate next step is to request the earbuds back for testing.",
+   "evidence_conflict_level": "The only real conflict is the label serial discrepancy, a secondary point already accounted for by the documented batch misprint, so conflict is small."
+  }
+ }
+}

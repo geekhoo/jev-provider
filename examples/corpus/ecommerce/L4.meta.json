@@ -1,0 +1,16 @@
+{
+  "domain": "ecommerce",
+  "level": 4,
+  "description": "Non-delivery claim with a carrier record that conflicts with the customer; evidence is incomplete so the honest answer is uncertain.",
+  "ui_dependent_question": "claim_handling",
+  "ui_dependence": "A reference fact sets a refund cap and a constraint requires a carrier investigation above it, which changes the handling step relative to a general reading of the evidence.",
+  "features": [
+    "partly contradictory state",
+    "approve/deny pair",
+    "7-option choice with descriptions",
+    "8-level score",
+    "constraints",
+    "reference_facts",
+    "uncertainty_policy"
+  ]
+}

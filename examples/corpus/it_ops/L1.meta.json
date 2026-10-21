@@ -1,0 +1,14 @@
+{
+  "domain": "it_ops",
+  "level": 1,
+  "description": "Single-service outage with clear evidence; tests whether the model follows a stated objective when asked which kind of output is needed.",
+  "ui_dependent_question": "handling_mode",
+  "ui_dependence": "The objective field in user_instructions is the only thing that tells the model which kind of output is wanted; without it the three options are equally plausible.",
+  "features": [
+    "string state",
+    "plain noul instructions",
+    "3-option choice",
+    "3-level score",
+    "objective-driven choice (weak dependence by design)"
+  ]
+}

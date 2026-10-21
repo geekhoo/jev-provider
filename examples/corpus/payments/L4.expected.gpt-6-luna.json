@@ -1,0 +1,42 @@
+{
+  "case": "payments-L4",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "likely_authorized": {
+        "type": "noul",
+        "noul": 0.66
+      },
+      "dispute_outcome": {
+        "type": "choice",
+        "probabilities": {
+          "accept_chargeback": 0.00,
+          "represent_with_evidence": 0.00,
+          "senior_analyst_review": 1.00,
+          "request_cardholder_documents": 0.00,
+          "request_issuer_3ds_log": 0.00,
+          "split_liability": 0.00,
+          "close_no_action": 0.00
+        }
+      },
+      "unauthorized_likelihood": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.16,
+          "2": 0.32,
+          "3": 0.25,
+          "4": 0.14,
+          "5": 0.06,
+          "6": 0.02,
+          "7": 0.00
+        }
+      }
+    },
+    "reasons": {
+      "likely_authorized": "The matching device and usual home IP, together with a transaction date before the stated phone loss, favor authorization; the unresolved 3DS conflict and timing ambiguity limit confidence.",
+      "dispute_outcome": "The unresolved 3DS conflict requires senior review; five of seven response days have elapsed, so the review should address the remaining response window.",
+      "unauthorized_likelihood": "The matching device and home IP and the transaction date before the stated phone loss weigh against unauthorized use, while the 3DS conflict and unverified loss details leave uncertainty."
+    }
+  }
+}

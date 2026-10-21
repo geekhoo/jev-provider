@@ -1,0 +1,48 @@
+{
+  "case": "it_ops-L5",
+  "source": "mimo-v2.6-pro, blind",
+  "no_user_instructions": {
+    "answers": {
+      "regional_outage": {
+        "type": "noul",
+        "noul": 0.92
+      },
+      "response_plan": {
+        "type": "choice",
+        "probabilities": {
+          "declare_sev1_page_commander": 0.40,
+          "declare_sev2_notify_team": 0.22,
+          "roll_back_release_only": 0.20,
+          "fail_over_region_traffic": 0.05,
+          "request_more_diagnostics": 0.05,
+          "monitor_for_15_minutes": 0.02,
+          "restart_payment_services": 0.02,
+          "disable_new_feature_flag": 0.02,
+          "scale_up_capacity": 0.01,
+          "open_vendor_support_case": 0.01,
+          "close_as_resolved": 0.00
+        }
+      },
+      "technical_spread": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.00,
+          "2": 0.00,
+          "3": 0.00,
+          "4": 0.15,
+          "5": 0.55,
+          "6": 0.22,
+          "7": 0.05,
+          "8": 0.03,
+          "9": 0.00
+        }
+      }
+    },
+    "reasons": {
+      "regional_outage": "ap-northeast shows a 14.2% payment API error rate, degraded status, failing synthetic checkout, and ~310 affected merchants, so customer-visible payment failures are very likely in that region.",
+      "response_plan": "A customer-visible payment degradation began minutes after a release reached 100% of one region, so declaring the top severity and paging the incident commander is the strongest coordinated first-ten-minutes move.",
+      "technical_spread": "The fault is confined to one region and one service (plus its queue/synthetic symptoms), matching a clearly degraded single region with slight tail risk it is worse than observed."
+    }
+  }
+}

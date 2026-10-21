@@ -1,0 +1,31 @@
+{
+  "state": "Claim CLM-7731: a policyholder reports a cracked windshield from a stone on the highway, with a photo and a repair quote of 380 EUR. The policy covers glass damage with a 100 EUR excess.",
+  "user_instructions": {
+    "domain": "motor_claims",
+    "objective": "scoring"
+  },
+  "questions": {
+    "glass_damage_covered": {
+      "type": "noul",
+      "instructions": "Is the reported damage a kind of damage the policy is said to cover?"
+    },
+    "handling_mode": {
+      "type": "choice",
+      "instructions": "Choose the kind of output the team needs for this case. Follow the objective given in the user instructions.",
+      "criteria": {
+        "score_claim_complexity": "Give the claim a numeric complexity score.",
+        "route_to_adjuster": "Send the claim to a named adjuster.",
+        "gate_payment": "Give a final pay or do-not-pay answer."
+      }
+    },
+    "claim_complexity": {
+      "type": "score",
+      "instructions": "Rate how complex this claim is to settle.",
+      "criteria": [
+        "Very simple",
+        "Some checking needed",
+        "Complex"
+      ]
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "case": "moderation-L4",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "aimed_at_specific_person": { "type": "noul", "noul": 0.86 },
+      "penalty": {
+        "type": "choice",
+        "probabilities": {
+          "no_action": 0.02,
+          "remove_comment_only": 0.10,
+          "private_warning": 0.22,
+          "public_warning_note": 0.08,
+          "mute_in_thread_24h": 0.12,
+          "three_day_suspension": 0.12,
+          "refer_to_senior_moderator": 0.34
+        }
+      },
+      "harassment_severity": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.04,
+          "2": 0.09,
+          "3": 0.18,
+          "4": 0.25,
+          "5": 0.24,
+          "6": 0.13,
+          "7": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "aimed_at_specific_person": "Second-person phrasing targets the individual member despite the group-general opening clause.",
+      "penalty": "Short hostile comment with two prior warnings, but prior provocation, an over-reporting reporter and an incomplete context file favour review by a senior moderator over suspension.",
+      "harassment_severity": "Direct exclusionary hostility with a history of warnings, mitigated by provocation and no threats, placing it around mild-to-moderate to moderate."
+    }
+  }
+}

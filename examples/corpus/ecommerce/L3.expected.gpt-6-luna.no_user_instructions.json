@@ -1,0 +1,33 @@
+{
+  "case": "ecommerce-L3",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "damage_after_delivery": { "type": "noul", "noul": 0.99 },
+      "resolution": {
+        "type": "choice",
+        "probabilities": {
+          "full_refund": 0.01,
+          "replacement": 0.05,
+          "goodwill_credit": 0.14,
+          "decline": 0.80
+        }
+      },
+      "customer_distress": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.20,
+          "1": 0.55,
+          "2": 0.22,
+          "3": 0.03,
+          "4": 0.00
+        }
+      }
+    },
+    "reasons": {
+      "damage_after_delivery": "The customer says they dropped the phone the day before the October 11 case was opened, after delivery on October 7.",
+      "resolution": "The protector is marked final sale and the customer attributes the crack to a later drop; absent a stated exception policy, declining is best supported.",
+      "customer_distress": "The message describes damage and asks for money back but uses no explicit emotional language, supporting mild rather than strong upset."
+    }
+  }
+}

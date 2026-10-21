@@ -1,0 +1,35 @@
+{
+  "case": "insurance-L2",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "policy_recently_started": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "claim_route": {
+        "type": "choice",
+        "probabilities": {
+          "fast_track_payout": 0.05,
+          "standard_adjuster": 0.55,
+          "special_investigations": 0.25,
+          "request_documents": 0.15
+        }
+      },
+      "loss_severity": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.45,
+          "2": 0.40,
+          "3": 0.10
+        }
+      }
+    },
+    "reasons": {
+      "policy_recently_started": "State reports days_since_policy_start = 12, which is within the 30-day window.",
+      "claim_route": "New policy plus a EUR 12,000 loss with no adjuster inspection favors standard adjuster review under conservative posture, with residual weight on SIU referral and document requests.",
+      "loss_severity": "A EUR 12,000 home water-damage loss sits in the moderate-to-large band for household claims, so probability concentrates on levels 1 and 2."
+    }
+  }
+}

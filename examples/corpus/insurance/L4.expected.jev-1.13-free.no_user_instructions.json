@@ -1,0 +1,51 @@
+{
+  "case": "insurance-L4",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "no_user_instructions": {
+    "answers": {
+      "police_report_adequate": {
+        "type": "noul",
+        "noul": 0.17
+      },
+      "claim_status": {
+        "type": "choice",
+        "choice": "request_missing_evidence",
+        "confidence": 0.92,
+        "probabilities": {
+          "accept_and_pay": 0.0,
+          "accept_partial": 0.0,
+          "request_missing_evidence": 0.93,
+          "refer_to_investigator": 0.05,
+          "refer_to_legal_review": 0.01,
+          "decline_under_exclusion": 0.01,
+          "decline_for_late_report": 0.0
+        }
+      },
+      "evidence_reliability": {
+        "type": "score",
+        "score": 1.91,
+        "confidence": 0.83,
+        "legend": {
+          "0": "Almost none",
+          "1": "Very weak",
+          "2": "Weak",
+          "3": "Weak to fair",
+          "4": "Fair",
+          "5": "Fair to good",
+          "6": "Good",
+          "7": "Very good"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.22,
+          "2": 0.66,
+          "3": 0.12,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0
+        }
+      }
+    }
+  }
+}

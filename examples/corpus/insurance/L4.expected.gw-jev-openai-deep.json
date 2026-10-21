@@ -1,0 +1,51 @@
+{
+  "case": "insurance-L4",
+  "source": "gateway route jev-openai-deep",
+  "with_user_instructions": {
+    "answers": {
+      "police_report_adequate": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "claim_status": {
+        "type": "choice",
+        "choice": "request_missing_evidence",
+        "confidence": 0.84,
+        "probabilities": {
+          "accept_and_pay": 0.06,
+          "accept_partial": 0.01,
+          "request_missing_evidence": 0.86,
+          "refer_to_investigator": 0.03,
+          "refer_to_legal_review": 0.01,
+          "decline_under_exclusion": 0.04,
+          "decline_for_late_report": 0.0
+        }
+      },
+      "evidence_reliability": {
+        "type": "score",
+        "score": 3.03,
+        "confidence": 0.63,
+        "legend": {
+          "0": "Almost none",
+          "1": "Very weak",
+          "2": "Weak",
+          "3": "Weak to fair",
+          "4": "Fair",
+          "5": "Fair to good",
+          "6": "Good",
+          "7": "Very good"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.05,
+          "2": 0.25,
+          "3": 0.4,
+          "4": 0.23,
+          "5": 0.06,
+          "6": 0.01,
+          "7": 0.0
+        }
+      }
+    }
+  }
+}

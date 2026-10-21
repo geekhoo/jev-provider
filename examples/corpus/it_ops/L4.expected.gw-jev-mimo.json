@@ -1,0 +1,51 @@
+{
+  "case": "it_ops-L4",
+  "source": "gateway route jev-mimo",
+  "with_user_instructions": {
+    "answers": {
+      "record_complete": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "change_decision": {
+        "type": "choice",
+        "choice": "reschedule_to_quiet_window",
+        "confidence": 0.44,
+        "probabilities": {
+          "approve_as_scheduled": 0.01,
+          "approve_after_backup_check": 0.04,
+          "reschedule_to_quiet_window": 0.52,
+          "return_for_missing_information": 0.15,
+          "send_to_change_board": 0.18,
+          "approve_with_batched_backfill": 0.07,
+          "reject_change": 0.03
+        }
+      },
+      "change_risk": {
+        "type": "score",
+        "score": 5.78,
+        "confidence": 0.54,
+        "legend": {
+          "0": "Negligible",
+          "1": "Very low",
+          "2": "Low",
+          "3": "Lowish",
+          "4": "Moderate",
+          "5": "Moderately high",
+          "6": "High",
+          "7": "Very high"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.01,
+          "2": 0.02,
+          "3": 0.04,
+          "4": 0.08,
+          "5": 0.15,
+          "6": 0.35,
+          "7": 0.35
+        }
+      }
+    }
+  }
+}

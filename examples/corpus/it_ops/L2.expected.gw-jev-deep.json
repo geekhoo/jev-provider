@@ -1,0 +1,42 @@
+{
+  "case": "it_ops-L2",
+  "source": "gateway route jev-deep",
+  "with_user_instructions": {
+    "answers": {
+      "primary_healthy": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "page_decision": {
+        "type": "choice",
+        "choice": "ticket_for_morning",
+        "confidence": 0.4,
+        "probabilities": {
+          "page_now": 0.23,
+          "ticket_for_morning": 0.55,
+          "auto_cleanup_job": 0.2,
+          "ignore_known_noise": 0.02
+        }
+      },
+      "disk_urgency": {
+        "type": "score",
+        "score": 2.46,
+        "confidence": 0.38,
+        "legend": {
+          "0": "Not urgent",
+          "1": "Low",
+          "2": "Moderate",
+          "3": "High",
+          "4": "Critical"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.1,
+          "2": 0.38,
+          "3": 0.4,
+          "4": 0.1
+        }
+      }
+    }
+  }
+}

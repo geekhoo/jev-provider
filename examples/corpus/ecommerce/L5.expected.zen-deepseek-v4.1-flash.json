@@ -1,0 +1,48 @@
+{
+  "case": "ecommerce-L5",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "fault_account_consistent": {
+        "type": "noul",
+        "noul": 0.65
+      },
+      "next_action": {
+        "type": "choice",
+        "probabilities": {
+          "refund_now": 0.02,
+          "refund_after_return_received": 0.07,
+          "replacement_same_sku": 0.01,
+          "replacement_after_inspection": 0.05,
+          "hold_for_warehouse_audit": 0.62,
+          "request_more_photos": 0.04,
+          "request_return_and_test": 0.10,
+          "partial_refund": 0.01,
+          "store_credit": 0.01,
+          "escalate_fraud_review": 0.04,
+          "decline_refund": 0.03
+        }
+      },
+      "evidence_conflict_level": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.05,
+          "3": 0.08,
+          "4": 0.18,
+          "5": 0.28,
+          "6": 0.22,
+          "7": 0.10,
+          "8": 0.03,
+          "9": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "fault_account_consistent": "The serial-mismatch part of the account is corroborated by the batch B-0917 misprint note and the differing photo serial, and the intact-packaging claim is unrefuted, but the no-sound fault itself was never received or tested, so consistency is likely but unverified.",
+      "next_action": "The priority-90 rule fires: a serial mismatch is reported on a batch with a known label misprint, so the case should be held for a warehouse audit before any refund or replacement.",
+      "evidence_conflict_level": "The photo/OCR serial AIR2-554802 conflicts with the order and warehouse serial AIR2-554820 on a main point, but the batch label-misprint note and low 0.71 OCR confidence and two-swapped-digit note make it a noticeable rather than strong or self-contradictory conflict."
+    }
+  }
+}

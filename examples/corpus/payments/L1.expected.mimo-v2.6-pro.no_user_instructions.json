@@ -1,0 +1,33 @@
+{
+ "case": "payments-L1",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "matches_account_history": {
+    "type": "noul",
+    "noul": 0.95
+   },
+   "handling_mode": {
+    "type": "choice",
+    "probabilities": {
+     "approve_or_decline_now": 0.70,
+     "score_fraud_risk": 0.15,
+     "route_to_analyst": 0.15
+    }
+   },
+   "fraud_signal_strength": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.75,
+     "1": 0.22,
+     "2": 0.03
+    }
+   }
+  },
+  "reasons": {
+   "matches_account_history": "State explicitly states card, device and city all match account history.",
+   "handling_mode": "No user instructions exist to supply an objective, so the case default is a final decision for this simple, low-risk flag.",
+   "fraud_signal_strength": "The only anomaly is a first-try postcode typo while all other signals match, making fraud evidence very weak."
+  }
+ }
+}

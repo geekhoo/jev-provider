@@ -1,0 +1,44 @@
+{
+  "state": {
+    "order_id": "ORD-50977",
+    "item": "laptop sleeve",
+    "days_since_delivery": 41,
+    "return_window_days": 30,
+    "item_condition": "unopened",
+    "customer_loyalty_tier": "gold",
+    "customer_note": "Delivery was delayed by a week, so I only got the sleeve recently and could not decide in time."
+  },
+  "user_instructions": {
+    "domain": "ecommerce_returns",
+    "objective": "gating",
+    "locale": "en-US",
+    "risk_posture": "permissive"
+  },
+  "questions": {
+    "window_exceeded": {
+      "type": "noul",
+      "instructions": "Has the item been held longer than the stated return window?"
+    },
+    "return_outcome": {
+      "type": "choice",
+      "instructions": "Decide the outcome of this return request.",
+      "criteria": {
+        "approve_refund": "Refund the customer in full to the original payment method.",
+        "offer_store_credit": "Offer store credit instead of a refund.",
+        "escalate_to_supervisor": "Ask a supervisor to decide this exception.",
+        "decline_return": "Decline the return because the window has closed."
+      }
+    },
+    "goodwill_case_strength": {
+      "type": "score",
+      "instructions": "Rate how strong the customer's case for a goodwill exception is.",
+      "criteria": [
+        "No case",
+        "Weak case",
+        "Moderate case",
+        "Strong case",
+        "Very strong case"
+      ]
+    }
+  }
+}

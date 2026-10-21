@@ -1,0 +1,33 @@
+{
+  "case": "ecommerce-L1",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "within_return_window": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "handling_mode": {
+        "type": "choice",
+        "probabilities": {
+          "send_to_team_queue": 0.85,
+          "decide_return_now": 0.10,
+          "log_for_quality_audit": 0.05
+        }
+      },
+      "staff_effort": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.75,
+          "1": 0.20,
+          "2": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "within_return_window": "Purchase was 9 days ago and policy allows returns within 30 days, so the window is almost certainly satisfied.",
+      "handling_mode": "The user-instructions objective is routing, which matches passing the case to a support queue rather than deciding or logging it.",
+      "staff_effort": "Unopened item with receipt and clearly inside the window makes this a routine return with minimal processing."
+    }
+  }
+}

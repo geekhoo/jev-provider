@@ -1,0 +1,116 @@
+{
+  "case": "moderation-L3",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "offers_item_for_sale": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "post_action": {
+        "type": "choice",
+        "choice": "soft_hold",
+        "confidence": 0.67,
+        "probabilities": {
+          "remove_post": 0.12,
+          "soft_hold": 0.75,
+          "leave_up": 0.01,
+          "escalate_trust_and_safety": 0.12
+        }
+      },
+      "scam_likelihood": {
+        "type": "score",
+        "score": 3.46,
+        "confidence": 0.55,
+        "legend": {
+          "0": "Very unlikely",
+          "1": "Unlikely",
+          "2": "Possible",
+          "3": "Likely",
+          "4": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.02,
+          "2": 0.07,
+          "3": 0.3,
+          "4": 0.6
+        }
+      }
+    },
+    "reasons": {
+      "offers_item_for_sale": "Explicitly sells 1000 followers for 5 dollars.",
+      "post_action": "Commercial post from an account with zero prior actions is a 'first offence', which the domain says gets a soft hold rather than removal.",
+      "scam_likelihood": "Gift-card-only payment, no refunds, fake followers, new unverified account: strong scam signals."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "offers_item_for_sale": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "post_action": {
+        "type": "choice",
+        "choice": "remove_post",
+        "confidence": 0.67,
+        "probabilities": {
+          "remove_post": 0.75,
+          "soft_hold": 0.08,
+          "leave_up": 0.02,
+          "escalate_trust_and_safety": 0.15
+        }
+      },
+      "scam_likelihood": {
+        "type": "score",
+        "score": 3.46,
+        "confidence": 0.55,
+        "legend": {
+          "0": "Very unlikely",
+          "1": "Unlikely",
+          "2": "Possible",
+          "3": "Likely",
+          "4": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.02,
+          "2": 0.07,
+          "3": 0.3,
+          "4": 0.6
+        }
+      }
+    },
+    "reasons": {
+      "offers_item_for_sale": "Explicitly offers 1000 followers for 5 dollars.",
+      "post_action": "Fake-follower sale with gift-card-only payment from a new unverified account warrants removal; some chance of escalation.",
+      "scam_likelihood": "Gift-card-only payment, no refunds, new unverified account and multiple scam reports are strong scam signals."
+    }
+  },
+  "ui_dependent_question": "post_action",
+  "ui_dependence": "The terminology defines a soft hold and a first-offence rule that favours it over removal; without those definitions removal is the more natural answer.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "soft_hold",
+      "confidence": 0.67,
+      "probabilities": {
+        "remove_post": 0.12,
+        "soft_hold": 0.75,
+        "leave_up": 0.01,
+        "escalate_trust_and_safety": 0.12
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "remove_post",
+      "confidence": 0.67,
+      "probabilities": {
+        "remove_post": 0.75,
+        "soft_hold": 0.08,
+        "leave_up": 0.02,
+        "escalate_trust_and_safety": 0.15
+      }
+    }
+  }
+}

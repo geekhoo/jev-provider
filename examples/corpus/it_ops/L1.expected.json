@@ -1,0 +1,104 @@
+{
+  "case": "it_ops-L1",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "wiki_unavailable": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "label_incident_type",
+        "confidence": 0.82,
+        "probabilities": {
+          "label_incident_type": 0.88,
+          "route_to_oncall": 0.07,
+          "gate_next_deploy": 0.05
+        }
+      },
+      "user_impact": {
+        "type": "score",
+        "score": 1.05,
+        "confidence": 0.32,
+        "legend": {
+          "0": "Minor inconvenience",
+          "1": "Noticeable disruption",
+          "2": "Major disruption"
+        },
+        "probabilities": {
+          "0": 0.2,
+          "1": 0.55,
+          "2": 0.25
+        }
+      }
+    },
+    "reasons": {
+      "handling_mode": "Objective is classification, which matches giving the incident a type label.",
+      "user_impact": "Internal wiki down for all users is noticeable but usually not work-stopping.",
+      "wiki_unavailable": "Monitoring shows HTTP 503 for every user."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "wiki_unavailable": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "gate_next_deploy",
+        "confidence": 0.01,
+        "probabilities": {
+          "label_incident_type": 0.33,
+          "route_to_oncall": 0.33,
+          "gate_next_deploy": 0.34
+        }
+      },
+      "user_impact": {
+        "type": "score",
+        "score": 0.9,
+        "confidence": 0.25,
+        "legend": {
+          "0": "Minor inconvenience",
+          "1": "Noticeable disruption",
+          "2": "Major disruption"
+        },
+        "probabilities": {
+          "0": 0.3,
+          "1": 0.5,
+          "2": 0.2
+        }
+      }
+    },
+    "reasons": {
+      "handling_mode": "The referenced user-instruction objective is absent, so no output kind is favored; near-uniform.",
+      "user_impact": "Wiki down for all users but other services work; disruption likely noticeable, severity depends on wiki reliance.",
+      "wiki_unavailable": "Monitoring shows HTTP 503 for every user at 09:12."
+    }
+  },
+  "ui_dependent_question": "handling_mode",
+  "ui_dependence": "The objective field in user_instructions is the only thing that tells the model which kind of output is wanted; without it the three options are equally plausible.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "label_incident_type",
+      "confidence": 0.82,
+      "probabilities": {
+        "label_incident_type": 0.88,
+        "route_to_oncall": 0.07,
+        "gate_next_deploy": 0.05
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "gate_next_deploy",
+      "confidence": 0.01,
+      "probabilities": {
+        "label_incident_type": 0.33,
+        "route_to_oncall": 0.33,
+        "gate_next_deploy": 0.34
+      }
+    }
+  }
+}

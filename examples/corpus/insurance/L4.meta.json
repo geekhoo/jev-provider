@@ -1,0 +1,16 @@
+{
+  "domain": "insurance",
+  "level": 4,
+  "description": "Laptop-theft claim where the claimant says the item was in a locked boot and a witness saw something on the back seat; the police report is thin and the clause text is not attached.",
+  "ui_dependent_question": "claim_status",
+  "ui_dependence": "The reference facts supply the clause wording and the report deadline, which determine which exclusion or deadline applies; without them the model cannot tell which statuses are even available.",
+  "features": [
+    "partly contradictory state",
+    "approve/deny pair",
+    "7-option choice with descriptions",
+    "8-level score",
+    "constraints",
+    "reference_facts",
+    "uncertainty_policy"
+  ]
+}

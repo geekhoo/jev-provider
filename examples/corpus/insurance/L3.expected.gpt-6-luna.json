@@ -1,0 +1,36 @@
+{
+  "case": "insurance-L3",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "notes_match_photos": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "settlement_path": {
+        "type": "choice",
+        "probabilities": {
+          "repair": 0.01,
+          "total_loss": 0.95,
+          "partial_settlement": 0.00,
+          "investigate_further": 0.04
+        }
+      },
+      "documentation_quality": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.06,
+          "2": 0.29,
+          "3": 0.57,
+          "4": 0.07
+        }
+      }
+    },
+    "reasons": {
+      "notes_match_photos": "The notes identify the front bumper, bonnet, and left headlight, which are the same areas named by the photo captions.",
+      "settlement_path": "The estimate is 72.9% of the supplied market value, above the supplied 70% total-loss threshold; limited valuation or estimate uncertainty remains.",
+      "documentation_quality": "Claim and vehicle details, a consistent estimate breakdown, adjuster notes, and photo captions are present, but the actual photos and coverage or signed-estimate evidence are absent."
+    }
+  }
+}

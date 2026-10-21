@@ -1,0 +1,37 @@
+{
+  "case": "moderation-L1",
+  "source": "gateway route jev-openai",
+  "no_user_instructions": {
+    "answers": {
+      "repeated_promotion": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "classify_content_type",
+        "confidence": 0.85,
+        "probabilities": {
+          "audit_for_quality": 0.05,
+          "classify_content_type": 0.9,
+          "remove_or_keep_now": 0.05
+        }
+      },
+      "spam_likelihood": {
+        "type": "score",
+        "score": 1.92,
+        "confidence": 0.88,
+        "legend": {
+          "0": "Unlikely",
+          "1": "Possible",
+          "2": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.06,
+          "2": 0.93
+        }
+      }
+    }
+  }
+}

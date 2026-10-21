@@ -1,0 +1,16 @@
+{
+  "case": "payments-L4",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "likely_authorized": { "type": "noul", "noul": 0.82 },
+      "dispute_outcome": { "type": "choice", "probabilities": { "accept_chargeback": 0.03, "represent_with_evidence": 0.10, "senior_analyst_review": 0.62, "request_cardholder_documents": 0.06, "request_issuer_3ds_log": 0.16, "split_liability": 0.02, "close_no_action": 0.01 } },
+      "unauthorized_likelihood": { "type": "score", "probabilities": { "0": 0.38, "1": 0.30, "2": 0.14, "3": 0.09, "4": 0.05, "5": 0.02, "6": 0.01, "7": 0.01 } }
+    },
+    "reasons": {
+      "likely_authorized": "Device fingerprint matches 6 prior purchases and IP is the cardholder's usual home IP, while the disputed order predates the reported phone loss.",
+      "dispute_outcome": "The unresolved 3DS conflict triggers the mandatory senior-analyst referral, with issuer log retrieval the next most useful step.",
+      "unauthorized_likelihood": "Strong authorized-use markers plus a pre-loss transaction date make unauthorized use unlikely, tempered by the unresolved 3DS record."
+    }
+  }
+}

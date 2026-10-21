@@ -1,0 +1,51 @@
+{
+  "case": "it_ops-L4",
+  "source": "gateway route jev-openai-deep",
+  "no_user_instructions": {
+    "answers": {
+      "record_complete": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "change_decision": {
+        "type": "choice",
+        "choice": "reschedule_to_quiet_window",
+        "confidence": 0.46,
+        "probabilities": {
+          "approve_as_scheduled": 0.01,
+          "approve_after_backup_check": 0.01,
+          "reschedule_to_quiet_window": 0.54,
+          "return_for_missing_information": 0.24,
+          "send_to_change_board": 0.16,
+          "approve_with_batched_backfill": 0.02,
+          "reject_change": 0.03
+        }
+      },
+      "change_risk": {
+        "type": "score",
+        "score": 6.36,
+        "confidence": 0.68,
+        "legend": {
+          "0": "Negligible",
+          "1": "Very low",
+          "2": "Low",
+          "3": "Lowish",
+          "4": "Moderate",
+          "5": "Moderately high",
+          "6": "High",
+          "7": "Very high"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.01,
+          "4": 0.02,
+          "5": 0.08,
+          "6": 0.37,
+          "7": 0.52
+        }
+      }
+    }
+  }
+}

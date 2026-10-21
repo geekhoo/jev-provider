@@ -1,0 +1,16 @@
+{
+  "case": "moderation-L1",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "repeated_promotion": {"type": "noul", "noul": 0.97},
+      "handling_mode": {"type": "choice", "probabilities": {"audit_for_quality": 0.80, "classify_content_type": 0.12, "remove_or_keep_now": 0.08}},
+      "spam_likelihood": {"type": "score", "probabilities": {"0": 0.02, "1": 0.13, "2": 0.85}}
+    },
+    "reasons": {
+      "repeated_promotion": "Same link and identical pitch text posted to twelve threads in five minutes on a two day old account.",
+      "handling_mode": "Objective is quality_control, so the team needs an auditable record rather than a new label or an immediate final call.",
+      "spam_likelihood": "Burst posting of one promotional link by a fresh account is a strong but not conclusive spam signature."
+    }
+  }
+}

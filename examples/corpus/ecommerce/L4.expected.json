@@ -1,0 +1,140 @@
+{
+  "case": "ecommerce-L4",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "refund_claim_supported": {
+        "type": "noul",
+        "noul": 0.45
+      },
+      "claim_handling": {
+        "type": "choice",
+        "choice": "open_carrier_investigation",
+        "confidence": 0.32,
+        "probabilities": {
+          "refund_in_full_now": 0.02,
+          "refund_after_investigation": 0.3,
+          "open_carrier_investigation": 0.42,
+          "request_more_evidence": 0.14,
+          "send_replacement": 0.04,
+          "partial_goodwill_credit": 0.04,
+          "decline_claim": 0.04
+        }
+      },
+      "fraud_risk": {
+        "type": "score",
+        "score": 3.35,
+        "confidence": 0.35,
+        "legend": {
+          "0": "Almost certainly genuine",
+          "1": "Probably genuine",
+          "2": "Leaning genuine",
+          "3": "Leaning genuine, with doubts",
+          "4": "Evenly uncertain",
+          "5": "Leaning not genuine",
+          "6": "Probably not genuine",
+          "7": "Almost certainly not genuine"
+        },
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.1,
+          "2": 0.17,
+          "3": 0.22,
+          "4": 0.25,
+          "5": 0.15,
+          "6": 0.06,
+          "7": 0.02
+        }
+      }
+    },
+    "reasons": {
+      "claim_handling": "640 USD is above the 500 cap, so a carrier investigation must come first; this is reversible.",
+      "fraud_risk": "Unmatched neighbour signature and 140 m GPS gap support the customer; delivery scan, offline camera and prior claims add doubt. Repeat claims alone are not proof.",
+      "refund_claim_supported": "The evidence is mixed: the carrier says delivered, but the signer is unverified; under a conservative policy this sits just below even."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "refund_claim_supported": {
+        "type": "noul",
+        "noul": 0.45
+      },
+      "claim_handling": {
+        "type": "choice",
+        "choice": "open_carrier_investigation",
+        "confidence": 0.32,
+        "probabilities": {
+          "refund_in_full_now": 0.03,
+          "refund_after_investigation": 0.22,
+          "open_carrier_investigation": 0.42,
+          "request_more_evidence": 0.25,
+          "send_replacement": 0.02,
+          "partial_goodwill_credit": 0.03,
+          "decline_claim": 0.03
+        }
+      },
+      "fraud_risk": {
+        "type": "score",
+        "score": 3.94,
+        "confidence": 0.49,
+        "legend": {
+          "0": "Almost certainly genuine",
+          "1": "Probably genuine",
+          "2": "Leaning genuine",
+          "3": "Leaning genuine, with doubts",
+          "4": "Evenly uncertain",
+          "5": "Leaning not genuine",
+          "6": "Probably not genuine",
+          "7": "Almost certainly not genuine"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.04,
+          "2": 0.09,
+          "3": 0.2,
+          "4": 0.32,
+          "5": 0.22,
+          "6": 0.1,
+          "7": 0.02
+        }
+      }
+    },
+    "reasons": {
+      "claim_handling": "High-value claim with conflicting evidence (GPS 140 m off, unmatched signer vs. repeat claims, missing footage and manager reply) calls for a carrier trace without paying yet, or gathering more evidence.",
+      "fraud_risk": "Evidence cuts both ways; claim history and unverified statements raise doubt while GPS and signer mismatch support the customer: roughly even.",
+      "refund_claim_supported": "GPS offset and unmatched signer lend some support, but carrier delivery record, missing manager confirmation and no camera log leave the claim unproven."
+    }
+  },
+  "ui_dependent_question": "claim_handling",
+  "ui_dependence": "A reference fact sets a refund cap and a constraint requires a carrier investigation above it, which changes the handling step relative to a general reading of the evidence.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "open_carrier_investigation",
+      "confidence": 0.32,
+      "probabilities": {
+        "refund_in_full_now": 0.02,
+        "refund_after_investigation": 0.3,
+        "open_carrier_investigation": 0.42,
+        "request_more_evidence": 0.14,
+        "send_replacement": 0.04,
+        "partial_goodwill_credit": 0.04,
+        "decline_claim": 0.04
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "open_carrier_investigation",
+      "confidence": 0.32,
+      "probabilities": {
+        "refund_in_full_now": 0.03,
+        "refund_after_investigation": 0.22,
+        "open_carrier_investigation": 0.42,
+        "request_more_evidence": 0.25,
+        "send_replacement": 0.02,
+        "partial_goodwill_credit": 0.03,
+        "decline_claim": 0.03
+      }
+    }
+  }
+}

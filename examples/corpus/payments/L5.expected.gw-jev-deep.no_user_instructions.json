@@ -1,0 +1,59 @@
+{
+  "case": "payments-L5",
+  "source": "gateway route jev-deep",
+  "no_user_instructions": {
+    "answers": {
+      "ownership_disclosure_consistent": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "onboarding_action": {
+        "type": "choice",
+        "choice": "request_updated_ownership",
+        "confidence": 0.34,
+        "probabilities": {
+          "approve_merchant": 0.0,
+          "approve_with_low_limits": 0.02,
+          "approve_after_edd": 0.04,
+          "request_updated_ownership": 0.4,
+          "request_proof_of_address": 0.03,
+          "route_to_sanctions_analyst": 0.3,
+          "route_to_senior_compliance": 0.12,
+          "freeze_onboarding_pending_review": 0.05,
+          "reject_application": 0.02,
+          "reject_and_report": 0.01,
+          "refer_to_partner": 0.01
+        }
+      },
+      "onboarding_risk": {
+        "type": "score",
+        "score": 5.26,
+        "confidence": 0.54,
+        "legend": {
+          "0": "Negligible",
+          "1": "Very low",
+          "2": "Low",
+          "3": "Lowish",
+          "4": "Moderate",
+          "5": "Moderately elevated",
+          "6": "Elevated",
+          "7": "High",
+          "8": "Very high",
+          "9": "Extreme"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.01,
+          "2": 0.03,
+          "3": 0.07,
+          "4": 0.18,
+          "5": 0.27,
+          "6": 0.24,
+          "7": 0.14,
+          "8": 0.05,
+          "9": 0.01
+        }
+      }
+    }
+  }
+}

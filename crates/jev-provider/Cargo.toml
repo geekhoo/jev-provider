@@ -1,0 +1,21 @@
+[package]
+name = "jev-provider"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "High-throughput Jev/System One compatible gateway backed by Responses API and Messages API providers"
+
+[dependencies]
+jev-core = { path = "../jev-core" }
+bytes.workspace = true
+http-body-util.workspace = true
+hyper.workspace = true
+hyper-util.workspace = true
+hyper-rustls.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+
+[dev-dependencies]
+jev-mock = { path = "../jev-mock" }

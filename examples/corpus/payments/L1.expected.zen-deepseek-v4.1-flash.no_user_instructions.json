@@ -1,0 +1,16 @@
+{
+  "case": "payments-L1",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "matches_account_history": { "type": "noul", "noul": 0.97 },
+      "handling_mode": { "type": "choice", "probabilities": { "approve_or_decline_now": 0.45, "score_fraud_risk": 0.20, "route_to_analyst": 0.35 } },
+      "fraud_signal_strength": { "type": "score", "probabilities": { "0": 0.72, "1": 0.23, "2": 0.05 } }
+    },
+    "reasons": {
+      "matches_account_history": "State explicitly says the card, device and city all match the account history.",
+      "handling_mode": "No user instructions or objective were supplied, so the needed output kind is undetermined; a final decision is slightly favoured for a low-value, low-signal case, with analyst routing a plausible alternative.",
+      "fraud_signal_strength": "The only anomaly is a first-try mistyped billing postcode with all other identifiers matching, which is very weak evidence of fraud."
+    }
+  }
+}

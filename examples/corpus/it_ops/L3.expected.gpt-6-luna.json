@@ -1,0 +1,38 @@
+{
+  "case": "it_ops-L3",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "latency_after_deploy": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "next_action": {
+        "type": "choice",
+        "probabilities": {
+          "roll_back_deploy": 0.89,
+          "ship_hotfix": 0.02,
+          "restart_service": 0.01,
+          "wait_and_monitor": 0.03,
+          "escalate_to_change_board": 0.05
+        }
+      },
+      "customer_impact": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.00,
+          "2": 0.03,
+          "3": 0.67,
+          "4": 0.28,
+          "5": 0.02
+        }
+      }
+    },
+    "reasons": {
+      "latency_after_deploy": "The first symptom was recorded 11 minutes after the 14:20 checkout-api deployment, matching the pass criterion; no conflicting timing is supplied.",
+      "next_action": "The checkout-api deployment preceded symptoms by 11 minutes and falls within the 60-minute emergency rollback window, which is allowed during the active freeze. The unchanged error rate and temporal evidence leave some causal uncertainty.",
+      "customer_impact": "The p95 rose more than threefold and six customers reported problems, supporting moderate-to-serious impact; the unchanged error rate and limited report count weigh against severe impact."
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "case": "insurance-L2",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "policy_recently_started": { "type": "noul", "noul": 0.97 },
+      "claim_route": {
+        "type": "choice",
+        "probabilities": {
+          "fast_track_payout": 0.15,
+          "standard_adjuster": 0.45,
+          "special_investigations": 0.15,
+          "request_documents": 0.25
+        }
+      },
+      "loss_severity": {
+        "type": "score",
+        "probabilities": { "0": 0.10, "1": 0.45, "2": 0.33, "3": 0.12 }
+      }
+    },
+    "reasons": {
+      "policy_recently_started": "Days since policy start is 12, which is fewer than 30, so the policy did start within the last 30 days.",
+      "claim_route": "No domain routing rules were supplied, so routing rests on evidence alone: inspection is not done and only photos and an invoice exist, favoring a standard adjuster, with residual weight for more documents, early-policy scrutiny, and minimal-check payout.",
+      "loss_severity": "A reported loss of 12000 EUR for home water damage is material but not catastrophic on its face, so Moderate and Large dominate with only small tails at either extreme."
+    }
+  }
+}

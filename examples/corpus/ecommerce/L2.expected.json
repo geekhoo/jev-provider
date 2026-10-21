@@ -1,0 +1,116 @@
+{
+  "case": "ecommerce-L2",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "window_exceeded": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "return_outcome": {
+        "type": "choice",
+        "choice": "escalate_to_supervisor",
+        "confidence": 0.13,
+        "probabilities": {
+          "approve_refund": 0.12,
+          "offer_store_credit": 0.28,
+          "escalate_to_supervisor": 0.35,
+          "decline_return": 0.25
+        }
+      },
+      "goodwill_case_strength": {
+        "type": "score",
+        "score": 1.76,
+        "confidence": 0.4,
+        "legend": {
+          "0": "No case",
+          "1": "Weak case",
+          "2": "Moderate case",
+          "3": "Strong case",
+          "4": "Very strong case"
+        },
+        "probabilities": {
+          "0": 0.08,
+          "1": 0.32,
+          "2": 0.4,
+          "3": 0.16,
+          "4": 0.04
+        }
+      }
+    },
+    "reasons": {
+      "goodwill_case_strength": "Gold tier and unopened help; the delay excuse is weak because days are counted from delivery.",
+      "return_outcome": "Outside the window; permissive gating favours an exception path (escalation or store credit) over a full refund.",
+      "window_exceeded": "41 days since delivery is more than the 30-day window."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "window_exceeded": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "return_outcome": {
+        "type": "choice",
+        "choice": "escalate_to_supervisor",
+        "confidence": 0.2,
+        "probabilities": {
+          "approve_refund": 0.1,
+          "offer_store_credit": 0.25,
+          "escalate_to_supervisor": 0.4,
+          "decline_return": 0.25
+        }
+      },
+      "goodwill_case_strength": {
+        "type": "score",
+        "score": 1.98,
+        "confidence": 0.43,
+        "legend": {
+          "0": "No case",
+          "1": "Weak case",
+          "2": "Moderate case",
+          "3": "Strong case",
+          "4": "Very strong case"
+        },
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.25,
+          "2": 0.42,
+          "3": 0.23,
+          "4": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "goodwill_case_strength": "Unopened item and gold tier help, but 41 days since delivery is 11 past window and the shipping delay does not shorten time held: moderate.",
+      "return_outcome": "Outside the window with exception factors and no exception policy given; escalation most likely, credit or decline plausible.",
+      "window_exceeded": "41 days since delivery exceeds the 30-day window, assuming the window runs from delivery."
+    }
+  },
+  "ui_dependent_question": "return_outcome",
+  "ui_dependence": "The permissive risk posture tells the model to lean toward customer goodwill on borderline exceptions, which shifts the choice relative to a default balanced reading.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "escalate_to_supervisor",
+      "confidence": 0.13,
+      "probabilities": {
+        "approve_refund": 0.12,
+        "offer_store_credit": 0.28,
+        "escalate_to_supervisor": 0.35,
+        "decline_return": 0.25
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "escalate_to_supervisor",
+      "confidence": 0.2,
+      "probabilities": {
+        "approve_refund": 0.1,
+        "offer_store_credit": 0.25,
+        "escalate_to_supervisor": 0.4,
+        "decline_return": 0.25
+      }
+    }
+  }
+}

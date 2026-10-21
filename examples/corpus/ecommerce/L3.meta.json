@@ -1,0 +1,16 @@
+{
+  "domain": "ecommerce",
+  "level": 3,
+  "description": "Final-sale item reported broken by the customer's own mistake; nested state with unrelated noise fields.",
+  "ui_dependent_question": "resolution",
+  "ui_dependence": "The terminology entries define final sale and defective in a way that decides whether post-delivery damage can qualify; without them the model must guess the store's meaning.",
+  "features": [
+    "nested state",
+    "irrelevant noise",
+    "agree/disagree pair",
+    "label-only choice",
+    "5-level score",
+    "terminology",
+    "uncertainty_policy"
+  ]
+}

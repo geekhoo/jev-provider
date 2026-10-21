@@ -1,0 +1,59 @@
+{
+  "case": "insurance-L5",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "no_user_instructions": {
+    "answers": {
+      "invoice_predates_loss": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "claim_decision": {
+        "type": "choice",
+        "choice": "refer_to_special_investigations",
+        "confidence": 0.59,
+        "probabilities": {
+          "pay_full_claim": 0.0,
+          "pay_building_advance_only": 0.0,
+          "pay_all_scheduled_items": 0.03,
+          "hold_all_payments_pending_cause": 0.02,
+          "refer_to_special_investigations": 0.63,
+          "refer_equipment_part_to_siu": 0.19,
+          "request_inventory_and_receipts": 0.01,
+          "appoint_forensic_engineer": 0.09,
+          "reserve_rights_letter": 0.03,
+          "decline_claim": 0.0,
+          "escalate_to_claims_director": 0.0
+        }
+      },
+      "scheduled_coverage_fit": {
+        "type": "score",
+        "score": 3.8,
+        "confidence": 0.53,
+        "legend": {
+          "0": "No match at all",
+          "1": "Very poor match",
+          "2": "Poor match",
+          "3": "Partial match",
+          "4": "Fair match",
+          "5": "Reasonable match",
+          "6": "Good match",
+          "7": "Very good match",
+          "8": "Near-complete match",
+          "9": "Complete match"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.03,
+          "2": 0.13,
+          "3": 0.44,
+          "4": 0.13,
+          "5": 0.08,
+          "6": 0.1,
+          "7": 0.05,
+          "8": 0.04,
+          "9": 0.0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "state": {
+    "dispute": {
+      "id": "DSP-3304",
+      "amount_usd": 249.0,
+      "reason_code": "unauthorized transaction",
+      "cardholder_statement": "I did not make this purchase. My phone was lost on 3 October and I reported it on 5 October.",
+      "notice_received": "2026-10-14",
+      "days_elapsed_since_notice": 5
+    },
+    "merchant": {
+      "name": "Pixelbay Games",
+      "item": "digital game bundle",
+      "delivery": "download code redeemed on 2026-10-02 from the cardholder's usual home IP",
+      "merchant_claim": "Delivered and used, customer is a repeat buyer."
+    },
+    "transaction": {
+      "date": "2026-10-02",
+      "device_fingerprint": "matches 6 earlier purchases",
+      "ip_country": "same as cardholder",
+      "three_ds": "frictionless authentication recorded by the merchant, but the issuer log shows none"
+    },
+    "cardholder_history": {
+      "previous_disputes": 1,
+      "previous_dispute_outcome": "cardholder won",
+      "account_age_years": 4
+    },
+    "missing": [
+      "police or carrier report for the lost phone",
+      "device lock status",
+      "issuer 3DS log reconciliation"
+    ],
+    "analyst_note": "Redeem time is 3 October according to one system and 2 October according to another; time zones not confirmed."
+  },
+  "user_instructions": {
+    "domain": "payment_disputes",
+    "objective": "classification",
+    "locale": "en-US",
+    "risk_posture": "balanced",
+    "uncertainty_policy": "calibrated",
+    "constraints": [
+      {
+        "kind": "must",
+        "statement": "Send any dispute with an unresolved 3DS conflict to a senior analyst."
+      },
+      {
+        "kind": "must_not",
+        "statement": "Accept a chargeback without checking whether the response deadline can still be met."
+      },
+      {
+        "kind": "avoid",
+        "statement": "Avoid relying on the cardholder's history alone."
+      }
+    ],
+    "reference_facts": [
+      {
+        "name": "merchant_response_deadline",
+        "value": "7 days after notice",
+        "authority": "contract"
+      },
+      {
+        "name": "three_ds_liability",
+        "value": "A successful 3DS authentication shifts fraud liability from the merchant to the issuer",
+        "authority": "regulatory"
+      }
+    ]
+  },
+  "questions": {
+    "likely_authorized": {
+      "type": "noul",
+      "criteria": {
+        "positive": "The evidence suggests the cardholder authorized this purchase.",
+        "negative": "The evidence suggests the cardholder did not authorize this purchase."
+      }
+    },
+    "dispute_outcome": {
+      "type": "choice",
+      "instructions": "Choose how to handle this dispute.",
+      "criteria": {
+        "accept_chargeback": "Accept the dispute and refund the cardholder at the merchant's expense.",
+        "represent_with_evidence": "Contest the dispute by sending the merchant's evidence to the issuer.",
+        "senior_analyst_review": "Pass the file to a senior analyst for a decision.",
+        "request_cardholder_documents": "Ask the cardholder for proof of the lost phone.",
+        "request_issuer_3ds_log": "Ask the issuer for the 3DS authentication log.",
+        "split_liability": "Settle the amount with a shared loss.",
+        "close_no_action": "Close the case without action."
+      }
+    },
+    "unauthorized_likelihood": {
+      "type": "score",
+      "instructions": "Rate how likely it is that the purchase was unauthorized, from the evidence alone.",
+      "criteria": [
+        "Very unlikely",
+        "Unlikely",
+        "Somewhat unlikely",
+        "Slightly less likely than not",
+        "Slightly more likely than not",
+        "Somewhat likely",
+        "Likely",
+        "Very likely"
+      ]
+    }
+  }
+}

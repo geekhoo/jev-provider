@@ -1,0 +1,33 @@
+{
+  "case": "insurance-L1",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "glass_damage_covered": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "handling_mode": {
+        "type": "choice",
+        "probabilities": {
+          "score_claim_complexity": 0.90,
+          "route_to_adjuster": 0.05,
+          "gate_payment": 0.05
+        }
+      },
+      "claim_complexity": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.72,
+          "1": 0.24,
+          "2": 0.04
+        }
+      }
+    },
+    "reasons": {
+      "glass_damage_covered": "A cracked windshield from a stone is glass damage and the policy is stated to cover glass damage, so P(true) is very high.",
+      "handling_mode": "The user-instruction objective is 'scoring', which as semantic configuration selects the scoring output over routing or payment gating.",
+      "claim_complexity": "A documented windshield claim with photo and quote plus a fixed excess is mostly straightforward, with residual checking of the quote and policy validity."
+    }
+  }
+}

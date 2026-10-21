@@ -1,0 +1,36 @@
+{
+  "case": "ecommerce-L3",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "damage_after_delivery": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "resolution": {
+        "type": "choice",
+        "probabilities": {
+          "full_refund": 0.01,
+          "replacement": 0.01,
+          "goodwill_credit": 0.04,
+          "decline": 0.94
+        }
+      },
+      "customer_distress": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.43,
+          "1": 0.42,
+          "2": 0.12,
+          "3": 0.02,
+          "4": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "damage_after_delivery": "The customer says the protector cracked after dropping the phone yesterday; the case opened four days after delivery.",
+      "resolution": "The protector is final sale, and the customer describes damage caused after delivery, so the defective-on-arrival exception does not apply.",
+      "customer_distress": "The customer states the damage and asks directly for a refund, but shows no explicit anger or heightened distress."
+    }
+  }
+}

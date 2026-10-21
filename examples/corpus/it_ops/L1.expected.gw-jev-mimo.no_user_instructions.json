@@ -1,0 +1,37 @@
+{
+  "case": "it_ops-L1",
+  "source": "gateway route jev-mimo",
+  "no_user_instructions": {
+    "answers": {
+      "wiki_unavailable": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "route_to_oncall",
+        "confidence": 0.18,
+        "probabilities": {
+          "label_incident_type": 0.35,
+          "route_to_oncall": 0.45,
+          "gate_next_deploy": 0.2
+        }
+      },
+      "user_impact": {
+        "type": "score",
+        "score": 1.15,
+        "confidence": 0.33,
+        "legend": {
+          "0": "Minor inconvenience",
+          "1": "Noticeable disruption",
+          "2": "Major disruption"
+        },
+        "probabilities": {
+          "0": 0.15,
+          "1": 0.55,
+          "2": 0.3
+        }
+      }
+    }
+  }
+}

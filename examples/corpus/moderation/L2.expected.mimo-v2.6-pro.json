@@ -1,0 +1,36 @@
+{
+  "case": "moderation-L2",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "insults_others_generally": {
+        "type": "noul",
+        "noul": 0.85
+      },
+      "moderation_action": {
+        "type": "choice",
+        "probabilities": {
+          "leave_up": 0.35,
+          "add_warning_label": 0.45,
+          "remove_post": 0.12,
+          "escalate_to_senior": 0.08
+        }
+      },
+      "rudeness_level": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.15,
+          "2": 0.50,
+          "3": 0.25,
+          "4": 0.07
+        }
+      }
+    },
+    "reasons": {
+      "insults_others_generally": "The post calls anyone who disagrees 'clueless' and tells them to stop cooking, a general insult with no named target.",
+      "moderation_action": "A mild general insult with 2 reports, an established account, no prior warnings, and a permissive posture favors a civility label over removal, with some weight on leaving it up.",
+      "rudeness_level": "Name-calling directed at a broad group is clearly impolite but mild and on-topic, centering the distribution on 'Mildly rude' with some spread toward 'Rude'."
+    }
+  }
+}

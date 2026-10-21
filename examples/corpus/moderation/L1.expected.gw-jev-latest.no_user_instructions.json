@@ -1,0 +1,37 @@
+{
+  "case": "moderation-L1",
+  "source": "gateway route jev-latest",
+  "no_user_instructions": {
+    "answers": {
+      "repeated_promotion": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "remove_or_keep_now",
+        "confidence": 0.25,
+        "probabilities": {
+          "audit_for_quality": 0.3,
+          "classify_content_type": 0.2,
+          "remove_or_keep_now": 0.5
+        }
+      },
+      "spam_likelihood": {
+        "type": "score",
+        "score": 1.88,
+        "confidence": 0.82,
+        "legend": {
+          "0": "Unlikely",
+          "1": "Possible",
+          "2": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.08,
+          "2": 0.9
+        }
+      }
+    }
+  }
+}

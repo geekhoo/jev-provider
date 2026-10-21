@@ -1,0 +1,59 @@
+{
+  "case": "payments-L5",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "no_user_instructions": {
+    "answers": {
+      "ownership_disclosure_consistent": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "onboarding_action": {
+        "type": "choice",
+        "choice": "freeze_onboarding_pending_review",
+        "confidence": 0.37,
+        "probabilities": {
+          "approve_merchant": 0.0,
+          "approve_with_low_limits": 0.0,
+          "approve_after_edd": 0.03,
+          "request_updated_ownership": 0.18,
+          "request_proof_of_address": 0.0,
+          "route_to_sanctions_analyst": 0.23,
+          "route_to_senior_compliance": 0.12,
+          "freeze_onboarding_pending_review": 0.43,
+          "reject_application": 0.0,
+          "reject_and_report": 0.01,
+          "refer_to_partner": 0.0
+        }
+      },
+      "onboarding_risk": {
+        "type": "score",
+        "score": 6.69,
+        "confidence": 0.73,
+        "legend": {
+          "0": "Negligible",
+          "1": "Very low",
+          "2": "Low",
+          "3": "Lowish",
+          "4": "Moderate",
+          "5": "Moderately elevated",
+          "6": "Elevated",
+          "7": "High",
+          "8": "Very high",
+          "9": "Extreme"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.01,
+          "5": 0.08,
+          "6": 0.3,
+          "7": 0.44,
+          "8": 0.15,
+          "9": 0.02
+        }
+      }
+    }
+  }
+}

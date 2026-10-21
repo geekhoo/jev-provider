@@ -1,0 +1,51 @@
+{
+  "case": "moderation-L4",
+  "source": "gateway route jev-latest",
+  "with_user_instructions": {
+    "answers": {
+      "aimed_at_specific_person": {
+        "type": "noul",
+        "noul": 0.78
+      },
+      "penalty": {
+        "type": "choice",
+        "choice": "private_warning",
+        "confidence": 0.28,
+        "probabilities": {
+          "no_action": 0.07,
+          "remove_comment_only": 0.22,
+          "private_warning": 0.38,
+          "public_warning_note": 0.05,
+          "mute_in_thread_24h": 0.1,
+          "three_day_suspension": 0.03,
+          "refer_to_senior_moderator": 0.15
+        }
+      },
+      "harassment_severity": {
+        "type": "score",
+        "score": 4.04,
+        "confidence": 0.47,
+        "legend": {
+          "0": "None",
+          "1": "Barely any",
+          "2": "Very mild",
+          "3": "Mild",
+          "4": "Mild to moderate",
+          "5": "Moderate",
+          "6": "Serious",
+          "7": "Severe"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.02,
+          "2": 0.1,
+          "3": 0.25,
+          "4": 0.28,
+          "5": 0.2,
+          "6": 0.1,
+          "7": 0.05
+        }
+      }
+    }
+  }
+}

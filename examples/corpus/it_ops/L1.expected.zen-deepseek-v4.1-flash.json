@@ -1,0 +1,16 @@
+{
+  "case": "it_ops-L1",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "wiki_unavailable": {"type": "noul", "noul": 0.95},
+      "handling_mode": {"type": "choice", "probabilities": {"label_incident_type": 0.85, "route_to_oncall": 0.10, "gate_next_deploy": 0.05}},
+      "user_impact": {"type": "score", "probabilities": {"0": 0.20, "1": 0.50, "2": 0.30}}
+    },
+    "reasons": {
+      "wiki_unavailable": "Monitoring reports HTTP 503 for every user on the internal wiki; only a small chance the signal itself is stale or a probe artifact.",
+      "handling_mode": "User instructions state objective 'classification', which maps to producing a type label for the record rather than routing or deploy gating.",
+      "user_impact": "A total internal wiki outage blocks staff knowledge lookup for everyone, though alternative channels exist so major disruption is plausible but not certain."
+    }
+  }
+}

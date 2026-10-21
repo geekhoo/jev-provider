@@ -1,0 +1,16 @@
+{
+  "case": "moderation-L3",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "offers_item_for_sale": { "type": "noul", "noul": 0.97 },
+      "post_action": { "type": "choice", "probabilities": { "remove_post": 0.52, "soft_hold": 0.18, "leave_up": 0.02, "escalate_trust_and_safety": 0.28 } },
+      "scam_likelihood": { "type": "score", "probabilities": { "0": 0.02, "1": 0.04, "2": 0.12, "3": 0.34, "4": 0.48 } }
+    },
+    "reasons": {
+      "offers_item_for_sale": "Text explicitly sells 1000 followers for 5 dollars, so a paid offer is present.",
+      "post_action": "No policy or risk posture was supplied, so removal is only moderately favored over escalation for an obvious gift-card scam.",
+      "scam_likelihood": "Gift-cards-only payment, no refunds, and a two-day-old unverified account point strongly to fraud, but evidence is limited to one post."
+    }
+  }
+}

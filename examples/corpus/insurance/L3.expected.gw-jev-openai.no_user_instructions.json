@@ -1,0 +1,42 @@
+{
+  "case": "insurance-L3",
+  "source": "gateway route jev-openai",
+  "no_user_instructions": {
+    "answers": {
+      "notes_match_photos": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "settlement_path": {
+        "type": "choice",
+        "choice": "repair",
+        "confidence": 0.8,
+        "probabilities": {
+          "repair": 0.85,
+          "total_loss": 0.01,
+          "partial_settlement": 0.02,
+          "investigate_further": 0.12
+        }
+      },
+      "documentation_quality": {
+        "type": "score",
+        "score": 2.84,
+        "confidence": 0.53,
+        "legend": {
+          "0": "Very poor",
+          "1": "Poor",
+          "2": "Adequate",
+          "3": "Good",
+          "4": "Very good"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.09,
+          "2": 0.15,
+          "3": 0.55,
+          "4": 0.2
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "case": "ecommerce-L1",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "within_return_window": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "handling_mode": {
+        "type": "choice",
+        "probabilities": {
+          "send_to_team_queue": 0.98,
+          "decide_return_now": 0.01,
+          "log_for_quality_audit": 0.01
+        }
+      },
+      "staff_effort": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.97,
+          "1": 0.02,
+          "2": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "within_return_window": "The purchase was 9 days ago and the stated return window is 30 days, so the request is within it.",
+      "handling_mode": "The user instruction sets the objective to routing, and the case should go to a named support queue.",
+      "staff_effort": "The kettle is unopened, the receipt is available, and the 30-day rule makes this a routine return request."
+    }
+  }
+}

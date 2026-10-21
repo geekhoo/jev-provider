@@ -1,0 +1,16 @@
+{
+  "case": "payments-L2",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "connection_differs_from_card": { "type": "noul", "noul": 1.00 },
+      "payment_action": { "type": "choice", "probabilities": { "approve": 0.04, "step_up_verification": 0.22, "manual_review": 0.48, "decline": 0.26 } },
+      "fraud_signal_strength": { "type": "score", "probabilities": { "0": 0.02, "1": 0.06, "2": 0.24, "3": 0.48, "4": 0.20 } }
+    },
+    "reasons": {
+      "connection_differs_from_card": "State lists card country US and connection country RO, so the countries plainly differ.",
+      "payment_action": "New 3-day account, high-value electronics purchase, RO connection versus US card, and no 3DS favor holding for analyst review over outright decline.",
+      "fraud_signal_strength": "Geo mismatch plus account age and absent 3DS are strong but not conclusive, and zero prior chargebacks caps the top level."
+    }
+  }
+}

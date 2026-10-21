@@ -1,0 +1,16 @@
+{
+  "case": "insurance-L3",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "notes_match_photos": { "type": "noul", "noul": 0.97 },
+      "settlement_path": { "type": "choice", "probabilities": { "repair": 0.35, "total_loss": 0.30, "partial_settlement": 0.15, "investigate_further": 0.20 } },
+      "documentation_quality": { "type": "score", "probabilities": { "0": 0.02, "1": 0.08, "2": 0.35, "3": 0.40, "4": 0.15 } }
+    },
+    "reasons": {
+      "notes_match_photos": "Notes cite front bumper, bonnet and left headlight; captions name the same three areas, so the descriptions agree.",
+      "settlement_path": "Repair estimate 6200 is below market value 8500 but close to it, and no policy terms or threshold are supplied, so repair, total loss and further investigation remain plausible.",
+      "documentation_quality": "Claim has adjuster notes, two captioned photos and a costed repair estimate, but no repair authorisation, valuation, police or third-party evidence."
+    }
+  }
+}

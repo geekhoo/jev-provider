@@ -1,0 +1,33 @@
+{
+ "case": "ecommerce-L1",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "within_return_window": {
+    "type": "noul",
+    "noul": 0.96
+   },
+   "handling_mode": {
+    "type": "choice",
+    "probabilities": {
+     "send_to_team_queue": 0.25,
+     "decide_return_now": 0.60,
+     "log_for_quality_audit": 0.15
+    }
+   },
+   "staff_effort": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.70,
+     "1": 0.25,
+     "2": 0.05
+    }
+   }
+  },
+  "reasons": {
+   "within_return_window": "Purchase was 9 days ago and policy allows returns within 30 days, so the request is inside the window.",
+   "handling_mode": "No user-instruction objective exists, so the default handling for a clean in-policy return is a final approve/decline decision.",
+   "staff_effort": "Unopened item with receipt and an in-window return under stated policy is a routine, quick check."
+  }
+ }
+}

@@ -1,0 +1,116 @@
+{
+  "case": "moderation-L2",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "insults_others_generally": {
+        "type": "noul",
+        "noul": 0.85
+      },
+      "moderation_action": {
+        "type": "choice",
+        "choice": "add_warning_label",
+        "confidence": 0.27,
+        "probabilities": {
+          "leave_up": 0.45,
+          "add_warning_label": 0.45,
+          "remove_post": 0.06,
+          "escalate_to_senior": 0.04
+        }
+      },
+      "rudeness_level": {
+        "type": "score",
+        "score": 2.18,
+        "confidence": 0.53,
+        "legend": {
+          "0": "Polite",
+          "1": "Blunt",
+          "2": "Mildly rude",
+          "3": "Rude",
+          "4": "Very rude"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.17,
+          "2": 0.5,
+          "3": 0.27,
+          "4": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "insults_others_generally": "Calls everyone who disagrees 'clueless', a general insult not aimed at a named user.",
+      "moderation_action": "Permissive posture, no target, clean 400-day account: split between leaving up and a civility label; removal unlikely.",
+      "rudeness_level": "Dismissive generalized insult over a recipe reads as mildly rude, possibly rude."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "insults_others_generally": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "moderation_action": {
+        "type": "choice",
+        "choice": "add_warning_label",
+        "confidence": 0.47,
+        "probabilities": {
+          "leave_up": 0.25,
+          "add_warning_label": 0.6,
+          "remove_post": 0.1,
+          "escalate_to_senior": 0.05
+        }
+      },
+      "rudeness_level": {
+        "type": "score",
+        "score": 2.19,
+        "confidence": 0.57,
+        "legend": {
+          "0": "Polite",
+          "1": "Blunt",
+          "2": "Mildly rude",
+          "3": "Rude",
+          "4": "Very rude"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.14,
+          "2": 0.55,
+          "3": 0.25,
+          "4": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "insults_others_generally": "Calls everyone who disagrees 'clueless' without naming anyone: a generalized insult.",
+      "moderation_action": "Mild, untargeted incivility from an established account with no warnings fits a civility note over removal.",
+      "rudeness_level": "Dismissive name-calling ('clueless') is mildly rude, not severe or abusive."
+    }
+  },
+  "ui_dependent_question": "moderation_action",
+  "ui_dependence": "The permissive risk posture tells the model to tolerate borderline remarks, which shifts the action relative to a balanced reading.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "add_warning_label",
+      "confidence": 0.27,
+      "probabilities": {
+        "leave_up": 0.45,
+        "add_warning_label": 0.45,
+        "remove_post": 0.06,
+        "escalate_to_senior": 0.04
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "add_warning_label",
+      "confidence": 0.47,
+      "probabilities": {
+        "leave_up": 0.25,
+        "add_warning_label": 0.6,
+        "remove_post": 0.1,
+        "escalate_to_senior": 0.05
+      }
+    }
+  }
+}

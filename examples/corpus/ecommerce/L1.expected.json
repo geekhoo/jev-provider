@@ -1,0 +1,104 @@
+{
+  "case": "ecommerce-L1",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "within_return_window": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "send_to_team_queue",
+        "confidence": 0.52,
+        "probabilities": {
+          "send_to_team_queue": 0.68,
+          "decide_return_now": 0.25,
+          "log_for_quality_audit": 0.07
+        }
+      },
+      "staff_effort": {
+        "type": "score",
+        "score": 0.21,
+        "confidence": 0.69,
+        "legend": {
+          "0": "Routine and quick",
+          "1": "Needs some checking",
+          "2": "Needs careful manual work"
+        },
+        "probabilities": {
+          "0": 0.82,
+          "1": 0.15,
+          "2": 0.03
+        }
+      }
+    },
+    "reasons": {
+      "handling_mode": "Objective is routing, so passing the case to a team queue fits best; a direct decision is plausible because the case is simple.",
+      "staff_effort": "Unopened item, has receipt, inside the window: routine.",
+      "within_return_window": "9 days is inside the 30-day window."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "within_return_window": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "decide_return_now",
+        "confidence": 0.4,
+        "probabilities": {
+          "send_to_team_queue": 0.3,
+          "decide_return_now": 0.6,
+          "log_for_quality_audit": 0.1
+        }
+      },
+      "staff_effort": {
+        "type": "score",
+        "score": 0.23,
+        "confidence": 0.66,
+        "legend": {
+          "0": "Routine and quick",
+          "1": "Needs some checking",
+          "2": "Needs careful manual work"
+        },
+        "probabilities": {
+          "0": 0.8,
+          "1": 0.17,
+          "2": 0.03
+        }
+      }
+    },
+    "reasons": {
+      "handling_mode": "No objective supplied; a clear in-policy return favors a direct decision, with some mass on queue routing.",
+      "staff_effort": "Unopened item, receipt, well within window: routine.",
+      "within_return_window": "9 days is within the 30-day window."
+    }
+  },
+  "ui_dependent_question": "handling_mode",
+  "ui_dependence": "The objective field in user_instructions is the only thing that tells the model which kind of output the team wants; without it the three options are equally plausible.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "send_to_team_queue",
+      "confidence": 0.52,
+      "probabilities": {
+        "send_to_team_queue": 0.68,
+        "decide_return_now": 0.25,
+        "log_for_quality_audit": 0.07
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "decide_return_now",
+      "confidence": 0.4,
+      "probabilities": {
+        "send_to_team_queue": 0.3,
+        "decide_return_now": 0.6,
+        "log_for_quality_audit": 0.1
+      }
+    }
+  }
+}

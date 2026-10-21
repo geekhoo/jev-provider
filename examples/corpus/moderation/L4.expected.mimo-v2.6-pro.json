@@ -1,0 +1,42 @@
+{
+  "case": "moderation-L4",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "aimed_at_specific_person": {
+        "type": "noul",
+        "noul": 0.92
+      },
+      "penalty": {
+        "type": "choice",
+        "probabilities": {
+          "no_action": 0.01,
+          "remove_comment_only": 0.20,
+          "private_warning": 0.50,
+          "public_warning_note": 0.04,
+          "mute_in_thread_24h": 0.12,
+          "three_day_suspension": 0.03,
+          "refer_to_senior_moderator": 0.10
+        }
+      },
+      "harassment_severity": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.02,
+          "2": 0.09,
+          "3": 0.22,
+          "4": 0.30,
+          "5": 0.22,
+          "6": 0.10,
+          "7": 0.04
+        }
+      }
+    },
+    "reasons": {
+      "aimed_at_specific_person": "The comment uses \"you\" against a named reply target, so it is hostile language aimed at one specific person, not general criticism.",
+      "penalty": "Mutual heated exchange mitigates, only one counted warning is within 90 days (short of the three-day suspension trigger), and a private warning is the lowest penalty that deters recurrence without suspending on a single report.",
+      "harassment_severity": "Personal hostile wording is present but a single comment within a mutual exchange with no threats places severity around mild to moderate, with spread reflecting incomplete context."
+    }
+  }
+}

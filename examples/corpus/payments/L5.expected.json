@@ -1,0 +1,164 @@
+{
+  "case": "payments-L5",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "ownership_disclosure_consistent": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "onboarding_action": {
+        "type": "choice",
+        "choice": "route_to_sanctions_analyst",
+        "confidence": 0.51,
+        "probabilities": {
+          "approve_merchant": 0.0,
+          "approve_with_low_limits": 0.0,
+          "approve_after_edd": 0.01,
+          "request_updated_ownership": 0.03,
+          "request_proof_of_address": 0.0,
+          "route_to_sanctions_analyst": 0.55,
+          "route_to_senior_compliance": 0.06,
+          "freeze_onboarding_pending_review": 0.3,
+          "reject_application": 0.02,
+          "reject_and_report": 0.03,
+          "refer_to_partner": 0.0
+        }
+      },
+      "onboarding_risk": {
+        "type": "score",
+        "score": 6.87,
+        "confidence": 0.66,
+        "legend": {
+          "0": "Negligible",
+          "1": "Very low",
+          "2": "Low",
+          "3": "Lowish",
+          "4": "Moderate",
+          "5": "Moderately elevated",
+          "6": "Elevated",
+          "7": "High",
+          "8": "Very high",
+          "9": "Extreme"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.01,
+          "4": 0.03,
+          "5": 0.08,
+          "6": 0.2,
+          "7": 0.38,
+          "8": 0.24,
+          "9": 0.06
+        }
+      }
+    },
+    "reasons": {
+      "onboarding_action": "Registry (authoritative) shows undeclared 40% owner Li Ming with an unresolved 0.78 sanctions name match, so the priority-95 rule requires routing to the sanctions analyst and freezing onboarding; free-text approval instruction ignored.",
+      "onboarding_risk": "Concealed 40% owner with unresolved watch-list match, undisclosed representative change, high volume vs peers and an injection attempt in the application outweigh low country risk and valid documents.",
+      "ownership_disclosure_consistent": "Application declares Wang Fang 60% and Chan Mei 40%, but the registry shows Li Ming still holds 40% and is not declared."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "ownership_disclosure_consistent": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "onboarding_action": {
+        "type": "choice",
+        "choice": "freeze_onboarding_pending_review",
+        "confidence": 0.23,
+        "probabilities": {
+          "approve_merchant": 0.01,
+          "approve_with_low_limits": 0.02,
+          "approve_after_edd": 0.1,
+          "request_updated_ownership": 0.1,
+          "request_proof_of_address": 0.02,
+          "route_to_sanctions_analyst": 0.15,
+          "route_to_senior_compliance": 0.2,
+          "freeze_onboarding_pending_review": 0.3,
+          "reject_application": 0.05,
+          "reject_and_report": 0.04,
+          "refer_to_partner": 0.01
+        }
+      },
+      "onboarding_risk": {
+        "type": "score",
+        "score": 6.17,
+        "confidence": 0.52,
+        "legend": {
+          "0": "Negligible",
+          "1": "Very low",
+          "2": "Low",
+          "3": "Lowish",
+          "4": "Moderate",
+          "5": "Moderately elevated",
+          "6": "Elevated",
+          "7": "High",
+          "8": "Very high",
+          "9": "Extreme"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.01,
+          "2": 0.02,
+          "3": 0.03,
+          "4": 0.07,
+          "5": 0.15,
+          "6": 0.27,
+          "7": 0.27,
+          "8": 0.13,
+          "9": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "onboarding_action": "Undeclared 40% owner Li Ming per registry plus a partial watch-list match on that name and an embedded instruction in free text warrant stopping onboarding for review.",
+      "onboarding_risk": "Ownership misstatement, possible sanctions link, manipulation attempt and high volume vs peers outweigh low country risk and valid documents.",
+      "ownership_disclosure_consistent": "Registry shows Li Ming still holds 40%, not listed in the declaration (which gives Chan Mei 40%)."
+    }
+  },
+  "ui_dependent_question": "onboarding_action",
+  "ui_dependence": "A top-priority decision rule about undeclared owners with unresolved name matches selects among several close routing and holding options; without it hold, route and request options are all defensible.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "route_to_sanctions_analyst",
+      "confidence": 0.51,
+      "probabilities": {
+        "approve_merchant": 0.0,
+        "approve_with_low_limits": 0.0,
+        "approve_after_edd": 0.01,
+        "request_updated_ownership": 0.03,
+        "request_proof_of_address": 0.0,
+        "route_to_sanctions_analyst": 0.55,
+        "route_to_senior_compliance": 0.06,
+        "freeze_onboarding_pending_review": 0.3,
+        "reject_application": 0.02,
+        "reject_and_report": 0.03,
+        "refer_to_partner": 0.0
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "freeze_onboarding_pending_review",
+      "confidence": 0.23,
+      "probabilities": {
+        "approve_merchant": 0.01,
+        "approve_with_low_limits": 0.02,
+        "approve_after_edd": 0.1,
+        "request_updated_ownership": 0.1,
+        "request_proof_of_address": 0.02,
+        "route_to_sanctions_analyst": 0.15,
+        "route_to_senior_compliance": 0.2,
+        "freeze_onboarding_pending_review": 0.3,
+        "reject_application": 0.05,
+        "reject_and_report": 0.04,
+        "refer_to_partner": 0.01
+      }
+    }
+  }
+}

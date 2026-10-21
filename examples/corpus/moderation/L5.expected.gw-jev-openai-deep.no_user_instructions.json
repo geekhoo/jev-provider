@@ -1,0 +1,59 @@
+{
+  "case": "moderation-L5",
+  "source": "gateway route jev-openai-deep",
+  "no_user_instructions": {
+    "answers": {
+      "contains_personal_attack": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "moderation_action": {
+        "type": "choice",
+        "choice": "remove_and_warn_author",
+        "confidence": 0.25,
+        "probabilities": {
+          "leave_up_no_action": 0.02,
+          "leave_up_and_log": 0.07,
+          "ask_targeted_user_first": 0.11,
+          "hide_pending_review": 0.19,
+          "remove_comment": 0.22,
+          "remove_and_warn_author": 0.32,
+          "temporary_mute_author": 0.01,
+          "suspend_author": 0.0,
+          "ask_author_for_context": 0.04,
+          "route_to_senior_moderator": 0.02,
+          "dismiss_reports": 0.01
+        }
+      },
+      "classifier_agreement": {
+        "type": "score",
+        "score": 7.06,
+        "confidence": 0.63,
+        "legend": {
+          "0": "Total disagreement",
+          "1": "Strong disagreement",
+          "2": "Clear disagreement",
+          "3": "Some disagreement",
+          "4": "Slight disagreement",
+          "5": "Slight agreement",
+          "6": "Some agreement",
+          "7": "Clear agreement",
+          "8": "Strong agreement",
+          "9": "Total agreement"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.01,
+          "4": 0.02,
+          "5": 0.06,
+          "6": 0.17,
+          "7": 0.34,
+          "8": 0.29,
+          "9": 0.1
+        }
+      }
+    }
+  }
+}

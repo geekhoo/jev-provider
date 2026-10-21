@@ -1,0 +1,14 @@
+{
+  "domain": "moderation",
+  "level": 2,
+  "description": "Mildly rude general remark from a long-standing user with no prior warnings; sits near a policy boundary.",
+  "ui_dependent_question": "moderation_action",
+  "ui_dependence": "The permissive risk posture tells the model to tolerate borderline remarks, which shifts the action relative to a balanced reading.",
+  "features": [
+    "flat object state",
+    "4-option choice",
+    "5-level score",
+    "risk_posture",
+    "locale"
+  ]
+}

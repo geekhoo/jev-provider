@@ -1,0 +1,16 @@
+{
+  "case": "payments-L3",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "sender_identity_checked": { "type": "noul", "noul": 0.85 },
+      "compliance_action": { "type": "choice", "probabilities": { "release_transfer": 0.03, "monitor_only": 0.05, "request_information": 0.15, "hold_for_enhanced_review": 0.52, "file_suspicious_activity_report": 0.25 } },
+      "pattern_suspicion": { "type": "score", "probabilities": { "0": 0.02, "1": 0.05, "2": 0.15, "3": 0.35, "4": 0.30, "5": 0.13 } }
+    },
+    "reasons": {
+      "sender_identity_checked": "kyc_status is verified with a recent verification date and nothing in state shows expiry or failure.",
+      "compliance_action": "Four consecutive near-threshold transfers to a days-old unknown-country receiver with no established relationship point to review and possible reporting.",
+      "pattern_suspicion": "Amounts climb just under 10000 EUR day after day to a new counterparty, which is strongly suggestive but not conclusive of deliberate structuring."
+    }
+  }
+}

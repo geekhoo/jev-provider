@@ -1,0 +1,33 @@
+{
+ "case": "it_ops-L1",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "wiki_unavailable": {
+    "type": "noul",
+    "noul": 0.97
+   },
+   "handling_mode": {
+    "type": "choice",
+    "probabilities": {
+     "label_incident_type": 0.33,
+     "route_to_oncall": 0.40,
+     "gate_next_deploy": 0.27
+    }
+   },
+   "user_impact": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.15,
+     "1": 0.55,
+     "2": 0.30
+    }
+   }
+  },
+  "reasons": {
+   "wiki_unavailable": "Monitoring shows HTTP 503 for every user, strong direct evidence the wiki is unavailable now.",
+   "handling_mode": "No user instructions or domain context define an objective, so the needed output kind is undetermined; spread over all declared options with a slight lean to on-call routing for a full-user outage.",
+   "user_impact": "Full wiki outage for all staff is a noticeable disruption, but unknown work dependency depth leaves real weight on major and some on minor."
+  }
+ }
+}

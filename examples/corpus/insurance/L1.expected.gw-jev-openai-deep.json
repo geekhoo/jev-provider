@@ -1,0 +1,37 @@
+{
+  "case": "insurance-L1",
+  "source": "gateway route jev-openai-deep",
+  "with_user_instructions": {
+    "answers": {
+      "glass_damage_covered": {
+        "type": "noul",
+        "noul": 1.0
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "score_claim_complexity",
+        "confidence": 0.99,
+        "probabilities": {
+          "score_claim_complexity": 0.99,
+          "route_to_adjuster": 0.01,
+          "gate_payment": 0.01
+        }
+      },
+      "claim_complexity": {
+        "type": "score",
+        "score": 0.1,
+        "confidence": 0.86,
+        "legend": {
+          "0": "Very simple",
+          "1": "Some checking needed",
+          "2": "Complex"
+        },
+        "probabilities": {
+          "0": 0.91,
+          "1": 0.09,
+          "2": 0.01
+        }
+      }
+    }
+  }
+}

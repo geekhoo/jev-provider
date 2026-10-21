@@ -1,0 +1,37 @@
+{
+  "case": "ecommerce-L1",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "no_user_instructions": {
+    "answers": {
+      "within_return_window": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "decide_return_now",
+        "confidence": 0.98,
+        "probabilities": {
+          "send_to_team_queue": 0.01,
+          "decide_return_now": 0.99,
+          "log_for_quality_audit": 0.0
+        }
+      },
+      "staff_effort": {
+        "type": "score",
+        "score": 0.05,
+        "confidence": 0.93,
+        "legend": {
+          "0": "Routine and quick",
+          "1": "Needs some checking",
+          "2": "Needs careful manual work"
+        },
+        "probabilities": {
+          "0": 0.95,
+          "1": 0.05,
+          "2": 0.0
+        }
+      }
+    }
+  }
+}

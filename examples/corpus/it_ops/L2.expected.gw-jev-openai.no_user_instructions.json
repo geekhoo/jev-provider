@@ -1,0 +1,42 @@
+{
+  "case": "it_ops-L2",
+  "source": "gateway route jev-openai",
+  "no_user_instructions": {
+    "answers": {
+      "primary_healthy": {
+        "type": "noul",
+        "noul": 1.0
+      },
+      "page_decision": {
+        "type": "choice",
+        "choice": "page_now",
+        "confidence": 0.6,
+        "probabilities": {
+          "page_now": 0.7,
+          "ticket_for_morning": 0.16,
+          "auto_cleanup_job": 0.13,
+          "ignore_known_noise": 0.01
+        }
+      },
+      "disk_urgency": {
+        "type": "score",
+        "score": 2.72,
+        "confidence": 0.63,
+        "legend": {
+          "0": "Not urgent",
+          "1": "Low",
+          "2": "Moderate",
+          "3": "High",
+          "4": "Critical"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.05,
+          "2": 0.23,
+          "3": 0.63,
+          "4": 0.08
+        }
+      }
+    }
+  }
+}

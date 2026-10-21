@@ -1,0 +1,48 @@
+{
+  "case": "moderation-L5",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "contains_personal_attack": {
+        "type": "noul",
+        "noul": 0.7
+      },
+      "moderation_action": {
+        "type": "choice",
+        "probabilities": {
+          "leave_up_no_action": 0.04,
+          "leave_up_and_log": 0.08,
+          "ask_targeted_user_first": 0.68,
+          "hide_pending_review": 0.06,
+          "remove_comment": 0.02,
+          "remove_and_warn_author": 0.01,
+          "temporary_mute_author": 0.0,
+          "suspend_author": 0.0,
+          "ask_author_for_context": 0.1,
+          "route_to_senior_moderator": 0.01,
+          "dismiss_reports": 0.0
+        }
+      },
+      "classifier_agreement": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.01,
+          "3": 0.02,
+          "4": 0.05,
+          "5": 0.12,
+          "6": 0.25,
+          "7": 0.32,
+          "8": 0.18,
+          "9": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "contains_personal_attack": "On a plain reading the comment insults the target ('worst player') and tells them to quit, an attack on the person, though mutual-banter context leaves some doubt.",
+      "moderation_action": "Priority-90 rule applies: target has not reported and only third parties flagged a possible banter case, so contact the targeted user before any removal or penalty.",
+      "classifier_agreement": "Insult 0.71 and toxicity 0.58 fit a mild direct insult with no threat (threat 0.04), so the scores largely match a plain reading, short of strong agreement."
+    }
+  }
+}

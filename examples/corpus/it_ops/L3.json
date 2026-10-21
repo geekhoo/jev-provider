@@ -1,0 +1,93 @@
+{
+  "state": {
+    "incident": {
+      "id": "INC-3391",
+      "service": "checkout-api",
+      "symptoms": [
+        "p95 latency rose from 220 ms to 700 ms",
+        "error rate unchanged at 0.2 percent"
+      ],
+      "first_seen": "14:31",
+      "customer_reports": 6
+    },
+    "deployments": [
+      {
+        "id": "D-771",
+        "service": "checkout-api",
+        "deployed_at": "14:20",
+        "minutes_before_first_symptom": 11,
+        "change": "new tax calculation library"
+      },
+      {
+        "id": "D-768",
+        "service": "search-api",
+        "deployed_at": "11:05",
+        "change": "index tuning"
+      }
+    ],
+    "operations_calendar": {
+      "change_freeze_active": true,
+      "freeze_reason": "month-end payment run",
+      "freeze_ends": "Monday 06:00"
+    },
+    "on_call": {
+      "primary": "A. Moreau",
+      "secondary": "T. Okafor"
+    },
+    "noise": {
+      "ticket_history_last_year": 41,
+      "office_wifi_issue": "resolved",
+      "team_offsite": "next week",
+      "dashboard_theme": "dark"
+    }
+  },
+  "user_instructions": {
+    "domain": "it_incidents",
+    "objective": "ranking",
+    "locale": "en-GB",
+    "risk_posture": "balanced",
+    "uncertainty_policy": "calibrated",
+    "terminology": [
+      {
+        "term": "change freeze",
+        "definition": "A period when only emergency changes may be made to production systems."
+      },
+      {
+        "term": "emergency change",
+        "definition": "Any rollback of a deployment made within the last 60 minutes, which is allowed during a change freeze."
+      }
+    ]
+  },
+  "questions": {
+    "latency_after_deploy": {
+      "type": "noul",
+      "criteria": {
+        "pass": "The latency increase began after the most recent checkout-api deployment.",
+        "fail": "The latency increase began before the deployment, or the timing is unclear."
+      }
+    },
+    "next_action": {
+      "type": "choice",
+      "instructions": "Choose the best next action for the incident.",
+      "criteria": {
+        "roll_back_deploy": "",
+        "ship_hotfix": "",
+        "restart_service": "",
+        "wait_and_monitor": "",
+        "escalate_to_change_board": ""
+      }
+    },
+    "customer_impact": {
+      "type": "score",
+      "instructions": "Rate the customer impact described in the state.",
+      "criteria": [
+        "None",
+        "Barely noticeable",
+        "Mild",
+        "Moderate",
+        "Serious",
+        "Severe"
+      ]
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+ "case": "payments-L5",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "ownership_disclosure_consistent": {
+    "type": "noul",
+    "noul": 0.07
+   },
+   "onboarding_action": {
+    "type": "choice",
+    "probabilities": {
+     "approve_merchant": 0.01,
+     "approve_with_low_limits": 0.03,
+     "approve_after_edd": 0.22,
+     "request_updated_ownership": 0.14,
+     "request_proof_of_address": 0.01,
+     "route_to_sanctions_analyst": 0.30,
+     "route_to_senior_compliance": 0.10,
+     "freeze_onboarding_pending_review": 0.12,
+     "reject_application": 0.04,
+     "reject_and_report": 0.02,
+     "refer_to_partner": 0.01
+    }
+   },
+   "onboarding_risk": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.01,
+     "1": 0.02,
+     "2": 0.04,
+     "3": 0.08,
+     "4": 0.15,
+     "5": 0.20,
+     "6": 0.22,
+     "7": 0.17,
+     "8": 0.08,
+     "9": 0.03
+    }
+   }
+  },
+  "reasons": {
+   "ownership_disclosure_consistent": "Registry says Li Ming still holds 40% and is absent from the application, contradicting the declared Wang Fang 60% / Chan Mei 40% split.",
+   "onboarding_action": "Undisclosed 40% owner Li Ming matches a watch-list entry, so a sanctions analyst name-match determination is the gating step before any approval path.",
+   "onboarding_risk": "Undeclared owner with a partial sanctions name match plus non-disclosure of the rep change and high volume, offset by low country risk, clean PEP/media, and valid core documents."
+  }
+ }
+}

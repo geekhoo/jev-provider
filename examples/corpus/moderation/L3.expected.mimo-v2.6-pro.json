@@ -1,0 +1,36 @@
+{
+  "case": "moderation-L3",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "offers_item_for_sale": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "post_action": {
+        "type": "choice",
+        "probabilities": {
+          "remove_post": 0.05,
+          "soft_hold": 0.72,
+          "leave_up": 0.03,
+          "escalate_trust_and_safety": 0.20
+        }
+      },
+      "scam_likelihood": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.03,
+          "2": 0.10,
+          "3": 0.31,
+          "4": 0.55
+        }
+      }
+    },
+    "reasons": {
+      "offers_item_for_sale": "The post explicitly offers 1000 followers for 5 dollars, a clear paid product offer.",
+      "post_action": "Commercial post from an account with zero prior moderation actions matches the 'first offence' rule, so soft hold is the designated action despite scam indicators.",
+      "scam_likelihood": "Gift-card-only payment, no refunds, brand-new account with 3 followers and unverified email make a fraudulent offer very likely, with some residual uncertainty."
+    }
+  }
+}

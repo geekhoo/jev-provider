@@ -1,0 +1,51 @@
+{
+  "case": "ecommerce-L4",
+  "source": "gateway route jev-mimo",
+  "no_user_instructions": {
+    "answers": {
+      "refund_claim_supported": {
+        "type": "noul",
+        "noul": 0.42
+      },
+      "claim_handling": {
+        "type": "choice",
+        "choice": "open_carrier_investigation",
+        "confidence": 0.21,
+        "probabilities": {
+          "refund_in_full_now": 0.05,
+          "refund_after_investigation": 0.28,
+          "open_carrier_investigation": 0.32,
+          "request_more_evidence": 0.11,
+          "send_replacement": 0.07,
+          "partial_goodwill_credit": 0.1,
+          "decline_claim": 0.07
+        }
+      },
+      "fraud_risk": {
+        "type": "score",
+        "score": 3.75,
+        "confidence": 0.1,
+        "legend": {
+          "0": "Almost certainly genuine",
+          "1": "Probably genuine",
+          "2": "Leaning genuine",
+          "3": "Leaning genuine, with doubts",
+          "4": "Evenly uncertain",
+          "5": "Leaning not genuine",
+          "6": "Probably not genuine",
+          "7": "Almost certainly not genuine"
+        },
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.1,
+          "2": 0.17,
+          "3": 0.16,
+          "4": 0.14,
+          "5": 0.19,
+          "6": 0.15,
+          "7": 0.06
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "case": "payments-L2",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "connection_differs_from_card": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "payment_action": {
+        "type": "choice",
+        "choice": "step_up_verification",
+        "confidence": 0.33,
+        "probabilities": {
+          "approve": 0.03,
+          "step_up_verification": 0.5,
+          "manual_review": 0.3,
+          "decline": 0.17
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "score": 2.84,
+        "confidence": 0.53,
+        "legend": {
+          "0": "Very weak",
+          "1": "Weak",
+          "2": "Moderate",
+          "3": "Strong",
+          "4": "Very strong"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.04,
+          "2": 0.25,
+          "3": 0.5,
+          "4": 0.2
+        }
+      }
+    },
+    "reasons": {
+      "connection_differs_from_card": "Connection country RO differs from card country US.",
+      "fraud_signal_strength": "3-day-old account, high-value electronics, foreign connection and no 3DS are strong combined signals, offset slightly by US shipping and no chargebacks.",
+      "payment_action": "Conservative posture with strong but not conclusive signals and 3DS not attempted favors step-up verification, then manual review."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "connection_differs_from_card": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "payment_action": {
+        "type": "choice",
+        "choice": "step_up_verification",
+        "confidence": 0.33,
+        "probabilities": {
+          "approve": 0.03,
+          "step_up_verification": 0.5,
+          "manual_review": 0.3,
+          "decline": 0.17
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "score": 2.89,
+        "confidence": 0.49,
+        "legend": {
+          "0": "Very weak",
+          "1": "Weak",
+          "2": "Moderate",
+          "3": "Strong",
+          "4": "Very strong"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.04,
+          "2": 0.25,
+          "3": 0.45,
+          "4": 0.25
+        }
+      }
+    },
+    "reasons": {
+      "connection_differs_from_card": "Connection country RO vs card country US.",
+      "fraud_signal_strength": "3-day account, 1850 USD electronics, foreign connection, no 3DS; offset by zero chargebacks and US shipping.",
+      "payment_action": "Elevated but not conclusive risk; 3DS not attempted makes step-up the natural first move."
+    }
+  },
+  "ui_dependent_question": "payment_action",
+  "ui_dependence": "The conservative risk posture tells the model to prefer stricter actions when signals are mixed, which moves the choice relative to a balanced reading.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "step_up_verification",
+      "confidence": 0.33,
+      "probabilities": {
+        "approve": 0.03,
+        "step_up_verification": 0.5,
+        "manual_review": 0.3,
+        "decline": 0.17
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "step_up_verification",
+      "confidence": 0.33,
+      "probabilities": {
+        "approve": 0.03,
+        "step_up_verification": 0.5,
+        "manual_review": 0.3,
+        "decline": 0.17
+      }
+    }
+  }
+}

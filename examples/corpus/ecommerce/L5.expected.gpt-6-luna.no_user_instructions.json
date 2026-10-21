@@ -1,0 +1,48 @@
+{
+  "case": "ecommerce-L5",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "fault_account_consistent": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "next_action": {
+        "type": "choice",
+        "probabilities": {
+          "refund_now": 0.01,
+          "refund_after_return_received": 0.07,
+          "replacement_same_sku": 0.01,
+          "replacement_after_inspection": 0.03,
+          "hold_for_warehouse_audit": 0.33,
+          "request_more_photos": 0.03,
+          "request_return_and_test": 0.48,
+          "partial_refund": 0.01,
+          "store_credit": 0.01,
+          "escalate_fraud_review": 0.02,
+          "decline_refund": 0.00
+        }
+      },
+      "evidence_conflict_level": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.01,
+          "2": 0.10,
+          "3": 0.24,
+          "4": 0.34,
+          "5": 0.20,
+          "6": 0.07,
+          "7": 0.02,
+          "8": 0.01,
+          "9": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "fault_account_consistent": "The reported right-earbud failure is untested, and the serial mismatch has a plausible batch-label explanation rather than contradicting the reported fault.",
+      "next_action": "Request the earbuds back for fault testing; the item has not been received or tested, and the serial discrepancy warrants a warehouse audit, while immediate refund or fraud action is not supported.",
+      "evidence_conflict_level": "The box serial differs from the warehouse scan on a secondary point, but the known batch mislabel and two-digit transposition provide a plausible explanation; the reported fault remains unverified rather than contradicted."
+    }
+  }
+}

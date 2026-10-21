@@ -1,0 +1,48 @@
+{
+  "case": "payments-L5",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "ownership_disclosure_consistent": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "onboarding_action": {
+        "type": "choice",
+        "probabilities": {
+          "approve_merchant": 0.00,
+          "approve_with_low_limits": 0.01,
+          "approve_after_edd": 0.01,
+          "request_updated_ownership": 0.04,
+          "request_proof_of_address": 0.01,
+          "route_to_sanctions_analyst": 0.55,
+          "route_to_senior_compliance": 0.07,
+          "freeze_onboarding_pending_review": 0.25,
+          "reject_application": 0.04,
+          "reject_and_report": 0.02,
+          "refer_to_partner": 0.00
+        }
+      },
+      "onboarding_risk": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.01,
+          "2": 0.02,
+          "3": 0.04,
+          "4": 0.08,
+          "5": 0.12,
+          "6": 0.22,
+          "7": 0.28,
+          "8": 0.18,
+          "9": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "ownership_disclosure_consistent": "Registry states Li Ming still holds 40% undeclared, directly contradicting the declared Wang Fang 60 / Chan Mei 40 split.",
+      "onboarding_action": "Priority-95 rule fires: undeclared 40% owner Li Ming has an unresolved sanctions name match, so route to the sanctions analyst with onboarding frozen.",
+      "onboarding_risk": "Undeclared owner, unresolved sanctions match, disclosure contradiction and a prompt-injection attempt push risk to elevated/high despite low country risk and clear PEP/media."
+    }
+  }
+}

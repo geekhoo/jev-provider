@@ -1,0 +1,37 @@
+{
+  "case": "ecommerce-L1",
+  "source": "gateway route jev-openai",
+  "with_user_instructions": {
+    "answers": {
+      "within_return_window": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "send_to_team_queue",
+        "confidence": 0.89,
+        "probabilities": {
+          "send_to_team_queue": 0.93,
+          "decide_return_now": 0.05,
+          "log_for_quality_audit": 0.02
+        }
+      },
+      "staff_effort": {
+        "type": "score",
+        "score": 0.09,
+        "confidence": 0.87,
+        "legend": {
+          "0": "Routine and quick",
+          "1": "Needs some checking",
+          "2": "Needs careful manual work"
+        },
+        "probabilities": {
+          "0": 0.92,
+          "1": 0.07,
+          "2": 0.01
+        }
+      }
+    }
+  }
+}

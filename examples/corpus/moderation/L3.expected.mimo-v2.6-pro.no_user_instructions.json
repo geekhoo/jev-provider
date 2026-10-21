@@ -1,0 +1,36 @@
+{
+  "case": "moderation-L3",
+  "source": "mimo-v2.6-pro, blind",
+  "no_user_instructions": {
+    "answers": {
+      "offers_item_for_sale": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "post_action": {
+        "type": "choice",
+        "probabilities": {
+          "remove_post": 0.62,
+          "soft_hold": 0.12,
+          "leave_up": 0.06,
+          "escalate_trust_and_safety": 0.20
+        }
+      },
+      "scam_likelihood": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.03,
+          "2": 0.11,
+          "3": 0.35,
+          "4": 0.50
+        }
+      }
+    },
+    "reasons": {
+      "offers_item_for_sale": "The post explicitly offers followers for sale at $5 with payment terms.",
+      "post_action": "Buying/selling fake engagement with gift-card-only payment and no refunds is a classic scam pattern warranting removal, with some chance safety escalation is warranted.",
+      "scam_likelihood": "Gift-card-only payment, no refunds, brand-new low-follower account, and fake-follower sales are strong scam indicators, though the offer could be a non-scam spam vendor."
+    }
+  }
+}

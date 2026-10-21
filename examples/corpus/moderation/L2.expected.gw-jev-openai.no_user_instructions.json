@@ -1,0 +1,42 @@
+{
+  "case": "moderation-L2",
+  "source": "gateway route jev-openai",
+  "no_user_instructions": {
+    "answers": {
+      "insults_others_generally": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "moderation_action": {
+        "type": "choice",
+        "choice": "add_warning_label",
+        "confidence": 0.63,
+        "probabilities": {
+          "leave_up": 0.13,
+          "add_warning_label": 0.72,
+          "remove_post": 0.1,
+          "escalate_to_senior": 0.05
+        }
+      },
+      "rudeness_level": {
+        "type": "score",
+        "score": 2.71,
+        "confidence": 0.64,
+        "legend": {
+          "0": "Polite",
+          "1": "Blunt",
+          "2": "Mildly rude",
+          "3": "Rude",
+          "4": "Very rude"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.03,
+          "2": 0.27,
+          "3": 0.62,
+          "4": 0.07
+        }
+      }
+    }
+  }
+}

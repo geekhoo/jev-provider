@@ -1,0 +1,51 @@
+{
+  "case": "moderation-L4",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "no_user_instructions": {
+    "answers": {
+      "aimed_at_specific_person": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "penalty": {
+        "type": "choice",
+        "choice": "refer_to_senior_moderator",
+        "confidence": 0.93,
+        "probabilities": {
+          "no_action": 0.0,
+          "remove_comment_only": 0.0,
+          "private_warning": 0.03,
+          "public_warning_note": 0.0,
+          "mute_in_thread_24h": 0.01,
+          "three_day_suspension": 0.02,
+          "refer_to_senior_moderator": 0.94
+        }
+      },
+      "harassment_severity": {
+        "type": "score",
+        "score": 5.0,
+        "confidence": 0.78,
+        "legend": {
+          "0": "None",
+          "1": "Barely any",
+          "2": "Very mild",
+          "3": "Mild",
+          "4": "Mild to moderate",
+          "5": "Moderate",
+          "6": "Serious",
+          "7": "Severe"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.01,
+          "4": 0.19,
+          "5": 0.58,
+          "6": 0.21,
+          "7": 0.01
+        }
+      }
+    }
+  }
+}

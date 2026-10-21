@@ -1,0 +1,16 @@
+{
+  "case": "ecommerce-L2",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "window_exceeded": { "type": "noul", "noul": 0.95 },
+      "return_outcome": { "type": "choice", "probabilities": { "approve_refund": 0.30, "offer_store_credit": 0.20, "escalate_to_supervisor": 0.30, "decline_return": 0.20 } },
+      "goodwill_case_strength": { "type": "score", "probabilities": { "0": 0.05, "1": 0.15, "2": 0.35, "3": 0.30, "4": 0.15 } }
+    },
+    "reasons": {
+      "window_exceeded": "41 days since delivery exceeds the stated 30 day return window.",
+      "return_outcome": "No policy or risk guidance supplied, so outcomes are spread; escalation and refund slightly favored by unopened condition, gold tier and delivery delay.",
+      "goodwill_case_strength": "Unopened item and a plausible delay explanation support a moderate to strong case, but no policy basis exists for certainty."
+    }
+  }
+}

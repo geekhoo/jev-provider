@@ -1,0 +1,42 @@
+{
+  "case": "ecommerce-L2",
+  "source": "gateway route jev-mimo",
+  "no_user_instructions": {
+    "answers": {
+      "window_exceeded": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "return_outcome": {
+        "type": "choice",
+        "choice": "approve_refund",
+        "confidence": 0.12,
+        "probabilities": {
+          "approve_refund": 0.34,
+          "offer_store_credit": 0.28,
+          "escalate_to_supervisor": 0.26,
+          "decline_return": 0.12
+        }
+      },
+      "goodwill_case_strength": {
+        "type": "score",
+        "score": 2.49,
+        "confidence": 0.33,
+        "legend": {
+          "0": "No case",
+          "1": "Weak case",
+          "2": "Moderate case",
+          "3": "Strong case",
+          "4": "Very strong case"
+        },
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.33,
+          "3": 0.37,
+          "4": 0.15
+        }
+      }
+    }
+  }
+}

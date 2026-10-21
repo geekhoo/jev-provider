@@ -1,0 +1,38 @@
+{
+ "case": "payments-L3",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "sender_identity_checked": {
+    "type": "noul",
+    "noul": 0.9
+   },
+   "compliance_action": {
+    "type": "choice",
+    "probabilities": {
+     "release_transfer": 0.03,
+     "monitor_only": 0.05,
+     "request_information": 0.12,
+     "hold_for_enhanced_review": 0.55,
+     "file_suspicious_activity_report": 0.25
+    }
+   },
+   "pattern_suspicion": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.01,
+     "1": 0.03,
+     "2": 0.1,
+     "3": 0.26,
+     "4": 0.38,
+     "5": 0.22
+    }
+   }
+  },
+  "reasons": {
+   "sender_identity_checked": "Sender KYC status is 'verified' with a recorded verification date and no evidence of expiry or failure, so checks appear complete and valid.",
+   "compliance_action": "Four escalating transfers just under EUR 10,000 to a newly seen, unknown-relationship receiver look like threshold structuring, warranting an enhanced-review hold before deciding on a SAR.",
+   "pattern_suspicion": "Consecutive near-threshold amounts rising 9400 to 9800 to a receiver first seen days earlier with unknown relationship is a classic structuring pattern, pointing to Suspicious/Highly suspicious."
+  }
+ }
+}

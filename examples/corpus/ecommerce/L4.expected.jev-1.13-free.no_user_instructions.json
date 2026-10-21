@@ -1,0 +1,51 @@
+{
+  "case": "ecommerce-L4",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "no_user_instructions": {
+    "answers": {
+      "refund_claim_supported": {
+        "type": "noul",
+        "noul": 0.33
+      },
+      "claim_handling": {
+        "type": "choice",
+        "choice": "open_carrier_investigation",
+        "confidence": 0.65,
+        "probabilities": {
+          "refund_in_full_now": 0.01,
+          "refund_after_investigation": 0.22,
+          "open_carrier_investigation": 0.7,
+          "request_more_evidence": 0.06,
+          "send_replacement": 0.0,
+          "partial_goodwill_credit": 0.0,
+          "decline_claim": 0.01
+        }
+      },
+      "fraud_risk": {
+        "type": "score",
+        "score": 5.2,
+        "confidence": 0.58,
+        "legend": {
+          "0": "Almost certainly genuine",
+          "1": "Probably genuine",
+          "2": "Leaning genuine",
+          "3": "Leaning genuine, with doubts",
+          "4": "Evenly uncertain",
+          "5": "Leaning not genuine",
+          "6": "Probably not genuine",
+          "7": "Almost certainly not genuine"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.01,
+          "2": 0.02,
+          "3": 0.05,
+          "4": 0.07,
+          "5": 0.41,
+          "6": 0.43,
+          "7": 0.01
+        }
+      }
+    }
+  }
+}

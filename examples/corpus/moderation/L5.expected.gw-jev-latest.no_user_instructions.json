@@ -1,0 +1,59 @@
+{
+  "case": "moderation-L5",
+  "source": "gateway route jev-latest",
+  "no_user_instructions": {
+    "answers": {
+      "contains_personal_attack": {
+        "type": "noul",
+        "noul": 0.8
+      },
+      "moderation_action": {
+        "type": "choice",
+        "choice": "hide_pending_review",
+        "confidence": 0.28,
+        "probabilities": {
+          "leave_up_no_action": 0.02,
+          "leave_up_and_log": 0.1,
+          "ask_targeted_user_first": 0.05,
+          "hide_pending_review": 0.35,
+          "remove_comment": 0.05,
+          "remove_and_warn_author": 0.1,
+          "temporary_mute_author": 0.04,
+          "suspend_author": 0.01,
+          "ask_author_for_context": 0.05,
+          "route_to_senior_moderator": 0.2,
+          "dismiss_reports": 0.03
+        }
+      },
+      "classifier_agreement": {
+        "type": "score",
+        "score": 6.4,
+        "confidence": 0.5,
+        "legend": {
+          "0": "Total disagreement",
+          "1": "Strong disagreement",
+          "2": "Clear disagreement",
+          "3": "Some disagreement",
+          "4": "Slight disagreement",
+          "5": "Slight agreement",
+          "6": "Some agreement",
+          "7": "Clear agreement",
+          "8": "Strong agreement",
+          "9": "Total agreement"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.01,
+          "2": 0.02,
+          "3": 0.03,
+          "4": 0.05,
+          "5": 0.1,
+          "6": 0.22,
+          "7": 0.3,
+          "8": 0.2,
+          "9": 0.06
+        }
+      }
+    }
+  }
+}

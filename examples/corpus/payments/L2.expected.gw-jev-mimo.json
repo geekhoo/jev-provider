@@ -1,0 +1,42 @@
+{
+  "case": "payments-L2",
+  "source": "gateway route jev-mimo",
+  "with_user_instructions": {
+    "answers": {
+      "connection_differs_from_card": {
+        "type": "noul",
+        "noul": 1.0
+      },
+      "payment_action": {
+        "type": "choice",
+        "choice": "decline",
+        "confidence": 0.4,
+        "probabilities": {
+          "approve": 0.08,
+          "step_up_verification": 0.12,
+          "manual_review": 0.25,
+          "decline": 0.55
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "score": 2.85,
+        "confidence": 0.54,
+        "legend": {
+          "0": "Very weak",
+          "1": "Weak",
+          "2": "Moderate",
+          "3": "Strong",
+          "4": "Very strong"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.05,
+          "2": 0.22,
+          "3": 0.52,
+          "4": 0.2
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jev corpus results</title>
+<style>
+/* Layout: one column of cards, two-up when wide. Self-contained: no network, no libraries. */
+:root {
+  --bg: #f6f7f9; --panel: #ffffff; --fg: #1d2330; --muted: #5d6677; --line: #dde1e8;
+  --grid: #e9ecf1; --accent: #2f6fd6; --accent-2: #c2741d; --muted-bar: #b7c0cf; --bad: #c0392b;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #14171d; --panel: #1c2028; --fg: #e7eaf0; --muted: #9aa3b4; --line: #2e3440;
+    --grid: #262b35; --accent: #6ea2ff; --accent-2: #f0a35a; --muted-bar: #4b5466; --bad: #ff6b5b; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 var(--sans); }
+.wrap { max-width: 1200px; margin-inline: auto; padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 20px; }
+h1 { font-family: var(--serif); font-weight: 400; font-size: 2rem; margin: 0; text-wrap: balance; }
+h2 { font-size: 1.05rem; font-weight: 600; margin: 0; text-wrap: balance; }
+.lede { color: var(--muted); margin: 6px 0 0; max-width: 72ch; }
+.src { color: var(--muted); font-size: .8rem; margin: 6px 0 0; }
+.tiles { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+.card, .tile { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; min-width: 0; }
+.tile .k, .note { color: var(--muted); font-size: .8rem; }
+.tile .v { font-family: var(--serif); font-size: 2rem; font-variant-numeric: tabular-nums; margin-top: 4px; }
+.tile .v small { font-family: var(--sans); font-size: .85rem; color: var(--muted); }
+.tile .s { color: var(--muted); font-size: .8rem; margin-top: 2px; }
+.grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); }
+.note { margin: 4px 0 12px; }
+.chart { position: relative; min-height: 200px; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { fill: var(--muted); font: 12px var(--sans); font-variant-numeric: tabular-nums; }
+.chart text.lbl { fill: var(--fg); }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
+.seg button { font: inherit; font-size: .8rem; padding: 4px 10px; background: transparent; color: var(--muted); border: 0; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--bg); color: var(--fg); }
+.seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.tip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / .15); padding: 4px 8px; font-size: .78rem; white-space: nowrap; z-index: 2; }
+.tip .t { color: var(--muted); }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .82rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.num, th.num { text-align: right; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Jev corpus results</h1>
+    <p class="lede" id="takeaway"></p>
+    <p class="src">Data: examples/corpus (analyse.py --json, run logs) · generated 2026-10-21 from commit 6aebd97 · details in ANALYSIS.md</p>
+  </header>
+
+  <section class="tiles">
+    <div class="tile"><div class="k">Pairs sharing the top choice, with context</div><div class="v"><span id="k-with"></span> <small>of <span class="k-n"></span></small></div><div class="s">average over every pair of sets</div></div>
+    <div class="tile"><div class="k">Same, without context</div><div class="v"><span id="k-without"></span> <small>of <span class="k-n"></span></small></div><div class="s">user_instructions removed</div></div>
+    <div class="tile"><div class="k">Score spread, L1 → L5</div><div class="v"><span id="k-l1"></span> → <span id="k-l5"></span></div><div class="s">sd of the expected level across sets</div></div>
+    <div class="tile"><div class="k">Dependent answers flipped by context</div><div class="v"><span id="k-lo"></span>–<span id="k-hi"></span> <small>of <span class="k-n"></span></small></div><div class="s">range across the sets</div></div>
+  </section>
+
+  <section class="card">
+    <h2>Context makes the sets agree</h2>
+    <p class="note">How often two sets pick the same top Choice option across the cases. Darker means more agreement.</p>
+    <div class="seg" role="group" aria-label="Variant">
+      <button type="button" id="v-ui" aria-pressed="true">With user_instructions</button>
+      <button type="button" id="v-noui" aria-pressed="false">Without</button>
+    </div>
+    <div class="chart" id="heat"></div>
+  </section>
+
+  <section class="grid">
+    <div class="card"><h2>Decisions hold up; scores spread</h2>
+      <p class="note">By complexity level: share of top choices matching the consensus (bars, left axis) and how far apart the sets place Score answers (line, right axis).</p>
+      <div class="chart" id="lv"></div></div>
+    <div class="card"><h2>Every set reacts to context</h2>
+      <p class="note">Cases where removing user_instructions changes the top choice of the question built to depend on them.</p>
+      <div class="chart" id="fl"></div></div>
+  </section>
+
+  <section class="grid">
+    <div class="card"><h2>Confidence varies more than decisions</h2>
+      <p class="note">Mean Choice confidence against distance from the consensus distribution. Right means surer; up means further from the group.</p>
+      <div class="chart" id="sc"></div></div>
+    <div class="card"><h2>Latency per call</h2>
+      <p class="note">Median (bar) and 90th percentile (tick), for the sets that went over the network. Seconds.</p>
+      <div class="chart" id="lt"></div></div>
+  </section>
+
+  <section class="card">
+    <h2>Where the sets split</h2>
+    <p class="note">Cases where the sets do not all agree on the context-dependent question; every other case is unanimous.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Case</th><th>Majority answer</th><th class="num">Sets</th><th>Different answers</th></tr></thead>
+      <tbody id="splits"></tbody>
+    </table></div>
+  </section>
+</div>
+
+<script type="application/json" id="data">{"profile":[{"set":"opus","model":"Claude Opus 5.5","path":"Subagent, gateway prompt","top_ui":23,"top_noui":16,"cases":25,"choice_tv":0.106,"score_dist":0.177,"noul_dist":0.016,"conf_choice":0.549,"conf_score":0.534,"flips":14,"p50_s":null,"p90_s":null,"max_s":null,"answers_ok":null},{"set":"luna","model":"gpt-6-luna","path":"Own harness","top_ui":25,"top_noui":16,"cases":25,"choice_tv":0.182,"score_dist":0.224,"noul_dist":0.039,"conf_choice":0.779,"conf_score":0.66,"flips":12,"p50_s":null,"p90_s":null,"max_s":null,"answers_ok":null},{"set":"mimo","model":"mimo-v2.6-pro","path":"Own harness","top_ui":24,"top_noui":19,"cases":25,"choice_tv":0.117,"score_dist":0.163,"noul_dist":0.015,"conf_choice":0.543,"conf_score":0.487,"flips":12,"p50_s":null,"p90_s":null,"max_s":null,"answers_ok":null},{"set":"deepseek","model":"zen/deepseek-v4.1-flash","path":"Own harness","top_ui":22,"top_noui":17,"cases":25,"choice_tv":0.149,"score_dist":0.352,"noul_dist":0.037,"conf_choice":0.522,"conf_score":0.463,"flips":11,"p50_s":null,"p90_s":null,"max_s":null,"answers_ok":null},{"set":"jev","model":"jev-1.13-free (official)","path":"LiteLLM /v1/systemone","top_ui":21,"top_noui":22,"cases":25,"choice_tv":0.25,"score_dist":0.465,"noul_dist":0.051,"conf_choice":0.717,"conf_score":0.718,"flips":10,"p50_s":0.61,"p90_s":0.8,"max_s":1.1,"answers_ok":50},{"set":"gw-deep","model":"claude-sonnet-5-5","path":"Gateway route","top_ui":19,"top_noui":19,"cases":25,"choice_tv":0.163,"score_dist":0.221,"noul_dist":0.025,"conf_choice":0.521,"conf_score":0.486,"flips":12,"p50_s":3.31,"p90_s":4.62,"max_s":10.02,"answers_ok":50},{"set":"gw-latest","model":"claude-haiku-5-5","path":"Gateway route","top_ui":23,"top_noui":19,"cases":25,"choice_tv":0.15,"score_dist":0.244,"noul_dist":0.035,"conf_choice":0.462,"conf_score":0.476,"flips":11,"p50_s":8.68,"p90_s":13.17,"max_s":15.75,"answers_ok":50},{"set":"gw-mimo","model":"mimo-v2.6-pro","path":"Gateway route","top_ui":23,"top_noui":17,"cases":25,"choice_tv":0.115,"score_dist":0.156,"noul_dist":0.015,"conf_choice":0.55,"conf_score":0.532,"flips":13,"p50_s":11.66,"p90_s":23.38,"max_s":44.98,"answers_ok":50},{"set":"gw-openai","model":"zen/gpt-6-luna","path":"Gateway route","top_ui":23,"top_noui":18,"cases":25,"choice_tv":0.165,"score_dist":0.267,"noul_dist":0.037,"conf_choice":0.74,"conf_score":0.594,"flips":13,"p50_s":7.93,"p90_s":16.56,"max_s":34.06,"answers_ok":50},{"set":"gw-openai-deep","model":"zen/gpt-6.1-sol","path":"Gateway route","top_ui":24,"top_noui":20,"cases":25,"choice_tv":0.213,"score_dist":0.34,"noul_dist":0.061,"conf_choice":0.832,"conf_score":0.643,"flips":11,"p50_s":6.67,"p90_s":10.01,"max_s":14.19,"answers_ok":50}],"pairs":[{"a":"opus","b":"luna","with_ui":23,"without_ui":12,"cases":25},{"a":"opus","b":"mimo","with_ui":22,"without_ui":17,"cases":25},{"a":"opus","b":"deepseek","with_ui":20,"without_ui":13,"cases":25},{"a":"opus","b":"jev","with_ui":19,"without_ui":17,"cases":25},{"a":"opus","b":"gw-deep","with_ui":20,"without_ui":18,"cases":25},{"a":"opus","b":"gw-latest","with_ui":23,"without_ui":15,"cases":25},{"a":"opus","b":"gw-mimo","with_ui":23,"without_ui":17,"cases":25},{"a":"opus","b":"gw-openai","with_ui":22,"without_ui":14,"cases":25},{"a":"opus","b":"gw-openai-deep","with_ui":22,"without_ui":15,"cases":25},{"a":"luna","b":"opus","with_ui":23,"without_ui":12,"cases":25},{"a":"luna","b":"mimo","with_ui":24,"without_ui":12,"cases":25},{"a":"luna","b":"deepseek","with_ui":22,"without_ui":14,"cases":25},{"a":"luna","b":"jev","with_ui":21,"without_ui":17,"cases":25},{"a":"luna","b":"gw-deep","with_ui":19,"without_ui":16,"cases":25},{"a":"luna","b":"gw-latest","with_ui":23,"without_ui":14,"cases":25},{"a":"luna","b":"gw-mimo","with_ui":23,"without_ui":9,"cases":25},{"a":"luna","b":"gw-openai","with_ui":23,"without_ui":16,"cases":25},{"a":"luna","b":"gw-openai-deep","with_ui":24,"without_ui":18,"cases":25},{"a":"mimo","b":"opus","with_ui":22,"without_ui":17,"cases":25},{"a":"mimo","b":"luna","with_ui":24,"without_ui":12,"cases":25},{"a":"mimo","b":"deepseek","with_ui":22,"without_ui":15,"cases":25},{"a":"mimo","b":"jev","with_ui":20,"without_ui":18,"cases":25},{"a":"mimo","b":"gw-deep","with_ui":18,"without_ui":16,"cases":25},{"a":"mimo","b":"gw-latest","with_ui":22,"without_ui":18,"cases":25},{"a":"mimo","b":"gw-mimo","with_ui":24,"without_ui":18,"cases":25},{"a":"mimo","b":"gw-openai","with_ui":22,"without_ui":17,"cases":25},{"a":"mimo","b":"gw-openai-deep","with_ui":23,"without_ui":15,"cases":25},{"a":"deepseek","b":"opus","with_ui":20,"without_ui":13,"cases":25},{"a":"deepseek","b":"luna","with_ui":22,"without_ui":14,"cases":25},{"a":"deepseek","b":"mimo","with_ui":22,"without_ui":15,"cases":25},{"a":"deepseek","b":"jev","with_ui":18,"without_ui":15,"cases":25},{"a":"deepseek","b":"gw-deep","with_ui":18,"without_ui":16,"cases":25},{"a":"deepseek","b":"gw-latest","with_ui":20,"without_ui":15,"cases":25},{"a":"deepseek","b":"gw-mimo","with_ui":21,"without_ui":14,"cases":25},{"a":"deepseek","b":"gw-openai","with_ui":20,"without_ui":16,"cases":25},{"a":"deepseek","b":"gw-openai-deep","with_ui":21,"without_ui":14,"cases":25},{"a":"jev","b":"opus","with_ui":19,"without_ui":17,"cases":25},{"a":"jev","b":"luna","with_ui":21,"without_ui":17,"cases":25},{"a":"jev","b":"mimo","with_ui":20,"without_ui":18,"cases":25},{"a":"jev","b":"deepseek","with_ui":18,"without_ui":15,"cases":25},{"a":"jev","b":"gw-deep","with_ui":19,"without_ui":19,"cases":25},{"a":"jev","b":"gw-latest","with_ui":21,"without_ui":17,"cases":25},{"a":"jev","b":"gw-mimo","with_ui":19,"without_ui":16,"cases":25},{"a":"jev","b":"gw-openai","with_ui":19,"without_ui":19,"cases":25},{"a":"jev","b":"gw-openai-deep","with_ui":20,"without_ui":19,"cases":25},{"a":"gw-deep","b":"opus","with_ui":20,"without_ui":18,"cases":25},{"a":"gw-deep","b":"luna","with_ui":19,"without_ui":16,"cases":25},{"a":"gw-deep","b":"mimo","with_ui":18,"without_ui":16,"cases":25},{"a":"gw-deep","b":"deepseek","with_ui":18,"without_ui":16,"cases":25},{"a":"gw-deep","b":"jev","with_ui":19,"without_ui":19,"cases":25},{"a":"gw-deep","b":"gw-latest","with_ui":20,"without_ui":15,"cases":25},{"a":"gw-deep","b":"gw-mimo","with_ui":19,"without_ui":12,"cases":25},{"a":"gw-deep","b":"gw-openai","with_ui":19,"without_ui":17,"cases":25},{"a":"gw-deep","b":"gw-openai-deep","with_ui":20,"without_ui":17,"cases":25},{"a":"gw-latest","b":"opus","with_ui":23,"without_ui":15,"cases":25},{"a":"gw-latest","b":"luna","with_ui":23,"without_ui":14,"cases":25},{"a":"gw-latest","b":"mimo","with_ui":22,"without_ui":18,"cases":25},{"a":"gw-latest","b":"deepseek","with_ui":20,"without_ui":15,"cases":25},{"a":"gw-latest","b":"jev","with_ui":21,"without_ui":17,"cases":25},{"a":"gw-latest","b":"gw-deep","with_ui":20,"without_ui":15,"cases":25},{"a":"gw-latest","b":"gw-mimo","with_ui":21,"without_ui":16,"cases":25},{"a":"gw-latest","b":"gw-openai","with_ui":21,"without_ui":16,"cases":25},{"a":"gw-latest","b":"gw-openai-deep","with_ui":22,"without_ui":16,"cases":25},{"a":"gw-mimo","b":"opus","with_ui":23,"without_ui":17,"cases":25},{"a":"gw-mimo","b":"luna","with_ui":23,"without_ui":9,"cases":25},{"a":"gw-mimo","b":"mimo","with_ui":24,"without_ui":18,"cases":25},{"a":"gw-mimo","b":"deepseek","with_ui":21,"without_ui":14,"cases":25},{"a":"gw-mimo","b":"jev","with_ui":19,"without_ui":16,"cases":25},{"a":"gw-mimo","b":"gw-deep","with_ui":19,"without_ui":12,"cases":25},{"a":"gw-mimo","b":"gw-latest","with_ui":21,"without_ui":16,"cases":25},{"a":"gw-mimo","b":"gw-openai","with_ui":22,"without_ui":15,"cases":25},{"a":"gw-mimo","b":"gw-openai-deep","with_ui":22,"without_ui":13,"cases":25},{"a":"gw-openai","b":"opus","with_ui":22,"without_ui":14,"cases":25},{"a":"gw-openai","b":"luna","with_ui":23,"without_ui":16,"cases":25},{"a":"gw-openai","b":"mimo","with_ui":22,"without_ui":17,"cases":25},{"a":"gw-openai","b":"deepseek","with_ui":20,"without_ui":16,"cases":25},{"a":"gw-openai","b":"jev","with_ui":19,"without_ui":19,"cases":25},{"a":"gw-openai","b":"gw-deep","with_ui":19,"without_ui":17,"cases":25},{"a":"gw-openai","b":"gw-latest","with_ui":21,"without_ui":16,"cases":25},{"a":"gw-openai","b":"gw-mimo","with_ui":22,"without_ui":15,"cases":25},{"a":"gw-openai","b":"gw-openai-deep","with_ui":23,"without_ui":17,"cases":25},{"a":"gw-openai-deep","b":"opus","with_ui":22,"without_ui":15,"cases":25},{"a":"gw-openai-deep","b":"luna","with_ui":24,"without_ui":18,"cases":25},{"a":"gw-openai-deep","b":"mimo","with_ui":23,"without_ui":15,"cases":25},{"a":"gw-openai-deep","b":"deepseek","with_ui":21,"without_ui":14,"cases":25},{"a":"gw-openai-deep","b":"jev","with_ui":20,"without_ui":19,"cases":25},{"a":"gw-openai-deep","b":"gw-deep","with_ui":20,"without_ui":17,"cases":25},{"a":"gw-openai-deep","b":"gw-latest","with_ui":22,"without_ui":16,"cases":25},{"a":"gw-openai-deep","b":"gw-mimo","with_ui":22,"without_ui":13,"cases":25},{"a":"gw-openai-deep","b":"gw-openai","with_ui":23,"without_ui":17,"cases":25}],"levels":[{"level":"L1","top_match_rate":0.9,"score_spread":0.105,"noul_spread":0.015},{"level":"L2","top_match_rate":0.76,"score_spread":0.281,"noul_spread":0.024},{"level":"L3","top_match_rate":0.96,"score_spread":0.301,"noul_spread":0.042},{"level":"L4","top_match_rate":0.98,"score_spread":0.462,"noul_spread":0.087},{"level":"L5","top_match_rate":0.94,"score_spread":0.592,"noul_spread":0.051}],"dependent":[{"case":"ecommerce-L1","question":"handling_mode","majority":"send_to_team_queue","majority_n":7,"opus":"send_to_team_queue","luna":"send_to_team_queue","mimo":"send_to_team_queue","deepseek":"send_to_team_queue","jev":"decide_return_now","gw-deep":"decide_return_now","gw-latest":"decide_return_now","gw-mimo":"send_to_team_queue","gw-openai":"send_to_team_queue","gw-openai-deep":"send_to_team_queue"},{"case":"ecommerce-L2","question":"return_outcome","majority":"approve_refund","majority_n":7,"opus":"escalate_to_supervisor","luna":"approve_refund","mimo":"approve_refund","deepseek":"approve_refund","jev":"approve_refund","gw-deep":"offer_store_credit","gw-latest":"escalate_to_supervisor","gw-mimo":"approve_refund","gw-openai":"approve_refund","gw-openai-deep":"approve_refund"},{"case":"ecommerce-L3","question":"resolution","majority":"decline","majority_n":10,"opus":"decline","luna":"decline","mimo":"decline","deepseek":"decline","jev":"decline","gw-deep":"decline","gw-latest":"decline","gw-mimo":"decline","gw-openai":"decline","gw-openai-deep":"decline"},{"case":"ecommerce-L4","question":"claim_handling","majority":"open_carrier_investigation","majority_n":9,"opus":"open_carrier_investigation","luna":"open_carrier_investigation","mimo":"open_carrier_investigation","deepseek":"refund_after_investigation","jev":"open_carrier_investigation","gw-deep":"open_carrier_investigation","gw-latest":"open_carrier_investigation","gw-mimo":"open_carrier_investigation","gw-openai":"open_carrier_investigation","gw-openai-deep":"open_carrier_investigation"},{"case":"ecommerce-L5","question":"next_action","majority":"hold_for_warehouse_audit","majority_n":10,"opus":"hold_for_warehouse_audit","luna":"hold_for_warehouse_audit","mimo":"hold_for_warehouse_audit","deepseek":"hold_for_warehouse_audit","jev":"hold_for_warehouse_audit","gw-deep":"hold_for_warehouse_audit","gw-latest":"hold_for_warehouse_audit","gw-mimo":"hold_for_warehouse_audit","gw-openai":"hold_for_warehouse_audit","gw-openai-deep":"hold_for_warehouse_audit"},{"case":"insurance-L1","question":"handling_mode","majority":"score_claim_complexity","majority_n":9,"opus":"score_claim_complexity","luna":"score_claim_complexity","mimo":"score_claim_complexity","deepseek":"score_claim_complexity","jev":"gate_payment","gw-deep":"score_claim_complexity","gw-latest":"score_claim_complexity","gw-mimo":"score_claim_complexity","gw-openai":"score_claim_complexity","gw-openai-deep":"score_claim_complexity"},{"case":"insurance-L2","question":"claim_route","majority":"standard_adjuster","majority_n":10,"opus":"standard_adjuster","luna":"standard_adjuster","mimo":"standard_adjuster","deepseek":"standard_adjuster","jev":"standard_adjuster","gw-deep":"standard_adjuster","gw-latest":"standard_adjuster","gw-mimo":"standard_adjuster","gw-openai":"standard_adjuster","gw-openai-deep":"standard_adjuster"},{"case":"insurance-L3","question":"settlement_path","majority":"total_loss","majority_n":8,"opus":"total_loss","luna":"total_loss","mimo":"total_loss","deepseek":"total_loss","jev":"repair","gw-deep":"repair","gw-latest":"total_loss","gw-mimo":"total_loss","gw-openai":"total_loss","gw-openai-deep":"total_loss"},{"case":"insurance-L4","question":"claim_status","majority":"request_missing_evidence","majority_n":10,"opus":"request_missing_evidence","luna":"request_missing_evidence","mimo":"request_missing_evidence","deepseek":"request_missing_evidence","jev":"request_missing_evidence","gw-deep":"request_missing_evidence","gw-latest":"request_missing_evidence","gw-mimo":"request_missing_evidence","gw-openai":"request_missing_evidence","gw-openai-deep":"request_missing_evidence"},{"case":"insurance-L5","question":"claim_decision","majority":"refer_equipment_part_to_siu","majority_n":7,"opus":"refer_equipment_part_to_siu","luna":"refer_equipment_part_to_siu","mimo":"refer_equipment_part_to_siu","deepseek":"refer_equipment_part_to_siu","jev":"refer_equipment_part_to_siu","gw-deep":"refer_to_special_investigations","gw-latest":"refer_equipment_part_to_siu","gw-mimo":"refer_equipment_part_to_siu","gw-openai":"pay_building_advance_only","gw-openai-deep":"refer_to_special_investigations"},{"case":"it_ops-L1","question":"handling_mode","majority":"label_incident_type","majority_n":10,"opus":"label_incident_type","luna":"label_incident_type","mimo":"label_incident_type","deepseek":"label_incident_type","jev":"label_incident_type","gw-deep":"label_incident_type","gw-latest":"label_incident_type","gw-mimo":"label_incident_type","gw-openai":"label_incident_type","gw-openai-deep":"label_incident_type"},{"case":"it_ops-L2","question":"page_decision","majority":"page_now","majority_n":6,"opus":"ticket_for_morning","luna":"page_now","mimo":"page_now","deepseek":"page_now","jev":"page_now","gw-deep":"ticket_for_morning","gw-latest":"page_now","gw-mimo":"ticket_for_morning","gw-openai":"auto_cleanup_job","gw-openai-deep":"page_now"},{"case":"it_ops-L3","question":"next_action","majority":"roll_back_deploy","majority_n":10,"opus":"roll_back_deploy","luna":"roll_back_deploy","mimo":"roll_back_deploy","deepseek":"roll_back_deploy","jev":"roll_back_deploy","gw-deep":"roll_back_deploy","gw-latest":"roll_back_deploy","gw-mimo":"roll_back_deploy","gw-openai":"roll_back_deploy","gw-openai-deep":"roll_back_deploy"},{"case":"it_ops-L4","question":"change_decision","majority":"reschedule_to_quiet_window","majority_n":10,"opus":"reschedule_to_quiet_window","luna":"reschedule_to_quiet_window","mimo":"reschedule_to_quiet_window","deepseek":"reschedule_to_quiet_window","jev":"reschedule_to_quiet_window","gw-deep":"reschedule_to_quiet_window","gw-latest":"reschedule_to_quiet_window","gw-mimo":"reschedule_to_quiet_window","gw-openai":"reschedule_to_quiet_window","gw-openai-deep":"reschedule_to_quiet_window"},{"case":"it_ops-L5","question":"response_plan","majority":"declare_sev1_page_commander","majority_n":10,"opus":"declare_sev1_page_commander","luna":"declare_sev1_page_commander","mimo":"declare_sev1_page_commander","deepseek":"declare_sev1_page_commander","jev":"declare_sev1_page_commander","gw-deep":"declare_sev1_page_commander","gw-latest":"declare_sev1_page_commander","gw-mimo":"declare_sev1_page_commander","gw-openai":"declare_sev1_page_commander","gw-openai-deep":"declare_sev1_page_commander"},{"case":"moderation-L1","question":"handling_mode","majority":"audit_for_quality","majority_n":9,"opus":"audit_for_quality","luna":"audit_for_quality","mimo":"audit_for_quality","deepseek":"audit_for_quality","jev":"remove_or_keep_now","gw-deep":"audit_for_quality","gw-latest":"audit_for_quality","gw-mimo":"audit_for_quality","gw-openai":"audit_for_quality","gw-openai-deep":"audit_for_quality"},{"case":"moderation-L2","question":"moderation_action","majority":"add_warning_label","majority_n":8,"opus":"add_warning_label","luna":"add_warning_label","mimo":"add_warning_label","deepseek":"leave_up","jev":"add_warning_label","gw-deep":"leave_up","gw-latest":"add_warning_label","gw-mimo":"add_warning_label","gw-openai":"add_warning_label","gw-openai-deep":"add_warning_label"},{"case":"moderation-L3","question":"post_action","majority":"soft_hold","majority_n":10,"opus":"soft_hold","luna":"soft_hold","mimo":"soft_hold","deepseek":"soft_hold","jev":"soft_hold","gw-deep":"soft_hold","gw-latest":"soft_hold","gw-mimo":"soft_hold","gw-openai":"soft_hold","gw-openai-deep":"soft_hold"},{"case":"moderation-L4","question":"penalty","majority":"private_warning","majority_n":10,"opus":"private_warning","luna":"private_warning","mimo":"private_warning","deepseek":"private_warning","jev":"private_warning","gw-deep":"private_warning","gw-latest":"private_warning","gw-mimo":"private_warning","gw-openai":"private_warning","gw-openai-deep":"private_warning"},{"case":"moderation-L5","question":"moderation_action","majority":"ask_targeted_user_first","majority_n":10,"opus":"ask_targeted_user_first","luna":"ask_targeted_user_first","mimo":"ask_targeted_user_first","deepseek":"ask_targeted_user_first","jev":"ask_targeted_user_first","gw-deep":"ask_targeted_user_first","gw-latest":"ask_targeted_user_first","gw-mimo":"ask_targeted_user_first","gw-openai":"ask_targeted_user_first","gw-openai-deep":"ask_targeted_user_first"},{"case":"payments-L1","question":"handling_mode","majority":"approve_or_decline_now","majority_n":10,"opus":"approve_or_decline_now","luna":"approve_or_decline_now","mimo":"approve_or_decline_now","deepseek":"approve_or_decline_now","jev":"approve_or_decline_now","gw-deep":"approve_or_decline_now","gw-latest":"approve_or_decline_now","gw-mimo":"approve_or_decline_now","gw-openai":"approve_or_decline_now","gw-openai-deep":"approve_or_decline_now"},{"case":"payments-L2","question":"payment_action","majority":"step_up_verification","majority_n":7,"opus":"step_up_verification","luna":"step_up_verification","mimo":"decline","deepseek":"manual_review","jev":"step_up_verification","gw-deep":"step_up_verification","gw-latest":"step_up_verification","gw-mimo":"decline","gw-openai":"step_up_verification","gw-openai-deep":"step_up_verification"},{"case":"payments-L3","question":"compliance_action","majority":"hold_for_enhanced_review","majority_n":10,"opus":"hold_for_enhanced_review","luna":"hold_for_enhanced_review","mimo":"hold_for_enhanced_review","deepseek":"hold_for_enhanced_review","jev":"hold_for_enhanced_review","gw-deep":"hold_for_enhanced_review","gw-latest":"hold_for_enhanced_review","gw-mimo":"hold_for_enhanced_review","gw-openai":"hold_for_enhanced_review","gw-openai-deep":"hold_for_enhanced_review"},{"case":"payments-L4","question":"dispute_outcome","majority":"senior_analyst_review","majority_n":10,"opus":"senior_analyst_review","luna":"senior_analyst_review","mimo":"senior_analyst_review","deepseek":"senior_analyst_review","jev":"senior_analyst_review","gw-deep":"senior_analyst_review","gw-latest":"senior_analyst_review","gw-mimo":"senior_analyst_review","gw-openai":"senior_analyst_review","gw-openai-deep":"senior_analyst_review"},{"case":"payments-L5","question":"onboarding_action","majority":"route_to_sanctions_analyst","majority_n":10,"opus":"route_to_sanctions_analyst","luna":"route_to_sanctions_analyst","mimo":"route_to_sanctions_analyst","deepseek":"route_to_sanctions_analyst","jev":"route_to_sanctions_analyst","gw-deep":"route_to_sanctions_analyst","gw-latest":"route_to_sanctions_analyst","gw-mimo":"route_to_sanctions_analyst","gw-openai":"route_to_sanctions_analyst","gw-openai-deep":"route_to_sanctions_analyst"}]}</script>
+<script>
+(function () {
+  const D = JSON.parse(document.getElementById('data').textContent);
+  const { profile, pairs, levels, dependent } = D;
+  const NS = 'http://www.w3.org/2000/svg';
+  const f1 = (v) => v.toFixed(1), f2 = (v) => v.toFixed(2), pct = (v) => Math.round(v * 100) + '%';
+  const mean = (a) => a.reduce((s, x) => s + x, 0) / a.length;
+  const cssVar = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+  // ---- small SVG helpers (replace d3) ----
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const txt = (s, attrs, parent) => { const e = el('text', attrs, parent); e.textContent = s; return e; };
+  const linear = (d0, d1, r0, r1) => (v) => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+  const ticks = (lo, hi, n) => { const step = Math.pow(10, Math.floor(Math.log10((hi - lo) / n))); const err = (hi - lo) / n / step;
+    const s = step * (err >= 5 ? 10 : err >= 2 ? 5 : err >= 1.5 ? 2 : 1); const out = []; for (let v = Math.ceil(lo / s) * s; v <= hi + 1e-9; v += s) out.push(+v.toFixed(10)); return out; };
+  const svgIn = (box, w, h) => { box.querySelectorAll('svg').forEach(s => s.remove()); return el('svg', { viewBox: `0 0 ${w} ${h}` }, box); };
+  const measure = (svg, strs, cls) => { const t = txt('', { class: cls || 'lbl' }, svg); let w = 0; strs.forEach(s => { t.textContent = s; w = Math.max(w, t.getComputedTextLength()); }); t.remove(); return w; };
+  const hexRgb = (c) => { const p = document.createElement('span'); p.style.color = c; document.body.appendChild(p); const m = getComputedStyle(p).color.match(/\d+(\.\d+)?/g).map(Number); p.remove(); return m; };
+  const mix = (a, b, t) => `rgb(${a.map((x, i) => Math.round(x + (b[i] - x) * t)).join(',')})`;
+
+  function tip(box) {
+    let t = box.querySelector('.tip');
+    if (!t) { t = document.createElement('div'); t.className = 'tip'; t.hidden = true; box.appendChild(t); }
+    return {
+      on(node, head, line) {
+        node.addEventListener('mousemove', (ev) => {
+          t.replaceChildren(); const a = document.createElement('div'); a.className = 't'; a.textContent = head;
+          const b = document.createElement('div'); b.textContent = line; t.append(a, b); t.hidden = false;
+          const r = box.getBoundingClientRect(); let x = ev.clientX - r.left + 12;
+          if (x + t.offsetWidth > r.width) x = ev.clientX - r.left - t.offsetWidth - 12;
+          t.style.left = Math.max(0, x) + 'px'; t.style.top = (ev.clientY - r.top + 12) + 'px';
+        });
+        node.addEventListener('mouseleave', () => { t.hidden = true; });
+      }
+    };
+  }
+
+  // ---- headline numbers (same calcs as the dashboard) ----
+  const N = profile[0].cases;
+  const withUi = Math.round(mean(pairs.map(p => p.with_ui)) * 10) / 10;
+  const withoutUi = Math.round(mean(pairs.map(p => p.without_ui)) * 10) / 10;
+  const L1 = levels.find(l => l.level === 'L1'), L5 = levels.find(l => l.level === 'L5');
+  const flips = profile.map(p => p.flips);
+  document.querySelectorAll('.k-n').forEach(e => e.textContent = N);
+  document.getElementById('k-with').textContent = f1(withUi);
+  document.getElementById('k-without').textContent = f1(withoutUi);
+  document.getElementById('k-l1').textContent = f2(L1.score_spread);
+  document.getElementById('k-l5').textContent = f2(L5.score_spread);
+  document.getElementById('k-lo').textContent = Math.min(...flips);
+  document.getElementById('k-hi').textContent = Math.max(...flips);
+  document.getElementById('takeaway').textContent =
+    `${profile.length} answer sets on ${N} decision cases, each answered with and without user_instructions. ` +
+    `With them, two sets share the top choice in ${f1(withUi)} of ${N} cases on average; without them, ${f1(withoutUi)}. ` +
+    `Harder cases keep the decisions but spread the scores: ${f2(L1.score_spread)} levels apart at L1, ${f2(L5.score_spread)} at L5.`;
+
+  // ---- split cases table ----
+  const sets = profile.map(p => p.set);
+  const body = document.getElementById('splits');
+  dependent.filter(r => r.majority_n < sets.length).sort((a, b) => a.majority_n - b.majority_n).forEach(r => {
+    const tr = document.createElement('tr');
+    const others = sets.filter(s => r[s] && r[s] !== r.majority).map(s => s + ': ' + r[s]).join('; ');
+    [r.case, r.majority, r.majority_n, others].forEach((v, i) => { const td = document.createElement('td'); td.textContent = v; if (i === 2) td.className = 'num'; tr.appendChild(td); });
+    body.appendChild(tr);
+  });
+
+  let variant = 'ui';
+
+  function heatmap() {
+    const box = document.getElementById('heat'), W = Math.max(320, box.clientWidth);
+    let svg = svgIn(box, W, 100); const lw = measure(svg, sets) + 8;
+    const cell = Math.max(18, Math.min(46, (W - lw - 4) / sets.length)), size = lw + cell * sets.length + 4;
+    svg = svgIn(box, size, size);
+    const key = variant === 'ui' ? 'with_ui' : 'without_ui';
+    const lo = hexRgb(cssVar('--bg')), hi = hexRgb(cssVar('--accent'));
+    const color = (v) => mix(lo, hi, Math.max(0, Math.min(1, (v - 9) / 16)));
+    const map = new Map(pairs.map(p => [p.a + '|' + p.b, p])); const tt = tip(box);
+    sets.forEach((a, i) => {
+      txt(a, { class: 'lbl', x: lw - 6, y: lw + i * cell + cell / 2, dy: '0.35em', 'text-anchor': 'end' }, svg);
+      txt(a, { class: 'lbl', transform: `translate(${lw + i * cell + cell / 2},${lw - 6}) rotate(-60)` }, svg);
+      sets.forEach((b, j) => {
+        const x = lw + j * cell + 1, y = lw + i * cell + 1;
+        if (a === b) { el('rect', { x, y, width: cell - 2, height: cell - 2, rx: 3, fill: cssVar('--line') }, svg); return; }
+        const p = map.get(a + '|' + b); if (!p) return;
+        const r = el('rect', { x, y, width: cell - 2, height: cell - 2, rx: 3, fill: color(p[key]) }, svg);
+        tt.on(r, `${a} and ${b}`, `${p[key]} of ${p.cases} same top choice`);
+        if (cell >= 26) { const t = txt(String(p[key]), { x: x + cell / 2 - 1, y: y + cell / 2 - 1, dy: '0.35em', 'text-anchor': 'middle' }, svg);
+          t.style.fill = p[key] >= 19 ? cssVar('--bg') : cssVar('--fg'); t.style.pointerEvents = 'none'; }
+      });
+    });
+  }
+
+  function levelsChart() {
+    const box = document.getElementById('lv'), W = Math.max(300, box.clientWidth), H = 220, m = { t: 12, r: 44, b: 26, l: 44 };
+    const svg = svgIn(box, W, H); const tt = tip(box);
+    const band = (W - m.l - m.r) / levels.length, bw = band * 0.62;
+    const y = linear(0, 1, H - m.b, m.t), smax = Math.max(0.6, ...levels.map(l => l.score_spread)), y2 = linear(0, smax, H - m.b, m.t);
+    ticks(0, 1, 4).forEach(v => { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), stroke: cssVar('--grid') }, svg); txt(pct(v), { x: m.l - 6, y: y(v), dy: '0.35em', 'text-anchor': 'end' }, svg); });
+    ticks(0, smax, 4).forEach(v => txt(f1(v), { x: W - m.r + 6, y: y2(v), dy: '0.35em' }, svg));
+    el('line', { x1: m.l, x2: W - m.r, y1: H - m.b, y2: H - m.b, stroke: cssVar('--muted-bar') }, svg);
+    const pts = [];
+    levels.forEach((l, i) => {
+      const cx = m.l + band * i + band / 2;
+      const r = el('rect', { x: cx - bw / 2, y: y(l.top_match_rate), width: bw, height: y(0) - y(l.top_match_rate), rx: 4, fill: l.level === 'L2' ? cssVar('--accent-2') : cssVar('--muted-bar') }, svg);
+      tt.on(r, l.level, `${pct(l.top_match_rate)} tops match · score spread ${f2(l.score_spread)}`);
+      txt(l.level, { x: cx, y: H - m.b + 16, 'text-anchor': 'middle' }, svg);
+      pts.push([cx, y2(l.score_spread)]);
+    });
+    el('path', { d: 'M' + pts.map(p => p.join(',')).join('L'), fill: 'none', stroke: cssVar('--accent'), 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, svg);
+    pts.forEach(p => el('circle', { cx: p[0], cy: p[1], r: 3.5, fill: cssVar('--accent') }, svg));
+  }
+
+  function hbars(id, rows, value, label, max, valText, extra) {
+    const box = document.getElementById(id), W = Math.max(300, box.clientWidth), row = 24, m = { t: 4, r: 44, b: 22 };
+    let svg = svgIn(box, W, 100); const l = measure(svg, rows.map(r => r.set)) + 10, H = m.t + rows.length * row + m.b;
+    svg = svgIn(box, W, H); const tt = tip(box);
+    const x = linear(0, max, l, W - m.r);
+    ticks(0, max, 5).forEach(v => { el('line', { x1: x(v), x2: x(v), y1: m.t, y2: H - m.b, stroke: cssVar('--grid') }, svg); txt(String(v), { x: x(v), y: H - 6, 'text-anchor': 'middle' }, svg); });
+    rows.forEach((r, i) => {
+      const yy = m.t + i * row + 4, h = row - 8;
+      txt(r.set, { class: 'lbl', x: l - 6, y: yy + h / 2, dy: '0.35em', 'text-anchor': 'end' }, svg);
+      const b = el('rect', { x: l, y: yy, width: Math.max(0, x(value(r)) - l), height: h, rx: 4, fill: cssVar('--accent') }, svg);
+      tt.on(b, r.set, label(r));
+      if (extra) extra(svg, x, r, yy, h);
+      txt(valText(r), { x: x(extra ? r.p90_s : value(r)) + 5, y: yy + h / 2, dy: '0.35em' }, svg);
+    });
+  }
+
+  function scatter() {
+    const box = document.getElementById('sc'), W = Math.max(300, box.clientWidth), H = 240, m = { t: 16, r: 16, b: 34, l: 44 };
+    const svg = svgIn(box, W, H); const tt = tip(box);
+    const x = linear(0.4, 0.9, m.l, W - m.r), y = linear(0, 0.3, H - m.b, m.t);
+    ticks(0, 0.3, 5).forEach(v => { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), stroke: cssVar('--grid') }, svg); txt(f2(v), { x: m.l - 6, y: y(v), dy: '0.35em', 'text-anchor': 'end' }, svg); });
+    ticks(0.4, 0.9, 5).forEach(v => txt(f2(v), { x: x(v), y: H - m.b + 16, 'text-anchor': 'middle' }, svg));
+    txt('Choice confidence →', { x: W - m.r, y: H - 2, 'text-anchor': 'end' }, svg);
+    txt('distance from consensus ↑', { x: m.l, y: m.t - 6 }, svg);
+    const placed = [];
+    profile.forEach(p => {
+      const cx = x(p.conf_choice), cy = y(p.choice_tv);
+      const c = el('circle', { cx, cy, r: 5, fill: p.set.startsWith('gw-') ? cssVar('--accent') : cssVar('--accent-2') }, svg);
+      tt.on(c, `${p.set} · ${p.model}`, `confidence ${f2(p.conf_choice)} · distance ${f2(p.choice_tv)} · ${p.top_ui}/${p.cases} tops match`);
+      // try the point's own line first, then alternate above/below; stay inside the plot
+      const offsets = [0, -12, 12, -24, 24, -36, 36, -48, 48];
+      let dy = offsets.find(o => cy + o > m.t + 6 && cy + o < H - m.b - 6 &&
+        !placed.some(q => Math.abs(q.y - (cy + o)) < 12 && Math.abs(q.x - cx) < 80)) ?? 0;
+      placed.push({ x: cx, y: cy + dy });
+      const t = txt(p.set, { class: 'lbl', x: cx + 8, y: cy + dy, dy: '0.35em' }, svg);
+      if (cx + 8 + t.getComputedTextLength() > W - m.r) { t.setAttribute('x', cx - 8); t.setAttribute('text-anchor', 'end'); }
+    });
+  }
+
+  function draw() {
+    heatmap(); levelsChart();
+    hbars('fl', [...profile].sort((a, b) => b.flips - a.flips), r => r.flips, r => `${r.flips} of ${r.cases} dependent answers change without context`, N, r => String(r.flips));
+    scatter();
+    const net = profile.filter(p => p.p50_s != null).sort((a, b) => a.p50_s - b.p50_s);
+    hbars('lt', net, r => r.p50_s, r => `median ${f1(r.p50_s)} s · p90 ${f1(r.p90_s)} s · slowest ${f1(r.max_s)} s`,
+      Math.ceil(Math.max(...net.map(r => r.p90_s)) / 5) * 5, r => f1(r.p50_s) + ' s',
+      (svg, x, r, yy, h) => el('line', { x1: x(r.p90_s), x2: x(r.p90_s), y1: yy - 2, y2: yy + h + 2, stroke: cssVar('--fg'), 'stroke-width': 2 }, svg));
+  }
+  const setVariant = (v) => { variant = v; document.getElementById('v-ui').setAttribute('aria-pressed', String(v === 'ui')); document.getElementById('v-noui').setAttribute('aria-pressed', String(v === 'noui')); heatmap(); };
+  document.getElementById('v-ui').addEventListener('click', () => setVariant('ui'));
+  document.getElementById('v-noui').addEventListener('click', () => setVariant('noui'));
+  let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(draw, 120); });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+  draw();
+})();
+</script>
+</body>
+</html>

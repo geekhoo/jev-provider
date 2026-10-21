@@ -1,0 +1,37 @@
+{
+  "case": "it_ops-L1",
+  "source": "gateway route jev-latest",
+  "with_user_instructions": {
+    "answers": {
+      "wiki_unavailable": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "label_incident_type",
+        "confidence": 0.1,
+        "probabilities": {
+          "label_incident_type": 0.4,
+          "route_to_oncall": 0.4,
+          "gate_next_deploy": 0.2
+        }
+      },
+      "user_impact": {
+        "type": "score",
+        "score": 1.4,
+        "confidence": 0.25,
+        "legend": {
+          "0": "Minor inconvenience",
+          "1": "Noticeable disruption",
+          "2": "Major disruption"
+        },
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.5,
+          "2": 0.45
+        }
+      }
+    }
+  }
+}

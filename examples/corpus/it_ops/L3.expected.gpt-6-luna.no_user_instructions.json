@@ -1,0 +1,38 @@
+{
+  "case": "it_ops-L3",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "latency_after_deploy": {
+        "type": "noul",
+        "noul": 1.00
+      },
+      "next_action": {
+        "type": "choice",
+        "probabilities": {
+          "roll_back_deploy": 0.25,
+          "ship_hotfix": 0.04,
+          "restart_service": 0.02,
+          "wait_and_monitor": 0.03,
+          "escalate_to_change_board": 0.66
+        }
+      },
+      "customer_impact": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.01,
+          "2": 0.12,
+          "3": 0.53,
+          "4": 0.29,
+          "5": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "latency_after_deploy": "The symptom was first seen at 14:31, 11 minutes after checkout-api deployment D-771 at 14:20.",
+      "next_action": "The active month-end change freeze makes change-board escalation the safest next step; D-771's close timing keeps rollback plausible, while unchanged errors reduce the case for an immediate hotfix or restart.",
+      "customer_impact": "Checkout p95 rose to 700 ms and drew six reports, indicating meaningful customer harm, while the unchanged 0.2% error rate and lack of outage evidence temper severity."
+    }
+  }
+}

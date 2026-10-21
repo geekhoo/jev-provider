@@ -1,0 +1,104 @@
+{
+  "case": "payments-L1",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "matches_account_history": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "approve_or_decline_now",
+        "confidence": 0.77,
+        "probabilities": {
+          "approve_or_decline_now": 0.85,
+          "score_fraud_risk": 0.07,
+          "route_to_analyst": 0.08
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "score": 0.13,
+        "confidence": 0.81,
+        "legend": {
+          "0": "Very weak",
+          "1": "Some signs",
+          "2": "Strong signs"
+        },
+        "probabilities": {
+          "0": 0.88,
+          "1": 0.11,
+          "2": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "fraud_signal_strength": "Only signal is a single postcode typo by a returning cardholder; card, device and city match history.",
+      "handling_mode": "Domain objective is gating, which calls for a final approve/decline answer.",
+      "matches_account_history": "STATE states explicitly that card, device and city all match the account history."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "matches_account_history": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "approve_or_decline_now",
+        "confidence": 0.18,
+        "probabilities": {
+          "approve_or_decline_now": 0.45,
+          "score_fraud_risk": 0.4,
+          "route_to_analyst": 0.15
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "score": 0.17,
+        "confidence": 0.74,
+        "legend": {
+          "0": "Very weak",
+          "1": "Some signs",
+          "2": "Strong signs"
+        },
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.13,
+          "2": 0.02
+        }
+      }
+    },
+    "reasons": {
+      "fraud_signal_strength": "Only a first-try postcode typo; card, device and city all match history.",
+      "handling_mode": "No objective given in user instructions; low-risk case favors a final answer or a risk score.",
+      "matches_account_history": "STATE states card, device and city all match account history."
+    }
+  },
+  "ui_dependent_question": "handling_mode",
+  "ui_dependence": "The objective field in user_instructions is the only thing that tells the model which kind of output is wanted; without it the three options are equally plausible.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "approve_or_decline_now",
+      "confidence": 0.77,
+      "probabilities": {
+        "approve_or_decline_now": 0.85,
+        "score_fraud_risk": 0.07,
+        "route_to_analyst": 0.08
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "approve_or_decline_now",
+      "confidence": 0.18,
+      "probabilities": {
+        "approve_or_decline_now": 0.45,
+        "score_fraud_risk": 0.4,
+        "route_to_analyst": 0.15
+      }
+    }
+  }
+}

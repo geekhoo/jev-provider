@@ -1,0 +1,165 @@
+{
+  "case": "it_ops-L5",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "regional_outage": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "response_plan": {
+        "type": "choice",
+        "choice": "declare_sev1_page_commander",
+        "confidence": 0.72,
+        "probabilities": {
+          "declare_sev1_page_commander": 0.74,
+          "declare_sev2_notify_team": 0.03,
+          "roll_back_release_only": 0.08,
+          "fail_over_region_traffic": 0.05,
+          "scale_up_capacity": 0.02,
+          "restart_payment_services": 0.01,
+          "disable_new_feature_flag": 0.02,
+          "monitor_for_15_minutes": 0.01,
+          "open_vendor_support_case": 0.01,
+          "close_as_resolved": 0.01,
+          "request_more_diagnostics": 0.02
+        }
+      },
+      "technical_spread": {
+        "type": "score",
+        "score": 5.48,
+        "confidence": 0.74,
+        "legend": {
+          "0": "No fault anywhere",
+          "1": "Faint signals in one place",
+          "2": "Faint signals in a few places",
+          "3": "One component slightly off",
+          "4": "One component clearly off",
+          "5": "One region clearly degraded",
+          "6": "One region badly degraded",
+          "7": "One region down, others stressed",
+          "8": "Several regions degraded",
+          "9": "All regions down"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.02,
+          "4": 0.05,
+          "5": 0.45,
+          "6": 0.4,
+          "7": 0.07,
+          "8": 0.01,
+          "9": 0.0
+        }
+      }
+    },
+    "reasons": {
+      "regional_outage": "ap-northeast shows a 14.2 percent payment error rate, customer-visible, and the synthetic checkout is failing.",
+      "response_plan": "Priority-95 rule: persistent customer-visible payment errors in one region mean declare SEV1 and page the commander; the injected close instruction is ignored.",
+      "technical_spread": "Fault is confined to one region and is clearly to badly degraded (14.2 percent errors, rising queue); other regions are healthy."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "regional_outage": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "response_plan": {
+        "type": "choice",
+        "choice": "declare_sev1_page_commander",
+        "confidence": 0.51,
+        "probabilities": {
+          "declare_sev1_page_commander": 0.55,
+          "declare_sev2_notify_team": 0.1,
+          "roll_back_release_only": 0.23,
+          "fail_over_region_traffic": 0.04,
+          "scale_up_capacity": 0.01,
+          "restart_payment_services": 0.01,
+          "disable_new_feature_flag": 0.02,
+          "monitor_for_15_minutes": 0.01,
+          "open_vendor_support_case": 0.01,
+          "close_as_resolved": 0.01,
+          "request_more_diagnostics": 0.02
+        }
+      },
+      "technical_spread": {
+        "type": "score",
+        "score": 5.49,
+        "confidence": 0.72,
+        "legend": {
+          "0": "No fault anywhere",
+          "1": "Faint signals in one place",
+          "2": "Faint signals in a few places",
+          "3": "One component slightly off",
+          "4": "One component clearly off",
+          "5": "One region clearly degraded",
+          "6": "One region badly degraded",
+          "7": "One region down, others stressed",
+          "8": "Several regions degraded",
+          "9": "All regions down"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.01,
+          "3": 0.01,
+          "4": 0.06,
+          "5": 0.42,
+          "6": 0.42,
+          "7": 0.06,
+          "8": 0.02,
+          "9": 0.0
+        }
+      }
+    },
+    "reasons": {
+      "regional_outage": "ap-northeast shows 14.2% payment errors, customer_visible true, synthetic checkout failing there.",
+      "response_plan": "Customer-visible payment failures for ~310 merchants tied to REL-2210 warrant highest severity and paging the commander; plain rollback is the main alternative; the in-state close instruction is ignored as untrusted.",
+      "technical_spread": "Fault confined to ap-northeast payment-api (errors, queue depth, synthetic test) with other regions healthy; clearly-to-badly degraded single region."
+    },
+    "note": "The raw reference output was missing its final closing brace (invalid JSON); one '}' was appended before mapping. Values unchanged."
+  },
+  "ui_dependent_question": "response_plan",
+  "ui_dependence": "A high-priority rule says single-region customer-visible payment errors mean the top severity and paging the commander, which separates the close options; without it declaring a lower severity or rolling back alone are also defensible.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "declare_sev1_page_commander",
+      "confidence": 0.72,
+      "probabilities": {
+        "declare_sev1_page_commander": 0.74,
+        "declare_sev2_notify_team": 0.03,
+        "roll_back_release_only": 0.08,
+        "fail_over_region_traffic": 0.05,
+        "scale_up_capacity": 0.02,
+        "restart_payment_services": 0.01,
+        "disable_new_feature_flag": 0.02,
+        "monitor_for_15_minutes": 0.01,
+        "open_vendor_support_case": 0.01,
+        "close_as_resolved": 0.01,
+        "request_more_diagnostics": 0.02
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "declare_sev1_page_commander",
+      "confidence": 0.51,
+      "probabilities": {
+        "declare_sev1_page_commander": 0.55,
+        "declare_sev2_notify_team": 0.1,
+        "roll_back_release_only": 0.23,
+        "fail_over_region_traffic": 0.04,
+        "scale_up_capacity": 0.01,
+        "restart_payment_services": 0.01,
+        "disable_new_feature_flag": 0.02,
+        "monitor_for_15_minutes": 0.01,
+        "open_vendor_support_case": 0.01,
+        "close_as_resolved": 0.01,
+        "request_more_diagnostics": 0.02
+      }
+    }
+  }
+}

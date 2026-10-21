@@ -1,0 +1,42 @@
+{
+  "case": "insurance-L4",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "police_report_adequate": {
+        "type": "noul",
+        "noul": 0.10
+      },
+      "claim_status": {
+        "type": "choice",
+        "probabilities": {
+          "accept_and_pay": 0.04,
+          "accept_partial": 0.03,
+          "request_missing_evidence": 0.79,
+          "refer_to_investigator": 0.07,
+          "refer_to_legal_review": 0.01,
+          "decline_under_exclusion": 0.05,
+          "decline_for_late_report": 0.01
+        }
+      },
+      "evidence_reliability": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.10,
+          "2": 0.31,
+          "3": 0.35,
+          "4": 0.18,
+          "5": 0.04,
+          "6": 0.01,
+          "7": 0.00
+        }
+      }
+    },
+    "reasons": {
+      "police_report_adequate": "The filing date and location are recorded, but the loss date is unstated and the report is only two short lines.",
+      "claim_status": "The report omits the loss date and the damaged-lock photo is untimestamped; clarify placement because a witness saw something on the back seat. The filing appears within three days, and lack of a receipt alone is not a refusal basis.",
+      "evidence_reliability": "The claimant account, serial number, sparse police report, and damaged-lock photo provide some support, while the untimestamped photo and unverified witness leave important facts uncertain."
+    }
+  }
+}

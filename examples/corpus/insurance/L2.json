@@ -1,0 +1,45 @@
+{
+  "state": {
+    "claim_id": "CLM-8120",
+    "claim_type": "home water damage",
+    "reported_loss_eur": 12000,
+    "policy_in_force": true,
+    "days_since_policy_start": 12,
+    "stated_cause": "burst pipe in the kitchen",
+    "documents_received": "photos and a plumber invoice",
+    "adjuster_inspection_done": false,
+    "previous_claims": 0
+  },
+  "user_instructions": {
+    "domain": "home_claims",
+    "objective": "routing",
+    "locale": "en-IE",
+    "risk_posture": "conservative"
+  },
+  "questions": {
+    "policy_recently_started": {
+      "type": "noul",
+      "instructions": "Was the policy started within the last 30 days?"
+    },
+    "claim_route": {
+      "type": "choice",
+      "instructions": "Choose where this claim should go next.",
+      "criteria": {
+        "fast_track_payout": "Pay quickly with minimal checks.",
+        "standard_adjuster": "Send to a normal adjuster for inspection.",
+        "special_investigations": "Send to the special investigations unit.",
+        "request_documents": "Ask the policyholder for more documents."
+      }
+    },
+    "loss_severity": {
+      "type": "score",
+      "instructions": "Rate how large the reported loss is.",
+      "criteria": [
+        "Small",
+        "Moderate",
+        "Large",
+        "Very large"
+      ]
+    }
+  }
+}

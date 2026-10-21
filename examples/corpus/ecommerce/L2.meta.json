@@ -1,0 +1,14 @@
+{
+  "domain": "ecommerce",
+  "level": 2,
+  "description": "Out-of-window return with a plausible excuse and a loyal customer; the outcome sits between strict policy and goodwill.",
+  "ui_dependent_question": "return_outcome",
+  "ui_dependence": "The permissive risk posture tells the model to lean toward customer goodwill on borderline exceptions, which shifts the choice relative to a default balanced reading.",
+  "features": [
+    "flat object state",
+    "4-option choice",
+    "5-level score",
+    "risk_posture",
+    "locale"
+  ]
+}

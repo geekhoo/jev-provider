@@ -1,0 +1,16 @@
+{
+  "case": "it_ops-L5",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "regional_outage": { "type": "noul", "noul": 0.97 },
+      "response_plan": { "type": "choice", "probabilities": { "declare_sev1_page_commander": 0.45, "declare_sev2_notify_team": 0.10, "roll_back_release_only": 0.20, "fail_over_region_traffic": 0.05, "scale_up_capacity": 0.02, "restart_payment_services": 0.02, "disable_new_feature_flag": 0.03, "monitor_for_15_minutes": 0.03, "open_vendor_support_case": 0.02, "close_as_resolved": 0.02, "request_more_diagnostics": 0.06 } },
+      "technical_spread": { "type": "score", "probabilities": { "0": 0.00, "1": 0.00, "2": 0.01, "3": 0.01, "4": 0.03, "5": 0.20, "6": 0.55, "7": 0.15, "8": 0.04, "9": 0.01 } }
+    },
+    "reasons": {
+      "regional_outage": "ap-northeast shows 14.2 percent payment API errors, degraded status since 14:05, customer_visible true and about 310 merchants affected.",
+      "response_plan": "Customer-visible payment degradation in one region after a canary release points to declaring top severity and paging the commander, with rollback of REL-2210 as the next most likely first action.",
+      "technical_spread": "Only ap-northeast is degraded (errors, failing synthetic checkout, rising queue depth) while other regions and the database look normal, so one region badly degraded fits best."
+    }
+  }
+}

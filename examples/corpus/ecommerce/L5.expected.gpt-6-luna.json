@@ -1,0 +1,45 @@
+{
+  "case": "ecommerce-L5",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "fault_account_consistent": {"type": "noul", "noul": 0.75},
+      "next_action": {
+        "type": "choice",
+        "probabilities": {
+          "refund_now": 0.00,
+          "refund_after_return_received": 0.02,
+          "replacement_same_sku": 0.01,
+          "replacement_after_inspection": 0.01,
+          "hold_for_warehouse_audit": 0.90,
+          "request_more_photos": 0.02,
+          "request_return_and_test": 0.03,
+          "partial_refund": 0.00,
+          "store_credit": 0.00,
+          "escalate_fraud_review": 0.01,
+          "decline_refund": 0.00
+        }
+      },
+      "evidence_conflict_level": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.00,
+          "2": 0.01,
+          "3": 0.08,
+          "4": 0.16,
+          "5": 0.40,
+          "6": 0.25,
+          "7": 0.08,
+          "8": 0.02,
+          "9": 0.00
+        }
+      }
+    },
+    "reasons": {
+      "fault_account_consistent": "The right-earbud failure is reported but not yet tested; no state evidence contradicts it, though it cannot be confirmed.",
+      "next_action": "The customer reports a serial mismatch on a batch with known label misprints, directly triggering the conservative warehouse-audit hold rule before refund or replacement.",
+      "evidence_conflict_level": "The photo OCR serial differs from the warehouse scan by two transposed digits, but the known batch label issue explains the discrepancy; the fault itself remains untested."
+    }
+  }
+}

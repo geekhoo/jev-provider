@@ -1,0 +1,42 @@
+{
+  "case": "ecommerce-L4",
+  "source": "mimo-v2.6-pro, blind",
+  "no_user_instructions": {
+    "answers": {
+      "refund_claim_supported": {
+        "type": "noul",
+        "noul": 0.30
+      },
+      "claim_handling": {
+        "type": "choice",
+        "probabilities": {
+          "refund_in_full_now": 0.03,
+          "refund_after_investigation": 0.18,
+          "open_carrier_investigation": 0.40,
+          "request_more_evidence": 0.22,
+          "send_replacement": 0.05,
+          "partial_goodwill_credit": 0.08,
+          "decline_claim": 0.04
+        }
+      },
+      "fraud_risk": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.09,
+          "2": 0.17,
+          "3": 0.24,
+          "4": 0.21,
+          "5": 0.15,
+          "6": 0.08,
+          "7": 0.03
+        }
+      }
+    },
+    "reasons": {
+      "refund_claim_supported": "The carrier shows a signed delivery; the unmatched signer, 140m GPS gap, and recent move cast doubt but do not positively evidence non-receipt, so the claim is more unsupported than supported.",
+      "claim_handling": "With a disputed signature and pending manager reply, a formal carrier trace keeps the case open without paying, while further evidence gathering and post-investigation refund remain plausible paths.",
+      "fraud_risk": "Two recent claims refunded without review raise suspicion, but a long 31-order account, a recent move, and a genuinely unverifiable signature leave misdelivery quite plausible, centering on leaning genuine with doubts."
+    }
+  }
+}

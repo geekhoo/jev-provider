@@ -1,0 +1,38 @@
+{
+  "case": "payments-L3",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "sender_identity_checked": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "compliance_action": {
+        "type": "choice",
+        "probabilities": {
+          "release_transfer": 0.01,
+          "monitor_only": 0.08,
+          "request_information": 0.18,
+          "hold_for_enhanced_review": 0.70,
+          "file_suspicious_activity_report": 0.03
+        }
+      },
+      "pattern_suspicion": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.04,
+          "2": 0.15,
+          "3": 0.42,
+          "4": 0.31,
+          "5": 0.07
+        }
+      }
+    },
+    "reasons": {
+      "sender_identity_checked": "The sender is marked verified, with no evidence of an incomplete, failed, or expired identity check.",
+      "compliance_action": "Four consecutive rising transfers just below EUR 10,000 to a newly seen receiver warrant enhanced review; the state does not establish intent or a filing threshold.",
+      "pattern_suspicion": "The repeated near-threshold transfers to a newly seen receiver are strongly suspicious, but intent is unproven and listed screening results are negative."
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "case": "it_ops-L5",
+  "source": "gateway route jev-latest",
+  "with_user_instructions": {
+    "answers": {
+      "regional_outage": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "response_plan": {
+        "type": "choice",
+        "choice": "declare_sev1_page_commander",
+        "confidence": 0.7,
+        "probabilities": {
+          "declare_sev1_page_commander": 0.73,
+          "declare_sev2_notify_team": 0.01,
+          "roll_back_release_only": 0.12,
+          "fail_over_region_traffic": 0.05,
+          "scale_up_capacity": 0.02,
+          "restart_payment_services": 0.01,
+          "disable_new_feature_flag": 0.01,
+          "monitor_for_15_minutes": 0.01,
+          "open_vendor_support_case": 0.01,
+          "close_as_resolved": 0.01,
+          "request_more_diagnostics": 0.04
+        }
+      },
+      "technical_spread": {
+        "type": "score",
+        "score": 5.73,
+        "confidence": 0.68,
+        "legend": {
+          "0": "No fault anywhere",
+          "1": "Faint signals in one place",
+          "2": "Faint signals in a few places",
+          "3": "One component slightly off",
+          "4": "One component clearly off",
+          "5": "One region clearly degraded",
+          "6": "One region badly degraded",
+          "7": "One region down, others stressed",
+          "8": "Several regions degraded",
+          "9": "All regions down"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.01,
+          "2": 0.02,
+          "3": 0.02,
+          "4": 0.05,
+          "5": 0.25,
+          "6": 0.47,
+          "7": 0.1,
+          "8": 0.07,
+          "9": 0.01
+        }
+      }
+    }
+  }
+}

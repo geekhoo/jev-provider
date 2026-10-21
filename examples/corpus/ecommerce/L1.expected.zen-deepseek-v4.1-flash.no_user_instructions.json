@@ -1,0 +1,16 @@
+{
+  "case": "ecommerce-L1",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "within_return_window": { "type": "noul", "noul": 0.97 },
+      "handling_mode": { "type": "choice", "probabilities": { "send_to_team_queue": 0.30, "decide_return_now": 0.45, "log_for_quality_audit": 0.25 } },
+      "staff_effort": { "type": "score", "probabilities": { "0": 0.65, "1": 0.27, "2": 0.08 } }
+    },
+    "reasons": {
+      "within_return_window": "State says the kettle was bought 9 days ago and policy allows 30 days, so the request is inside the window.",
+      "handling_mode": "No objective was supplied in user instructions, so the needed output kind is uncertain; the case is simple enough to be decided outright.",
+      "staff_effort": "Unopened item with a receipt under a clear 30-day policy is mostly routine, with minor verification possible."
+    }
+  }
+}

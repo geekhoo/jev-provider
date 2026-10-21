@@ -1,0 +1,33 @@
+{
+  "case": "payments-L1",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "matches_account_history": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "handling_mode": {
+        "type": "choice",
+        "probabilities": {
+          "approve_or_decline_now": 0.80,
+          "score_fraud_risk": 0.05,
+          "route_to_analyst": 0.15
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.75,
+          "1": 0.23,
+          "2": 0.02
+        }
+      }
+    },
+    "reasons": {
+      "matches_account_history": "The state explicitly says the card, device and city all match the account history.",
+      "handling_mode": "The stated objective is gating, so a final approve-or-decline decision is the needed output for this low-risk case.",
+      "fraud_signal_strength": "The only anomaly is one mistyped billing postcode on the first try, with all other signals matching history."
+    }
+  }
+}

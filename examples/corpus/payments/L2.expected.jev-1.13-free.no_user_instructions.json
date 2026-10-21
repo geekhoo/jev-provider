@@ -1,0 +1,42 @@
+{
+  "case": "payments-L2",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "no_user_instructions": {
+    "answers": {
+      "connection_differs_from_card": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "payment_action": {
+        "type": "choice",
+        "choice": "step_up_verification",
+        "confidence": 0.29,
+        "probabilities": {
+          "approve": 0.01,
+          "step_up_verification": 0.47,
+          "manual_review": 0.32,
+          "decline": 0.2
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "score": 2.91,
+        "confidence": 0.72,
+        "legend": {
+          "0": "Very weak",
+          "1": "Weak",
+          "2": "Moderate",
+          "3": "Strong",
+          "4": "Very strong"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.02,
+          "2": 0.17,
+          "3": 0.67,
+          "4": 0.13
+        }
+      }
+    }
+  }
+}

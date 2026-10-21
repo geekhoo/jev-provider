@@ -1,0 +1,104 @@
+{
+  "case": "insurance-L1",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "glass_damage_covered": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "score_claim_complexity",
+        "confidence": 0.89,
+        "probabilities": {
+          "score_claim_complexity": 0.93,
+          "route_to_adjuster": 0.03,
+          "gate_payment": 0.04
+        }
+      },
+      "claim_complexity": {
+        "type": "score",
+        "score": 0.28,
+        "confidence": 0.58,
+        "legend": {
+          "0": "Very simple",
+          "1": "Some checking needed",
+          "2": "Complex"
+        },
+        "probabilities": {
+          "0": 0.75,
+          "1": 0.22,
+          "2": 0.03
+        }
+      }
+    },
+    "reasons": {
+      "claim_complexity": "Single glass claim with photo and modest quote; very simple, minor checking possible.",
+      "glass_damage_covered": "Cracked windshield is glass damage, which the policy is said to cover.",
+      "handling_mode": "Domain context objective is scoring, matching the complexity-score output."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "glass_damage_covered": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "gate_payment",
+        "confidence": 0.04,
+        "probabilities": {
+          "score_claim_complexity": 0.36,
+          "route_to_adjuster": 0.28,
+          "gate_payment": 0.36
+        }
+      },
+      "claim_complexity": {
+        "type": "score",
+        "score": 0.28,
+        "confidence": 0.58,
+        "legend": {
+          "0": "Very simple",
+          "1": "Some checking needed",
+          "2": "Complex"
+        },
+        "probabilities": {
+          "0": 0.75,
+          "1": 0.22,
+          "2": 0.03
+        }
+      }
+    },
+    "reasons": {
+      "claim_complexity": "Covered glass damage with photo and modest quote; straightforward settlement.",
+      "glass_damage_covered": "Policy explicitly covers glass damage and the claim is a cracked windshield.",
+      "handling_mode": "No user instructions give an objective, so output type is ambiguous across options."
+    }
+  },
+  "ui_dependent_question": "handling_mode",
+  "ui_dependence": "The objective field in user_instructions is the only thing that tells the model which kind of output is wanted; without it the three options are equally plausible.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "score_claim_complexity",
+      "confidence": 0.89,
+      "probabilities": {
+        "score_claim_complexity": 0.93,
+        "route_to_adjuster": 0.03,
+        "gate_payment": 0.04
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "gate_payment",
+      "confidence": 0.04,
+      "probabilities": {
+        "score_claim_complexity": 0.36,
+        "route_to_adjuster": 0.28,
+        "gate_payment": 0.36
+      }
+    }
+  }
+}

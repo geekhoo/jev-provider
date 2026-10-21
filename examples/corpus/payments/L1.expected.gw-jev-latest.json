@@ -1,0 +1,37 @@
+{
+  "case": "payments-L1",
+  "source": "gateway route jev-latest",
+  "with_user_instructions": {
+    "answers": {
+      "matches_account_history": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "approve_or_decline_now",
+        "confidence": 0.33,
+        "probabilities": {
+          "approve_or_decline_now": 0.55,
+          "score_fraud_risk": 0.1,
+          "route_to_analyst": 0.35
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "score": 0.22,
+        "confidence": 0.67,
+        "legend": {
+          "0": "Very weak",
+          "1": "Some signs",
+          "2": "Strong signs"
+        },
+        "probabilities": {
+          "0": 0.82,
+          "1": 0.14,
+          "2": 0.04
+        }
+      }
+    }
+  }
+}

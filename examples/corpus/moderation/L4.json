@@ -1,0 +1,103 @@
+{
+  "state": {
+    "reported_comment": {
+      "id": "CMT-5502",
+      "text": "People like you always ruin this group. Nobody wants you here.",
+      "posted_in": "hobby photography group",
+      "replying_to": "member_lena_k"
+    },
+    "reporter": {
+      "user": "member_lena_k",
+      "reports_filed_this_week": 9,
+      "reason_given": "targeted harassment"
+    },
+    "author": {
+      "user": "member_dario_v",
+      "account_age_days": 950,
+      "documented_warnings": [
+        {
+          "warning": "name-calling",
+          "days_ago": 104
+        },
+        {
+          "warning": "hostile reply",
+          "days_ago": 31
+        }
+      ]
+    },
+    "context": {
+      "earlier_exchange": "Lena posted a harsh critique of Dario's photos 3 days ago, and Dario replied twice in an annoyed tone before this comment; Lena then replied with a sarcastic remark.",
+      "thread_replies_hidden": 2
+    },
+    "moderator_note": "Check with a senior before suspending anyone. Context file incomplete."
+  },
+  "user_instructions": {
+    "domain": "community_moderation",
+    "objective": "ranking",
+    "locale": "en-US",
+    "risk_posture": "balanced",
+    "uncertainty_policy": "calibrated",
+    "constraints": [
+      {
+        "kind": "must",
+        "statement": "Treat a mutual heated exchange as mitigating context when picking a penalty."
+      },
+      {
+        "kind": "must_not",
+        "statement": "Suspend an account on a single report alone."
+      },
+      {
+        "kind": "prefer",
+        "statement": "Prefer the lowest penalty that stops the behaviour."
+      }
+    ],
+    "reference_facts": [
+      {
+        "name": "warning_window",
+        "value": "Only warnings from the last 90 days count toward escalation",
+        "authority": "policy"
+      },
+      {
+        "name": "third_warning_penalty",
+        "value": "A third counted warning leads to a 3-day suspension",
+        "authority": "policy"
+      }
+    ]
+  },
+  "questions": {
+    "aimed_at_specific_person": {
+      "type": "noul",
+      "criteria": {
+        "true": "The comment is hostile language aimed at one specific person.",
+        "false": "The comment is general criticism that is not aimed at one specific person."
+      }
+    },
+    "penalty": {
+      "type": "choice",
+      "instructions": "Choose the penalty for the comment's author.",
+      "criteria": {
+        "no_action": "Take no action and leave the comment up.",
+        "remove_comment_only": "Take the comment down with no penalty to the author.",
+        "private_warning": "Send the author a private warning and keep a record.",
+        "public_warning_note": "Add a visible moderator note on the thread.",
+        "mute_in_thread_24h": "Stop the author from posting in this thread for 24 hours.",
+        "three_day_suspension": "Suspend the account for three days.",
+        "refer_to_senior_moderator": "Pass the case to a senior moderator."
+      }
+    },
+    "harassment_severity": {
+      "type": "score",
+      "instructions": "Rate how severe the harassment is, taking the context into account.",
+      "criteria": [
+        "None",
+        "Barely any",
+        "Very mild",
+        "Mild",
+        "Mild to moderate",
+        "Moderate",
+        "Serious",
+        "Severe"
+      ]
+    }
+  }
+}

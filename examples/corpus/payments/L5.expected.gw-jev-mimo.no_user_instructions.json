@@ -1,0 +1,59 @@
+{
+  "case": "payments-L5",
+  "source": "gateway route jev-mimo",
+  "no_user_instructions": {
+    "answers": {
+      "ownership_disclosure_consistent": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "onboarding_action": {
+        "type": "choice",
+        "choice": "route_to_sanctions_analyst",
+        "confidence": 0.24,
+        "probabilities": {
+          "approve_merchant": 0.0,
+          "approve_with_low_limits": 0.01,
+          "approve_after_edd": 0.09,
+          "request_updated_ownership": 0.15,
+          "request_proof_of_address": 0.02,
+          "route_to_sanctions_analyst": 0.31,
+          "route_to_senior_compliance": 0.11,
+          "freeze_onboarding_pending_review": 0.25,
+          "reject_application": 0.03,
+          "reject_and_report": 0.01,
+          "refer_to_partner": 0.01
+        }
+      },
+      "onboarding_risk": {
+        "type": "score",
+        "score": 4.79,
+        "confidence": 0.54,
+        "legend": {
+          "0": "Negligible",
+          "1": "Very low",
+          "2": "Low",
+          "3": "Lowish",
+          "4": "Moderate",
+          "5": "Moderately elevated",
+          "6": "Elevated",
+          "7": "High",
+          "8": "Very high",
+          "9": "Extreme"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.02,
+          "2": 0.05,
+          "3": 0.1,
+          "4": 0.24,
+          "5": 0.28,
+          "6": 0.19,
+          "7": 0.09,
+          "8": 0.03,
+          "9": 0.01
+        }
+      }
+    }
+  }
+}

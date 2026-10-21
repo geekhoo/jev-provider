@@ -1,0 +1,48 @@
+{
+ "case": "insurance-L5",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "invoice_predates_loss": {
+    "type": "noul",
+    "noul": 0.97
+   },
+   "claim_decision": {
+    "type": "choice",
+    "probabilities": {
+     "pay_full_claim": 0.01,
+     "pay_building_advance_only": 0.09,
+     "pay_all_scheduled_items": 0.01,
+     "hold_all_payments_pending_cause": 0.18,
+     "refer_to_special_investigations": 0.13,
+     "refer_equipment_part_to_siu": 0.32,
+     "request_inventory_and_receipts": 0.11,
+     "appoint_forensic_engineer": 0.08,
+     "reserve_rights_letter": 0.04,
+     "decline_claim": 0.01,
+     "escalate_to_claims_director": 0.02
+    }
+   },
+   "scheduled_coverage_fit": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.03,
+     "1": 0.06,
+     "2": 0.14,
+     "3": 0.24,
+     "4": 0.18,
+     "5": 0.13,
+     "6": 0.10,
+     "7": 0.06,
+     "8": 0.04,
+     "9": 0.02
+    }
+   }
+  },
+  "reasons": {
+   "invoice_predates_loss": "Equipment invoice is dated 2026-09-20, two days before the 2026-09-22 date of loss.",
+   "claim_decision": "Equipment anomalies (pre-loss invoice, amount above the 60000 schedule limit, unlisted oven) warrant referring just that part to SIU while the rest stays under normal handling.",
+   "scheduled_coverage_fit": "Lump-sum claim only partially matches the schedule's listed ovens, mixer and cooler, with stock and building items unlisted and equipment over its sum insured."
+  }
+ }
+}

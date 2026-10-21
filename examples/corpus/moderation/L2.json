@@ -1,0 +1,44 @@
+{
+  "state": {
+    "post_id": "POST-31877",
+    "text": "Everyone who disagrees with this recipe is clueless and should stop cooking.",
+    "thread_topic": "baking recipes",
+    "user_reports": 2,
+    "author_account_age_days": 400,
+    "prior_warnings": 0,
+    "targets_a_named_user": false
+  },
+  "user_instructions": {
+    "domain": "community_moderation",
+    "objective": "classification",
+    "locale": "en-US",
+    "risk_posture": "permissive"
+  },
+  "questions": {
+    "insults_others_generally": {
+      "type": "noul",
+      "instructions": "Does the post insult other users in general terms?"
+    },
+    "moderation_action": {
+      "type": "choice",
+      "instructions": "Choose the moderation action for this post.",
+      "criteria": {
+        "leave_up": "Keep the post visible with no action.",
+        "add_warning_label": "Keep the post but add a civility note.",
+        "remove_post": "Take the post down.",
+        "escalate_to_senior": "Pass the case to a senior moderator."
+      }
+    },
+    "rudeness_level": {
+      "type": "score",
+      "instructions": "Rate how rude the post is.",
+      "criteria": [
+        "Polite",
+        "Blunt",
+        "Mildly rude",
+        "Rude",
+        "Very rude"
+      ]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "case": "insurance-L3",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "notes_match_photos": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "settlement_path": {
+        "type": "choice",
+        "probabilities": {
+          "repair": 0.10,
+          "total_loss": 0.72,
+          "partial_settlement": 0.06,
+          "investigate_further": 0.12
+        }
+      },
+      "documentation_quality": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.06,
+          "2": 0.22,
+          "3": 0.45,
+          "4": 0.25
+        }
+      }
+    },
+    "reasons": {
+      "notes_match_photos": "Notes cite front bumper, bonnet and left headlight; the two captions cover exactly those same three areas with no discrepancy.",
+      "settlement_path": "Repair 6200 EUR against 8500 EUR market value is 72.9 percent, at or above the 70 percent total-loss threshold, though a revised estimate could still move it below.",
+      "documentation_quality": "Claim identity, vehicle, itemised repair estimate, adjuster notes and photos are present, but supporting items such as police report, VIN, mileage and third-party details are absent."
+    }
+  }
+}

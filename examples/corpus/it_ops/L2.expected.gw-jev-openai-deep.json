@@ -1,0 +1,42 @@
+{
+  "case": "it_ops-L2",
+  "source": "gateway route jev-openai-deep",
+  "with_user_instructions": {
+    "answers": {
+      "primary_healthy": {
+        "type": "noul",
+        "noul": 1.0
+      },
+      "page_decision": {
+        "type": "choice",
+        "choice": "page_now",
+        "confidence": 0.81,
+        "probabilities": {
+          "page_now": 0.86,
+          "ticket_for_morning": 0.1,
+          "auto_cleanup_job": 0.04,
+          "ignore_known_noise": 0.01
+        }
+      },
+      "disk_urgency": {
+        "type": "score",
+        "score": 2.7,
+        "confidence": 0.68,
+        "legend": {
+          "0": "Not urgent",
+          "1": "Low",
+          "2": "Moderate",
+          "3": "High",
+          "4": "Critical"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.03,
+          "2": 0.28,
+          "3": 0.65,
+          "4": 0.04
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "case": "it_ops-L4",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "record_complete": { "type": "noul", "noul": 0.15 },
+      "change_decision": {
+        "type": "choice",
+        "probabilities": {
+          "approve_as_scheduled": 0.04,
+          "approve_after_backup_check": 0.12,
+          "reschedule_to_quiet_window": 0.16,
+          "return_for_missing_information": 0.16,
+          "send_to_change_board": 0.26,
+          "approve_with_batched_backfill": 0.20,
+          "reject_change": 0.06
+        }
+      },
+      "change_risk": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.02,
+          "2": 0.04,
+          "3": 0.07,
+          "4": 0.13,
+          "5": 0.26,
+          "6": 0.30,
+          "7": 0.17
+        }
+      }
+    },
+    "reasons": {
+      "record_complete": "Record omits batching detail, backup is unverified, rollback untested, load test not run, and the window collides with a marketing sale event.",
+      "change_decision": "Genuine conflict between a conditional DB approval, unverified backup, and an approval-time calendar collision makes escalation or batched re-approval most likely.",
+      "change_risk": "Large non-null backfill on 80M rows with unverified backup, untested rollback, and a peak-traffic sale overlap points to moderately high risk."
+    }
+  }
+}

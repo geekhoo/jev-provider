@@ -1,0 +1,42 @@
+{
+  "case": "it_ops-L4",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "record_complete": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "change_decision": {
+        "type": "choice",
+        "probabilities": {
+          "approve_as_scheduled": 0.00,
+          "approve_after_backup_check": 0.00,
+          "reschedule_to_quiet_window": 0.78,
+          "return_for_missing_information": 0.19,
+          "send_to_change_board": 0.02,
+          "approve_with_batched_backfill": 0.01,
+          "reject_change": 0.00
+        }
+      },
+      "change_risk": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.00,
+          "2": 0.00,
+          "3": 0.00,
+          "4": 0.00,
+          "5": 0.02,
+          "6": 0.20,
+          "7": 0.78
+        }
+      }
+    },
+    "reasons": {
+      "record_complete": "The scheduled window overlaps the declared sale event for checkout orders, while the required fresh verified backup is absent and batching, rollback, and load-test evidence are incomplete.",
+      "change_decision": "Move the change to the stated quiet Sunday window; confirm batching, validate a backup newer than 24 hours, and resolve rollback and load-test gaps before execution.",
+      "change_risk": "An 80-million-row non-null backfill is planned in a 90-minute slot despite a 50-minute estimate on 10 percent of production data; the current window overlaps checkout's sale event, the backup is unverified, rollback is untested, and load testing was skipped."
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "case": "payments-L4",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "with_user_instructions": {
+    "answers": {
+      "likely_authorized": {
+        "type": "noul",
+        "noul": 0.38
+      },
+      "dispute_outcome": {
+        "type": "choice",
+        "choice": "senior_analyst_review",
+        "confidence": 0.99,
+        "probabilities": {
+          "accept_chargeback": 0.0,
+          "represent_with_evidence": 0.0,
+          "senior_analyst_review": 0.99,
+          "request_cardholder_documents": 0.0,
+          "request_issuer_3ds_log": 0.01,
+          "split_liability": 0.0,
+          "close_no_action": 0.0
+        }
+      },
+      "unauthorized_likelihood": {
+        "type": "score",
+        "score": 4.42,
+        "confidence": 0.55,
+        "legend": {
+          "0": "Very unlikely",
+          "1": "Unlikely",
+          "2": "Somewhat unlikely",
+          "3": "Slightly less likely than not",
+          "4": "Slightly more likely than not",
+          "5": "Somewhat likely",
+          "6": "Likely",
+          "7": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.04,
+          "2": 0.07,
+          "3": 0.06,
+          "4": 0.25,
+          "5": 0.43,
+          "6": 0.15,
+          "7": 0.0
+        }
+      }
+    }
+  }
+}

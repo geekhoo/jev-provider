@@ -1,0 +1,51 @@
+{
+  "case": "moderation-L4",
+  "source": "gateway route jev-openai",
+  "with_user_instructions": {
+    "answers": {
+      "aimed_at_specific_person": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "penalty": {
+        "type": "choice",
+        "choice": "private_warning",
+        "confidence": 0.59,
+        "probabilities": {
+          "no_action": 0.02,
+          "remove_comment_only": 0.2,
+          "private_warning": 0.65,
+          "public_warning_note": 0.02,
+          "mute_in_thread_24h": 0.05,
+          "three_day_suspension": 0.0,
+          "refer_to_senior_moderator": 0.06
+        }
+      },
+      "harassment_severity": {
+        "type": "score",
+        "score": 4.31,
+        "confidence": 0.47,
+        "legend": {
+          "0": "None",
+          "1": "Barely any",
+          "2": "Very mild",
+          "3": "Mild",
+          "4": "Mild to moderate",
+          "5": "Moderate",
+          "6": "Serious",
+          "7": "Severe"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.02,
+          "2": 0.04,
+          "3": 0.16,
+          "4": 0.3,
+          "5": 0.31,
+          "6": 0.14,
+          "7": 0.02
+        }
+      }
+    }
+  }
+}

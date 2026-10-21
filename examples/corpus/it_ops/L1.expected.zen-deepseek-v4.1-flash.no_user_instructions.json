@@ -1,0 +1,26 @@
+{
+  "case": "it_ops-L1",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "wiki_unavailable": { "type": "noul", "noul": 0.97 },
+      "handling_mode": {
+        "type": "choice",
+        "probabilities": {
+          "label_incident_type": 0.34,
+          "route_to_oncall": 0.33,
+          "gate_next_deploy": 0.33
+        }
+      },
+      "user_impact": {
+        "type": "score",
+        "probabilities": { "0": 0.05, "1": 0.40, "2": 0.55 }
+      }
+    },
+    "reasons": {
+      "wiki_unavailable": "Monitoring reports HTTP 503 for every user, so the wiki is currently down.",
+      "handling_mode": "The question defers to user instructions that were not supplied, so no objective is available to rank the three outputs.",
+      "user_impact": "A total internal wiki outage blocks staff reference and editing work, leaning toward major disruption."
+    }
+  }
+}

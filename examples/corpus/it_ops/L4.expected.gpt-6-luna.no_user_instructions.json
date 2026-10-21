@@ -1,0 +1,42 @@
+{
+  "case": "it_ops-L4",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "record_complete": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "change_decision": {
+        "type": "choice",
+        "probabilities": {
+          "approve_as_scheduled": 0.01,
+          "approve_after_backup_check": 0.02,
+          "reschedule_to_quiet_window": 0.22,
+          "return_for_missing_information": 0.30,
+          "send_to_change_board": 0.40,
+          "approve_with_batched_backfill": 0.04,
+          "reject_change": 0.01
+        }
+      },
+      "change_risk": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.00,
+          "2": 0.00,
+          "3": 0.00,
+          "4": 0.00,
+          "5": 0.05,
+          "6": 0.33,
+          "7": 0.62
+        }
+      }
+    },
+    "reasons": {
+      "record_complete": "The request lacks batch-size confirmation, backup verification, and load-test evidence; its rollback is untested and the window overlaps a sale event.",
+      "change_decision": "Batching is an approval condition, backup and rollback evidence are incomplete, and the sale window overlaps the change; the possible post-approval calendar change also merits board resolution.",
+      "change_risk": "An 80-million-row non-null backfill has only a 10-percent staging estimate, no production-scale load test, pending backup verification, an untested rollback, and a sale-event overlap."
+    }
+  }
+}

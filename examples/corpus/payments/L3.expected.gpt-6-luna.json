@@ -1,0 +1,38 @@
+{
+  "case": "payments-L3",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "sender_identity_checked": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "compliance_action": {
+        "type": "choice",
+        "probabilities": {
+          "release_transfer": 0.03,
+          "monitor_only": 0.09,
+          "request_information": 0.15,
+          "hold_for_enhanced_review": 0.72,
+          "file_suspicious_activity_report": 0.01
+        }
+      },
+      "pattern_suspicion": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.06,
+          "2": 0.20,
+          "3": 0.39,
+          "4": 0.28,
+          "5": 0.06
+        }
+      }
+    },
+    "reasons": {
+      "sender_identity_checked": "Verified status and the 2025-11-02 verification date support complete, current checks; no failure or expiry is shown.",
+      "compliance_action": "The three recent transfers total EUR 28,700 and EUR 38,500 including the current transfer, exceeding the EUR 9,000 seven-day review threshold if they share this receiver; recipient links are absent, and no sanctions or adverse-media hit appears.",
+      "pattern_suspicion": "The rising EUR 9,400-9,800 amounts over four days look patterned, but recipient links and direct evidence of intent are absent."
+    }
+  }
+}

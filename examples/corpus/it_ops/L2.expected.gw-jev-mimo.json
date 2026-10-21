@@ -1,0 +1,42 @@
+{
+  "case": "it_ops-L2",
+  "source": "gateway route jev-mimo",
+  "with_user_instructions": {
+    "answers": {
+      "primary_healthy": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "page_decision": {
+        "type": "choice",
+        "choice": "ticket_for_morning",
+        "confidence": 0.33,
+        "probabilities": {
+          "page_now": 0.25,
+          "ticket_for_morning": 0.5,
+          "auto_cleanup_job": 0.2,
+          "ignore_known_noise": 0.05
+        }
+      },
+      "disk_urgency": {
+        "type": "score",
+        "score": 2.53,
+        "confidence": 0.44,
+        "legend": {
+          "0": "Not urgent",
+          "1": "Low",
+          "2": "Moderate",
+          "3": "High",
+          "4": "Critical"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.08,
+          "2": 0.35,
+          "3": 0.45,
+          "4": 0.1
+        }
+      }
+    }
+  }
+}

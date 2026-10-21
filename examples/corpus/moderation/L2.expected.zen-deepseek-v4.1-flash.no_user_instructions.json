@@ -1,0 +1,16 @@
+{
+  "case": "moderation-L2",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "insults_others_generally": { "type": "noul", "noul": 0.86 },
+      "moderation_action": { "type": "choice", "probabilities": { "leave_up": 0.17, "add_warning_label": 0.55, "remove_post": 0.16, "escalate_to_senior": 0.12 } },
+      "rudeness_level": { "type": "score", "probabilities": { "0": 0.02, "1": 0.10, "2": 0.47, "3": 0.31, "4": 0.10 } }
+    },
+    "reasons": {
+      "insults_others_generally": "The post calls anyone who disagrees clueless, a general insult aimed at other users rather than a named person.",
+      "moderation_action": "A broad but non-targeted civility insult with only two reports and no prior warnings points to keeping the post with a warning label.",
+      "rudeness_level": "Dismissive name-calling directed at a group reads as mildly rude to rude without slurs or threats."
+    }
+  }
+}

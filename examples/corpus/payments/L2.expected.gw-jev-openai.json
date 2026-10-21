@@ -1,0 +1,42 @@
+{
+  "case": "payments-L2",
+  "source": "gateway route jev-openai",
+  "with_user_instructions": {
+    "answers": {
+      "connection_differs_from_card": {
+        "type": "noul",
+        "noul": 1.0
+      },
+      "payment_action": {
+        "type": "choice",
+        "choice": "step_up_verification",
+        "confidence": 0.31,
+        "probabilities": {
+          "approve": 0.05,
+          "step_up_verification": 0.48,
+          "manual_review": 0.34,
+          "decline": 0.13
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "score": 2.54,
+        "confidence": 0.4,
+        "legend": {
+          "0": "Very weak",
+          "1": "Weak",
+          "2": "Moderate",
+          "3": "Strong",
+          "4": "Very strong"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.1,
+          "2": 0.33,
+          "3": 0.42,
+          "4": 0.13
+        }
+      }
+    }
+  }
+}

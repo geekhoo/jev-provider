@@ -1,0 +1,46 @@
+{
+  "state": {
+    "transaction_id": "TXN-88421",
+    "amount_usd": 1850,
+    "merchant_category": "consumer electronics",
+    "card_country": "US",
+    "connection_country": "RO",
+    "shipping_country": "US",
+    "account_age_days": 3,
+    "prior_chargebacks": 0,
+    "three_ds_result": "not attempted"
+  },
+  "user_instructions": {
+    "domain": "payment_fraud",
+    "objective": "scoring",
+    "locale": "en-US",
+    "risk_posture": "conservative"
+  },
+  "questions": {
+    "connection_differs_from_card": {
+      "type": "noul",
+      "instructions": "Does the connection country differ from the card country?"
+    },
+    "payment_action": {
+      "type": "choice",
+      "instructions": "Choose what to do with this payment.",
+      "criteria": {
+        "approve": "Let the payment go through.",
+        "step_up_verification": "Ask the cardholder for extra verification first.",
+        "manual_review": "Hold the payment for an analyst to review.",
+        "decline": "Decline the payment."
+      }
+    },
+    "fraud_signal_strength": {
+      "type": "score",
+      "instructions": "Rate how strong the fraud signals are.",
+      "criteria": [
+        "Very weak",
+        "Weak",
+        "Moderate",
+        "Strong",
+        "Very strong"
+      ]
+    }
+  }
+}

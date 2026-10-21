@@ -1,0 +1,42 @@
+{
+  "case": "insurance-L4",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "police_report_adequate": {
+        "type": "noul",
+        "noul": 0.34
+      },
+      "claim_status": {
+        "type": "choice",
+        "probabilities": {
+          "accept_and_pay": 0.06,
+          "accept_partial": 0.08,
+          "request_missing_evidence": 0.50,
+          "refer_to_investigator": 0.08,
+          "refer_to_legal_review": 0.12,
+          "decline_under_exclusion": 0.10,
+          "decline_for_late_report": 0.06
+        }
+      },
+      "evidence_reliability": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.06,
+          "1": 0.18,
+          "2": 0.34,
+          "3": 0.24,
+          "4": 0.12,
+          "5": 0.04,
+          "6": 0.01,
+          "7": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "police_report_adequate": "Report is filed 2 days after the loss so it is on time and carries a number and date, but the loss date is not stated and the description is only two short lines, so detail is thin.",
+      "claim_status": "The clause covers a locked boot when forced entry is shown but the receipt, usable CCTV and witness details are missing, so requesting evidence leads; the unattached clause text and unverified serial keep legal review live.",
+      "evidence_reliability": "No receipt, an untimestamped lock photo, overwritten CCTV, an unchecked witness and a thin report leave the evidence weak overall."
+    }
+  }
+}

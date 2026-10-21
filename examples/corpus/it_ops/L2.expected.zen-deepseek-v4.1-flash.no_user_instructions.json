@@ -1,0 +1,16 @@
+{
+  "case": "it_ops-L2",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "primary_healthy": { "type": "noul", "noul": 1.00 },
+      "page_decision": { "type": "choice", "probabilities": { "page_now": 0.50, "ticket_for_morning": 0.35, "auto_cleanup_job": 0.10, "ignore_known_noise": 0.05 } },
+      "disk_urgency": { "type": "score", "probabilities": { "0": 0.02, "1": 0.06, "2": 0.17, "3": 0.50, "4": 0.25 } }
+    },
+    "reasons": {
+      "primary_healthy": "State field primary_database_healthy is explicitly true, so the proposition is directly supported.",
+      "page_decision": "94 percent disk on a production replica with 0.4 percent per hour growth leaves roughly 15 hours, so immediate paging and a next-shift ticket are both plausible without caller domain rules.",
+      "disk_urgency": "Production read replica near capacity within about 15 hours is serious but not yet failing, so High dominates with some weight on Critical."
+    }
+  }
+}

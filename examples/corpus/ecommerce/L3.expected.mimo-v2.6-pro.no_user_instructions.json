@@ -1,0 +1,36 @@
+{
+ "case": "ecommerce-L3",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "damage_after_delivery": {
+    "type": "noul",
+    "noul": 0.98
+   },
+   "resolution": {
+    "type": "choice",
+    "probabilities": {
+     "full_refund": 0.03,
+     "replacement": 0.07,
+     "goodwill_credit": 0.25,
+     "decline": 0.65
+    }
+   },
+   "customer_distress": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.15,
+     "1": 0.50,
+     "2": 0.25,
+     "3": 0.08,
+     "4": 0.02
+    }
+   }
+  },
+  "reasons": {
+   "damage_after_delivery": "The customer states they dropped the phone themselves the day after the 2026-10-07 delivery, so their own account places the damage after delivery.",
+   "resolution": "Customer-caused post-delivery damage to a final-sale item most likely warrants declining any remedy, with a goodwill gesture as the main alternative.",
+   "customer_distress": "The message is factual and matter-of-fact with a direct refund demand, sounding mildly frustrated rather than clearly upset."
+  }
+ }
+}

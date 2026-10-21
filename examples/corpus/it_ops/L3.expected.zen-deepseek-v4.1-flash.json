@@ -1,0 +1,38 @@
+{
+  "case": "it_ops-L3",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "latency_after_deploy": {
+        "type": "noul",
+        "noul": 0.90
+      },
+      "next_action": {
+        "type": "choice",
+        "probabilities": {
+          "roll_back_deploy": 0.55,
+          "ship_hotfix": 0.10,
+          "restart_service": 0.08,
+          "wait_and_monitor": 0.15,
+          "escalate_to_change_board": 0.12
+        }
+      },
+      "customer_impact": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.10,
+          "2": 0.30,
+          "3": 0.38,
+          "4": 0.15,
+          "5": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "latency_after_deploy": "Symptom first seen 14:31, 11 minutes after the 14:20 checkout-api deploy D-771.",
+      "next_action": "A checkout-api deploy 11 minutes prior is the prime suspect; rollback qualifies as an emergency change allowed during the freeze.",
+      "customer_impact": "p95 latency tripled but error rate stayed flat with only 6 reports, so impact is mild-to-moderate."
+    }
+  }
+}

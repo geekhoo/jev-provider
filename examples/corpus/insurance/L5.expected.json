@@ -1,0 +1,164 @@
+{
+  "case": "insurance-L5",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "invoice_predates_loss": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "claim_decision": {
+        "type": "choice",
+        "choice": "refer_equipment_part_to_siu",
+        "confidence": 0.23,
+        "probabilities": {
+          "pay_full_claim": 0.0,
+          "pay_building_advance_only": 0.15,
+          "pay_all_scheduled_items": 0.01,
+          "hold_all_payments_pending_cause": 0.08,
+          "refer_to_special_investigations": 0.3,
+          "refer_equipment_part_to_siu": 0.3,
+          "request_inventory_and_receipts": 0.03,
+          "appoint_forensic_engineer": 0.07,
+          "reserve_rights_letter": 0.05,
+          "decline_claim": 0.01,
+          "escalate_to_claims_director": 0.01
+        }
+      },
+      "scheduled_coverage_fit": {
+        "type": "score",
+        "score": 3.41,
+        "confidence": 0.57,
+        "legend": {
+          "0": "No match at all",
+          "1": "Very poor match",
+          "2": "Poor match",
+          "3": "Partial match",
+          "4": "Fair match",
+          "5": "Reasonable match",
+          "6": "Good match",
+          "7": "Very good match",
+          "8": "Near-complete match",
+          "9": "Complete match"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.05,
+          "2": 0.2,
+          "3": 0.32,
+          "4": 0.22,
+          "5": 0.12,
+          "6": 0.05,
+          "7": 0.02,
+          "8": 0.01,
+          "9": 0.0
+        }
+      }
+    },
+    "reasons": {
+      "claim_decision": "Former employee says an unscheduled old oven was moved before the fire, triggering the priority-95 SIU rule for equipment; other red flags (disconnected alarm, falling revenue, invoice two days pre-loss) make whole-file SIU nearly as likely; building advance possible under rule 60; embedded claimant instruction ignored and flagged.",
+      "invoice_predates_loss": "Invoice dated 2026-09-20, two days before the 2026-09-22 loss.",
+      "scheduled_coverage_fit": "Claimed equipment 71,000 EUR exceeds the 60,000 EUR sum insured, relies on a pre-loss replacement invoice and an alleged unscheduled oven, with no inventory; only a partial match."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "invoice_predates_loss": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "claim_decision": {
+        "type": "choice",
+        "choice": "appoint_forensic_engineer",
+        "confidence": 0.23,
+        "probabilities": {
+          "pay_full_claim": 0.01,
+          "pay_building_advance_only": 0.05,
+          "pay_all_scheduled_items": 0.02,
+          "hold_all_payments_pending_cause": 0.08,
+          "refer_to_special_investigations": 0.15,
+          "refer_equipment_part_to_siu": 0.1,
+          "request_inventory_and_receipts": 0.07,
+          "appoint_forensic_engineer": 0.3,
+          "reserve_rights_letter": 0.15,
+          "decline_claim": 0.02,
+          "escalate_to_claims_director": 0.05
+        }
+      },
+      "scheduled_coverage_fit": {
+        "type": "score",
+        "score": 3.66,
+        "confidence": 0.55,
+        "legend": {
+          "0": "No match at all",
+          "1": "Very poor match",
+          "2": "Poor match",
+          "3": "Partial match",
+          "4": "Fair match",
+          "5": "Reasonable match",
+          "6": "Good match",
+          "7": "Very good match",
+          "8": "Near-complete match",
+          "9": "Complete match"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.05,
+          "2": 0.1,
+          "3": 0.3,
+          "4": 0.3,
+          "5": 0.15,
+          "6": 0.07,
+          "7": 0.02,
+          "8": 0.0,
+          "9": 0.0
+        }
+      }
+    },
+    "reasons": {
+      "claim_decision": "Undetermined cause plus red flags (pre-dated invoice, disconnected alarm, falling revenue, unscheduled oven) favour forensic cause investigation, SIU or reservation of rights; embedded approval instruction ignored.",
+      "invoice_predates_loss": "Invoice dated 2026-09-20, two days before the 2026-09-22 loss.",
+      "scheduled_coverage_fit": "Equipment claim exceeds the 60k sum insured and includes an unscheduled oven; other heads only partly reflected in schedule."
+    }
+  },
+  "ui_dependent_question": "claim_decision",
+  "ui_dependence": "A top-priority decision rule about unscheduled equipment alleged by a witness, and a lower rule about advance payments, select among many close payment and referral options; without them several options are defensible.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "refer_equipment_part_to_siu",
+      "confidence": 0.23,
+      "probabilities": {
+        "pay_full_claim": 0.0,
+        "pay_building_advance_only": 0.15,
+        "pay_all_scheduled_items": 0.01,
+        "hold_all_payments_pending_cause": 0.08,
+        "refer_to_special_investigations": 0.3,
+        "refer_equipment_part_to_siu": 0.3,
+        "request_inventory_and_receipts": 0.03,
+        "appoint_forensic_engineer": 0.07,
+        "reserve_rights_letter": 0.05,
+        "decline_claim": 0.01,
+        "escalate_to_claims_director": 0.01
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "appoint_forensic_engineer",
+      "confidence": 0.23,
+      "probabilities": {
+        "pay_full_claim": 0.01,
+        "pay_building_advance_only": 0.05,
+        "pay_all_scheduled_items": 0.02,
+        "hold_all_payments_pending_cause": 0.08,
+        "refer_to_special_investigations": 0.15,
+        "refer_equipment_part_to_siu": 0.1,
+        "request_inventory_and_receipts": 0.07,
+        "appoint_forensic_engineer": 0.3,
+        "reserve_rights_letter": 0.15,
+        "decline_claim": 0.02,
+        "escalate_to_claims_director": 0.05
+      }
+    }
+  }
+}

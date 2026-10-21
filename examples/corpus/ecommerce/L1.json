@@ -1,0 +1,31 @@
+{
+  "state": "Order ORD-48213: customer Mia Tan asks to return an unopened kettle bought 9 days ago and has the receipt. Store policy allows returns within 30 days of purchase.",
+  "user_instructions": {
+    "domain": "ecommerce_returns",
+    "objective": "routing"
+  },
+  "questions": {
+    "within_return_window": {
+      "type": "noul",
+      "instructions": "Is the return request inside the stated return window?"
+    },
+    "handling_mode": {
+      "type": "choice",
+      "instructions": "Choose the kind of output the team needs for this case. Follow the objective given in the user instructions.",
+      "criteria": {
+        "send_to_team_queue": "Pass the case to a named support queue.",
+        "decide_return_now": "Give a final approve or decline answer.",
+        "log_for_quality_audit": "Record the case only for later review."
+      }
+    },
+    "staff_effort": {
+      "type": "score",
+      "instructions": "Rate how much staff effort this case needs.",
+      "criteria": [
+        "Routine and quick",
+        "Needs some checking",
+        "Needs careful manual work"
+      ]
+    }
+  }
+}

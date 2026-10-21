@@ -1,0 +1,42 @@
+{
+ "case": "payments-L4",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "likely_authorized": {
+    "type": "noul",
+    "noul": 0.72
+   },
+   "dispute_outcome": {
+    "type": "choice",
+    "probabilities": {
+     "accept_chargeback": 0.08,
+     "represent_with_evidence": 0.10,
+     "senior_analyst_review": 0.20,
+     "request_cardholder_documents": 0.25,
+     "request_issuer_3ds_log": 0.30,
+     "split_liability": 0.05,
+     "close_no_action": 0.02
+    }
+   },
+   "unauthorized_likelihood": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.05,
+     "1": 0.15,
+     "2": 0.25,
+     "3": 0.22,
+     "4": 0.15,
+     "5": 0.10,
+     "6": 0.06,
+     "7": 0.02
+    }
+   }
+  },
+  "reasons": {
+   "likely_authorized": "Redemption from the cardholder's usual home IP, a device fingerprint matching six prior purchases, and same-country IP outweigh the disputed 3DS log and date conflict.",
+   "dispute_outcome": "Key evidence is missing and conflicting (3DS log discrepancy, lost-phone proof), so gathering the issuer 3DS log and cardholder documents dominates decisive or escalatory moves.",
+   "unauthorized_likelihood": "Transaction attributes favor authorization, so unauthorized is somewhat unlikely, but the unreconciled 3DS record and missing lost-phone documentation keep the tail toward likely nonzero."
+  }
+ }
+}

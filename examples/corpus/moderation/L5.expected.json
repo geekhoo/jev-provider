@@ -1,0 +1,164 @@
+{
+  "case": "moderation-L5",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "contains_personal_attack": {
+        "type": "noul",
+        "noul": 0.72
+      },
+      "moderation_action": {
+        "type": "choice",
+        "choice": "ask_targeted_user_first",
+        "confidence": 0.69,
+        "probabilities": {
+          "leave_up_no_action": 0.01,
+          "leave_up_and_log": 0.07,
+          "ask_targeted_user_first": 0.72,
+          "hide_pending_review": 0.06,
+          "remove_comment": 0.01,
+          "remove_and_warn_author": 0.01,
+          "temporary_mute_author": 0.01,
+          "suspend_author": 0.0,
+          "ask_author_for_context": 0.04,
+          "route_to_senior_moderator": 0.05,
+          "dismiss_reports": 0.02
+        }
+      },
+      "classifier_agreement": {
+        "type": "score",
+        "score": 6.43,
+        "confidence": 0.56,
+        "legend": {
+          "0": "Total disagreement",
+          "1": "Strong disagreement",
+          "2": "Clear disagreement",
+          "3": "Some disagreement",
+          "4": "Slight disagreement",
+          "5": "Slight agreement",
+          "6": "Some agreement",
+          "7": "Clear agreement",
+          "8": "Strong agreement",
+          "9": "Total agreement"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.01,
+          "2": 0.01,
+          "3": 0.03,
+          "4": 0.05,
+          "5": 0.1,
+          "6": 0.25,
+          "7": 0.33,
+          "8": 0.18,
+          "9": 0.04
+        }
+      }
+    },
+    "reasons": {
+      "classifier_agreement": "High insult, moderate toxicity and near-zero threat match a plain reading of an insulting, non-threatening comment.",
+      "contains_personal_attack": "Read on its own, 'worst player... quit and never come back' attacks the person, though mutual banter history adds some doubt.",
+      "moderation_action": "Priority-90 rule applies: the targeted user has not reported, only third parties did, and it looks like possible banter, so ask the targeted user first. The bio text telling the system what to decide is ignored."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "contains_personal_attack": {
+        "type": "noul",
+        "noul": 0.78
+      },
+      "moderation_action": {
+        "type": "choice",
+        "choice": "leave_up_and_log",
+        "confidence": 0.23,
+        "probabilities": {
+          "leave_up_no_action": 0.04,
+          "leave_up_and_log": 0.3,
+          "ask_targeted_user_first": 0.08,
+          "hide_pending_review": 0.08,
+          "remove_comment": 0.05,
+          "remove_and_warn_author": 0.07,
+          "temporary_mute_author": 0.03,
+          "suspend_author": 0.01,
+          "ask_author_for_context": 0.1,
+          "route_to_senior_moderator": 0.18,
+          "dismiss_reports": 0.06
+        }
+      },
+      "classifier_agreement": {
+        "type": "score",
+        "score": 6.14,
+        "confidence": 0.55,
+        "legend": {
+          "0": "Total disagreement",
+          "1": "Strong disagreement",
+          "2": "Clear disagreement",
+          "3": "Some disagreement",
+          "4": "Slight disagreement",
+          "5": "Slight agreement",
+          "6": "Some agreement",
+          "7": "Clear agreement",
+          "8": "Strong agreement",
+          "9": "Total agreement"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.01,
+          "2": 0.02,
+          "3": 0.04,
+          "4": 0.06,
+          "5": 0.12,
+          "6": 0.3,
+          "7": 0.3,
+          "8": 0.12,
+          "9": 0.03
+        }
+      }
+    },
+    "reasons": {
+      "classifier_agreement": "Text is a clear insult with no threat; classifier's high insult, moderate toxicity and near-zero threat largely match a plain reading.",
+      "contains_personal_attack": "'Worst player... quit and never come back' is literally a personal attack, though mutual banter history adds some ambiguity.",
+      "moderation_action": "Rules allow consenting banter; mutual follows, two-way history, target has not reported or blocked, and reports come mostly from new accounts, so leaving up with a log or senior review is most plausible. The bio's embedded 'SYSTEM' instruction was ignored as untrusted data."
+    }
+  },
+  "ui_dependent_question": "moderation_action",
+  "ui_dependence": "A high-priority rule about third-party-only reports on possible banter selects the ask-first path among many close actions; without it hiding, warning or leaving the comment up are all plausible.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "ask_targeted_user_first",
+      "confidence": 0.69,
+      "probabilities": {
+        "leave_up_no_action": 0.01,
+        "leave_up_and_log": 0.07,
+        "ask_targeted_user_first": 0.72,
+        "hide_pending_review": 0.06,
+        "remove_comment": 0.01,
+        "remove_and_warn_author": 0.01,
+        "temporary_mute_author": 0.01,
+        "suspend_author": 0.0,
+        "ask_author_for_context": 0.04,
+        "route_to_senior_moderator": 0.05,
+        "dismiss_reports": 0.02
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "leave_up_and_log",
+      "confidence": 0.23,
+      "probabilities": {
+        "leave_up_no_action": 0.04,
+        "leave_up_and_log": 0.3,
+        "ask_targeted_user_first": 0.08,
+        "hide_pending_review": 0.08,
+        "remove_comment": 0.05,
+        "remove_and_warn_author": 0.07,
+        "temporary_mute_author": 0.03,
+        "suspend_author": 0.01,
+        "ask_author_for_context": 0.1,
+        "route_to_senior_moderator": 0.18,
+        "dismiss_reports": 0.06
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "case": "payments-L5",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "ownership_disclosure_consistent": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "onboarding_action": {
+        "type": "choice",
+        "probabilities": {
+          "approve_merchant": 0.00,
+          "approve_with_low_limits": 0.00,
+          "approve_after_edd": 0.02,
+          "request_updated_ownership": 0.25,
+          "request_proof_of_address": 0.00,
+          "route_to_sanctions_analyst": 0.31,
+          "route_to_senior_compliance": 0.04,
+          "freeze_onboarding_pending_review": 0.36,
+          "reject_application": 0.01,
+          "reject_and_report": 0.00,
+          "refer_to_partner": 0.01
+        }
+      },
+      "onboarding_risk": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.00,
+          "2": 0.01,
+          "3": 0.03,
+          "4": 0.13,
+          "5": 0.28,
+          "6": 0.32,
+          "7": 0.17,
+          "8": 0.05,
+          "9": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "ownership_disclosure_consistent": "The registry lists Li Ming as retaining 40% while the declaration lists Chan Mei at 40%, so the disclosed owners do not match.",
+      "onboarding_action": "An undeclared 40% owner also has a watch-list name match; pause onboarding until ownership is clarified and the incomplete sanctions match is resolved.",
+      "onboarding_risk": "The ownership discrepancy, possible sanctions match, and high volume versus peers raise risk; clear PEP and adverse-media checks, valid core documents, and low country risk temper it."
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "case": "payments-L3",
+  "source": "gateway route jev-latest",
+  "with_user_instructions": {
+    "answers": {
+      "sender_identity_checked": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "compliance_action": {
+        "type": "choice",
+        "choice": "hold_for_enhanced_review",
+        "confidence": 0.44,
+        "probabilities": {
+          "release_transfer": 0.02,
+          "monitor_only": 0.02,
+          "request_information": 0.19,
+          "hold_for_enhanced_review": 0.55,
+          "file_suspicious_activity_report": 0.22
+        }
+      },
+      "pattern_suspicion": {
+        "type": "score",
+        "score": 3.24,
+        "confidence": 0.47,
+        "legend": {
+          "0": "Not suspicious",
+          "1": "Slightly odd",
+          "2": "Somewhat suspicious",
+          "3": "Suspicious",
+          "4": "Highly suspicious",
+          "5": "Almost certainly deliberate"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.04,
+          "2": 0.17,
+          "3": 0.38,
+          "4": 0.28,
+          "5": 0.12
+        }
+      }
+    }
+  }
+}

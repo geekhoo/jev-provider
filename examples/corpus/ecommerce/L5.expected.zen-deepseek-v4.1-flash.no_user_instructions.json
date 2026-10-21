@@ -1,0 +1,48 @@
+{
+  "case": "ecommerce-L5",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "fault_account_consistent": {
+        "type": "noul",
+        "noul": 0.68
+      },
+      "next_action": {
+        "type": "choice",
+        "probabilities": {
+          "refund_now": 0.03,
+          "refund_after_return_received": 0.15,
+          "replacement_same_sku": 0.01,
+          "replacement_after_inspection": 0.08,
+          "hold_for_warehouse_audit": 0.30,
+          "request_more_photos": 0.06,
+          "request_return_and_test": 0.28,
+          "partial_refund": 0.02,
+          "store_credit": 0.01,
+          "escalate_fraud_review": 0.04,
+          "decline_refund": 0.02
+        }
+      },
+      "evidence_conflict_level": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.08,
+          "2": 0.15,
+          "3": 0.20,
+          "4": 0.22,
+          "5": 0.15,
+          "6": 0.09,
+          "7": 0.05,
+          "8": 0.02,
+          "9": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "fault_account_consistent": "Intact packaging plus a plausible misprinted-label batch note fits the reported serial mismatch and untested right-earbud fault, though the fault itself was never verified.",
+      "next_action": "No return received and the fault untested, while the batch note flags misprinted serial labels, so pausing for a warehouse audit or a return-and-test is far more likely than instant refund.",
+      "evidence_conflict_level": "The photo serial, the warehouse scanned serial and the claimed order serial differ only by two swapped digits on a secondary identifier at low OCR confidence, so the conflict is noticeable but not on a main point."
+    }
+  }
+}

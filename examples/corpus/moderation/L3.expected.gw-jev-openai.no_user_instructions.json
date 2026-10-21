@@ -1,0 +1,42 @@
+{
+  "case": "moderation-L3",
+  "source": "gateway route jev-openai",
+  "no_user_instructions": {
+    "answers": {
+      "offers_item_for_sale": {
+        "type": "noul",
+        "noul": 1.0
+      },
+      "post_action": {
+        "type": "choice",
+        "choice": "remove_post",
+        "confidence": 0.79,
+        "probabilities": {
+          "remove_post": 0.84,
+          "soft_hold": 0.05,
+          "leave_up": 0.01,
+          "escalate_trust_and_safety": 0.1
+        }
+      },
+      "scam_likelihood": {
+        "type": "score",
+        "score": 3.06,
+        "confidence": 0.52,
+        "legend": {
+          "0": "Very unlikely",
+          "1": "Unlikely",
+          "2": "Possible",
+          "3": "Likely",
+          "4": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.04,
+          "2": 0.15,
+          "3": 0.48,
+          "4": 0.32
+        }
+      }
+    }
+  }
+}

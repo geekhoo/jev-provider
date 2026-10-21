@@ -1,0 +1,51 @@
+{
+  "case": "payments-L4",
+  "source": "gateway route jev-mimo",
+  "no_user_instructions": {
+    "answers": {
+      "likely_authorized": {
+        "type": "noul",
+        "noul": 0.8
+      },
+      "dispute_outcome": {
+        "type": "choice",
+        "choice": "represent_with_evidence",
+        "confidence": 0.13,
+        "probabilities": {
+          "accept_chargeback": 0.05,
+          "represent_with_evidence": 0.25,
+          "senior_analyst_review": 0.15,
+          "request_cardholder_documents": 0.2,
+          "request_issuer_3ds_log": 0.25,
+          "split_liability": 0.05,
+          "close_no_action": 0.05
+        }
+      },
+      "unauthorized_likelihood": {
+        "type": "score",
+        "score": 2.14,
+        "confidence": 0.31,
+        "legend": {
+          "0": "Very unlikely",
+          "1": "Unlikely",
+          "2": "Somewhat unlikely",
+          "3": "Slightly less likely than not",
+          "4": "Slightly more likely than not",
+          "5": "Somewhat likely",
+          "6": "Likely",
+          "7": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.12,
+          "1": 0.3,
+          "2": 0.28,
+          "3": 0.1,
+          "4": 0.08,
+          "5": 0.07,
+          "6": 0.04,
+          "7": 0.01
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "case": "ecommerce-L4",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "refund_claim_supported": {
+        "type": "noul",
+        "noul": 0.72
+      },
+      "claim_handling": {
+        "type": "choice",
+        "probabilities": {
+          "refund_in_full_now": 0.03,
+          "refund_after_investigation": 0.40,
+          "open_carrier_investigation": 0.33,
+          "request_more_evidence": 0.09,
+          "send_replacement": 0.03,
+          "partial_goodwill_credit": 0.07,
+          "decline_claim": 0.05
+        }
+      },
+      "fraud_risk": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.18,
+          "2": 0.24,
+          "3": 0.26,
+          "4": 0.15,
+          "5": 0.08,
+          "6": 0.03,
+          "7": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "refund_claim_supported": "Delivery signature is an unverifiable 'neighbour' name matching no resident and the carrier GPS fix is 140 m from the address, so the delivered status does not evidence receipt by the customer.",
+      "claim_handling": "Order value 640 USD exceeds the 500 USD cap, so the 'must' constraint requires a carrier investigation before any refund; reversible, conditional steps dominate over paying or declining now.",
+      "fraud_risk": "Evidence leans genuine, but two prior claims refunded without investigation, an unlogged camera outage and an unanswered manager add doubt without being proof of fraud per the 'must_not' constraint."
+    }
+  }
+}

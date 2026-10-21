@@ -1,0 +1,42 @@
+{
+  "case": "insurance-L3",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "no_user_instructions": {
+    "answers": {
+      "notes_match_photos": {
+        "type": "noul",
+        "noul": 0.72
+      },
+      "settlement_path": {
+        "type": "choice",
+        "choice": "repair",
+        "confidence": 0.95,
+        "probabilities": {
+          "repair": 0.96,
+          "total_loss": 0.02,
+          "partial_settlement": 0.01,
+          "investigate_further": 0.01
+        }
+      },
+      "documentation_quality": {
+        "type": "score",
+        "score": 2.82,
+        "confidence": 0.65,
+        "legend": {
+          "0": "Very poor",
+          "1": "Poor",
+          "2": "Adequate",
+          "3": "Good",
+          "4": "Very good"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.04,
+          "2": 0.22,
+          "3": 0.62,
+          "4": 0.12
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "case": "moderation-L3",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "offers_item_for_sale": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "post_action": {
+        "type": "choice",
+        "probabilities": {
+          "remove_post": 0.01,
+          "soft_hold": 0.92,
+          "leave_up": 0.02,
+          "escalate_trust_and_safety": 0.05
+        }
+      },
+      "scam_likelihood": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.01,
+          "2": 0.08,
+          "3": 0.61,
+          "4": 0.30
+        }
+      }
+    },
+    "reasons": {
+      "offers_item_for_sale": "The post explicitly offers a follower-boosting service for $5, with payment specified in gift cards.",
+      "post_action": "The account has no earlier moderation actions, so the supplied first-offence rule calls for a soft hold; gift-card-only payment and three reports justify review.",
+      "scam_likelihood": "Gift-card-only payment, a no-refund term, the new low-history account, and three reports strongly indicate a scam, though the post alone cannot confirm fulfilment intent."
+    }
+  }
+}

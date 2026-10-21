@@ -1,0 +1,16 @@
+{
+  "domain": "payments",
+  "level": 4,
+  "description": "Unauthorized-purchase dispute where the device and IP evidence point to the cardholder but the lost-phone story and a 3DS record conflict; important details are missing.",
+  "ui_dependent_question": "dispute_outcome",
+  "ui_dependence": "A constraint requires senior analyst review for unresolved 3DS conflicts, and a reference fact sets the response deadline; together they shift the choice relative to a general evidence-based reading.",
+  "features": [
+    "partly contradictory state",
+    "positive/negative pair",
+    "7-option choice with descriptions",
+    "8-level score",
+    "constraints",
+    "reference_facts",
+    "uncertainty_policy"
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "case": "ecommerce-L3",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "damage_after_delivery": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "resolution": {
+        "type": "choice",
+        "choice": "decline",
+        "confidence": 0.8,
+        "probabilities": {
+          "full_refund": 0.03,
+          "replacement": 0.03,
+          "goodwill_credit": 0.09,
+          "decline": 0.85
+        }
+      },
+      "customer_distress": {
+        "type": "score",
+        "score": 1.8,
+        "confidence": 0.33,
+        "legend": {
+          "0": "Calm",
+          "1": "Slightly annoyed",
+          "2": "Annoyed",
+          "3": "Clearly upset",
+          "4": "Very upset"
+        },
+        "probabilities": {
+          "0": 0.1,
+          "1": 0.3,
+          "2": 0.35,
+          "3": 0.2,
+          "4": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "customer_distress": "Factual tone with a firm demand; mildly to moderately annoyed.",
+      "damage_after_delivery": "Customer says they dropped the phone yesterday, after the 10-07 delivery.",
+      "resolution": "Final sale, and damage caused by the customer is not a defect, so decline."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "damage_after_delivery": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "resolution": {
+        "type": "choice",
+        "choice": "decline",
+        "confidence": 0.73,
+        "probabilities": {
+          "full_refund": 0.03,
+          "replacement": 0.05,
+          "goodwill_credit": 0.12,
+          "decline": 0.8
+        }
+      },
+      "customer_distress": {
+        "type": "score",
+        "score": 1.48,
+        "confidence": 0.35,
+        "legend": {
+          "0": "Calm",
+          "1": "Slightly annoyed",
+          "2": "Annoyed",
+          "3": "Clearly upset",
+          "4": "Very upset"
+        },
+        "probabilities": {
+          "0": 0.15,
+          "1": 0.4,
+          "2": 0.3,
+          "3": 0.12,
+          "4": 0.03
+        }
+      }
+    },
+    "reasons": {
+      "customer_distress": "Factual, short message with a firm demand but no strong emotional language: slightly annoyed to annoyed.",
+      "damage_after_delivery": "Customer says they dropped the phone yesterday, after the 2026-10-07 delivery, cracking the protector.",
+      "resolution": "Customer-caused damage on a final-sale item supports declining; small goodwill credit possible."
+    },
+    "note": "The raw reference output was missing its final closing brace (invalid JSON); one '}' was appended before mapping. Values unchanged."
+  },
+  "ui_dependent_question": "resolution",
+  "ui_dependence": "The terminology entries define final sale and defective in a way that decides whether post-delivery damage can qualify; without them the model must guess the store's meaning.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "decline",
+      "confidence": 0.8,
+      "probabilities": {
+        "full_refund": 0.03,
+        "replacement": 0.03,
+        "goodwill_credit": 0.09,
+        "decline": 0.85
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "decline",
+      "confidence": 0.73,
+      "probabilities": {
+        "full_refund": 0.03,
+        "replacement": 0.05,
+        "goodwill_credit": 0.12,
+        "decline": 0.8
+      }
+    }
+  }
+}

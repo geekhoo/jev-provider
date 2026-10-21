@@ -1,0 +1,48 @@
+{
+  "case": "moderation-L5",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "contains_personal_attack": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "moderation_action": {
+        "type": "choice",
+        "probabilities": {
+          "leave_up_no_action": 0.03,
+          "leave_up_and_log": 0.08,
+          "ask_targeted_user_first": 0.39,
+          "hide_pending_review": 0.27,
+          "remove_comment": 0.11,
+          "remove_and_warn_author": 0.06,
+          "temporary_mute_author": 0.01,
+          "suspend_author": 0.00,
+          "ask_author_for_context": 0.02,
+          "route_to_senior_moderator": 0.02,
+          "dismiss_reports": 0.01
+        }
+      },
+      "classifier_agreement": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.00,
+          "2": 0.01,
+          "3": 0.03,
+          "4": 0.06,
+          "5": 0.12,
+          "6": 0.25,
+          "7": 0.30,
+          "8": 0.20,
+          "9": 0.03
+        }
+      }
+    },
+    "reasons": {
+      "contains_personal_attack": "The comment directly insults the target and tells them to leave; reciprocal banter lowers certainty about intent but does not erase the attack.",
+      "moderation_action": "The no-personal-attacks rule applies unless both users consent to this banter; no target complaint or block is recorded, so ask the target before imposing a stronger sanction.",
+      "classifier_agreement": "The comment is plainly insulting with no credible threat; the insult and threat scores fit, while toxicity at 0.58 is moderately aligned."
+    }
+  }
+}

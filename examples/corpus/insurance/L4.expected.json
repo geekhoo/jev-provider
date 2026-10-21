@@ -1,0 +1,140 @@
+{
+  "case": "insurance-L4",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "police_report_adequate": {
+        "type": "noul",
+        "noul": 0.12
+      },
+      "claim_status": {
+        "type": "choice",
+        "choice": "request_missing_evidence",
+        "confidence": 0.69,
+        "probabilities": {
+          "accept_and_pay": 0.06,
+          "accept_partial": 0.02,
+          "request_missing_evidence": 0.73,
+          "refer_to_investigator": 0.1,
+          "refer_to_legal_review": 0.04,
+          "decline_under_exclusion": 0.04,
+          "decline_for_late_report": 0.01
+        }
+      },
+      "evidence_reliability": {
+        "type": "score",
+        "score": 3.13,
+        "confidence": 0.59,
+        "legend": {
+          "0": "Almost none",
+          "1": "Very weak",
+          "2": "Weak",
+          "3": "Weak to fair",
+          "4": "Fair",
+          "5": "Fair to good",
+          "6": "Good",
+          "7": "Very good"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.05,
+          "2": 0.22,
+          "3": 0.38,
+          "4": 0.24,
+          "5": 0.07,
+          "6": 0.02,
+          "7": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "claim_status": "Report filed within 3 days; locked-boot theft covered if forced entry shown, but lock photo is untimestamped, receipt missing and an unverified witness conflicts, so prefer requesting specific evidence.",
+      "evidence_reliability": "Serial number, police report number and lock photo help, but no timestamp, no receipt, thin police report and an unverified conflicting witness keep reliability weak to fair.",
+      "police_report_adequate": "Police report omits the loss date and is only two short lines."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "police_report_adequate": {
+        "type": "noul",
+        "noul": 0.1
+      },
+      "claim_status": {
+        "type": "choice",
+        "choice": "request_missing_evidence",
+        "confidence": 0.24,
+        "probabilities": {
+          "accept_and_pay": 0.08,
+          "accept_partial": 0.06,
+          "request_missing_evidence": 0.35,
+          "refer_to_investigator": 0.17,
+          "refer_to_legal_review": 0.2,
+          "decline_under_exclusion": 0.08,
+          "decline_for_late_report": 0.06
+        }
+      },
+      "evidence_reliability": {
+        "type": "score",
+        "score": 2.69,
+        "confidence": 0.51,
+        "legend": {
+          "0": "Almost none",
+          "1": "Very weak",
+          "2": "Weak",
+          "3": "Weak to fair",
+          "4": "Fair",
+          "5": "Fair to good",
+          "6": "Good",
+          "7": "Very good"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.1,
+          "2": 0.33,
+          "3": 0.33,
+          "4": 0.17,
+          "5": 0.04,
+          "6": 0.01,
+          "7": 0.0
+        }
+      }
+    },
+    "reasons": {
+      "claim_status": "Missing receipt and unattached clause text point to requesting evidence or legal review; witness back-seat remark adds some fraud doubt.",
+      "evidence_reliability": "Untimestamped photo, no receipt, no CCTV, unverified witness and thin police report make evidence weak.",
+      "police_report_adequate": "Police report does not state the loss date and is only two short lines."
+    }
+  },
+  "ui_dependent_question": "claim_status",
+  "ui_dependence": "The reference facts supply the clause wording and the report deadline, which determine which exclusion or deadline applies; without them the model cannot tell which statuses are even available.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "request_missing_evidence",
+      "confidence": 0.69,
+      "probabilities": {
+        "accept_and_pay": 0.06,
+        "accept_partial": 0.02,
+        "request_missing_evidence": 0.73,
+        "refer_to_investigator": 0.1,
+        "refer_to_legal_review": 0.04,
+        "decline_under_exclusion": 0.04,
+        "decline_for_late_report": 0.01
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "request_missing_evidence",
+      "confidence": 0.24,
+      "probabilities": {
+        "accept_and_pay": 0.08,
+        "accept_partial": 0.06,
+        "request_missing_evidence": 0.35,
+        "refer_to_investigator": 0.17,
+        "refer_to_legal_review": 0.2,
+        "decline_under_exclusion": 0.08,
+        "decline_for_late_report": 0.06
+      }
+    }
+  }
+}

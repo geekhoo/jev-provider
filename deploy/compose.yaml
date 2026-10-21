@@ -1,0 +1,76 @@
+# jev-provider with Docker Compose (gateway, plus an opt-in jev-mock upstream).
+#
+# Setup, from this directory:
+#   cp .env.ubuntu2604.example .env.ubuntu2604    # git-ignored; never commit it
+#   chmod 600 .env.ubuntu2604
+#   # set GATEWAY_API_KEYS (e.g. `openssl rand -hex 24`)
+#
+# Start:
+#   docker compose up -d --build                  # gateway only
+#   docker compose --profile mock up -d --build   # gateway + jev-mock
+# The template's active block (M) points at jev-mock, so either start with
+# `--profile mock` or switch .env.ubuntu2604 to a real provider block first.
+#
+# Day to day:
+#   docker compose ps
+#   docker compose logs -f jev-provider
+#   docker compose down                           # add `--profile mock` if the mock runs
+#
+# Stop and remove a jev-mock left over from an earlier run:
+#   docker compose --profile mock stop jev-mock && docker compose --profile mock rm -f jev-mock
+#
+# Gateway configuration comes only from ./.env.ubuntu2604 (env_file below).
+# After editing it, recreate the container so the new values are read
+# (`docker compose restart` does NOT re-read env_file):
+#   docker compose up -d --force-recreate jev-provider
+#
+# Update to a newer main:
+#   git pull --ff-only && docker compose up -d --build
+#
+# Each service uses `restart: always`: it comes back after a crash, a manual
+# `docker stop`, or a reboot (with the docker service enabled at boot).
+# `docker compose down` removes it until the next `up`.
+
+name: jev
+
+services:
+  jev-provider:
+    build:
+      context: ..               # repository root
+      dockerfile: Dockerfile
+    image: jev-provider:local
+    env_file:
+      - path: ./.env.ubuntu2604
+        required: true
+    ports:
+      - "8080:8080"             # host:container; BIND_ADDR must stay 0.0.0.0:8080
+    restart: always
+    stop_grace_period: 15s      # above SHUTDOWN_GRACE_MS (10 s) so drain can finish
+
+  # Deterministic mock upstream (dev/test only, never in the gateway image).
+  # Starts only with `--profile mock`. Reached from the gateway at
+  # http://jev-mock:8090 (block (M) of the env template).
+  jev-mock:
+    profiles: ["mock"]
+    build:
+      context: ..
+      # Mirrors the repo Dockerfile, but builds jev-mock.
+      dockerfile_inline: |
+        FROM rust:1.85-bookworm AS build
+        WORKDIR /app
+        COPY Cargo.toml Cargo.lock ./
+        COPY crates ./crates
+        RUN cargo build --release --locked -p jev-mock
+        FROM debian:bookworm-slim
+        RUN useradd --system --uid 10001 app
+        COPY --from=build /app/target/release/jev-mock /usr/local/bin/jev-mock
+        USER 10001
+        EXPOSE 8090
+        ENTRYPOINT ["/usr/local/bin/jev-mock"]
+    image: jev-mock:local
+    environment:
+      MOCK_BIND: 0.0.0.0:8090   # must listen on all interfaces inside the container
+      MOCK_SCENARIO: ok
+    ports:
+      - "127.0.0.1:8090:8090"   # host-only, for GET /_mock/requests inspection
+    restart: always

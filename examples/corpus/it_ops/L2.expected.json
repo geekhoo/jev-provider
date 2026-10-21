@@ -1,0 +1,116 @@
+{
+  "case": "it_ops-L2",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "primary_healthy": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "page_decision": {
+        "type": "choice",
+        "choice": "ticket_for_morning",
+        "confidence": 0.47,
+        "probabilities": {
+          "page_now": 0.12,
+          "ticket_for_morning": 0.6,
+          "auto_cleanup_job": 0.25,
+          "ignore_known_noise": 0.03
+        }
+      },
+      "disk_urgency": {
+        "type": "score",
+        "score": 1.67,
+        "confidence": 0.36,
+        "legend": {
+          "0": "Not urgent",
+          "1": "Low",
+          "2": "Moderate",
+          "3": "High",
+          "4": "Critical"
+        },
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.4,
+          "2": 0.4,
+          "3": 0.13,
+          "4": 0.02
+        }
+      }
+    },
+    "reasons": {
+      "disk_urgency": "94 percent on a read replica growing 0.4 percent per hour leaves about 15 hours; primary healthy, lag low.",
+      "page_decision": "Slow growth on a replica at 02:10 Sunday favours a ticket for the next shift; cleanup or paging less likely.",
+      "primary_healthy": "State sets primary_database_healthy to true."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "primary_healthy": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "page_decision": {
+        "type": "choice",
+        "choice": "ticket_for_morning",
+        "confidence": 0.33,
+        "probabilities": {
+          "page_now": 0.17,
+          "ticket_for_morning": 0.5,
+          "auto_cleanup_job": 0.3,
+          "ignore_known_noise": 0.03
+        }
+      },
+      "disk_urgency": {
+        "type": "score",
+        "score": 2.09,
+        "confidence": 0.49,
+        "legend": {
+          "0": "Not urgent",
+          "1": "Low",
+          "2": "Moderate",
+          "3": "High",
+          "4": "Critical"
+        },
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.2,
+          "2": 0.47,
+          "3": 0.25,
+          "4": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "disk_urgency": "94% with 0.4%/h growth gives ~15h to full on a replica with healthy primary and low lag; moderate, not immediate.",
+      "page_decision": "No need to wake anyone at 02:10 given ~15h headroom; ticket favored, cleanup job plausible, though Sunday shift timing adds some page risk.",
+      "primary_healthy": "State explicitly has primary_database_healthy: true."
+    }
+  },
+  "ui_dependent_question": "page_decision",
+  "ui_dependence": "The conservative risk posture tells the model to prefer waking someone over waiting, which changes the notification choice relative to a balanced reading.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "ticket_for_morning",
+      "confidence": 0.47,
+      "probabilities": {
+        "page_now": 0.12,
+        "ticket_for_morning": 0.6,
+        "auto_cleanup_job": 0.25,
+        "ignore_known_noise": 0.03
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "ticket_for_morning",
+      "confidence": 0.33,
+      "probabilities": {
+        "page_now": 0.17,
+        "ticket_for_morning": 0.5,
+        "auto_cleanup_job": 0.3,
+        "ignore_known_noise": 0.03
+      }
+    }
+  }
+}

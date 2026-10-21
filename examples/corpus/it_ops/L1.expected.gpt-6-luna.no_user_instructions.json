@@ -1,0 +1,33 @@
+{
+  "case": "it_ops-L1",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "wiki_unavailable": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "handling_mode": {
+        "type": "choice",
+        "probabilities": {
+          "label_incident_type": 0.65,
+          "route_to_oncall": 0.25,
+          "gate_next_deploy": 0.10
+        }
+      },
+      "user_impact": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.54,
+          "2": 0.43
+        }
+      }
+    },
+    "reasons": {
+      "wiki_unavailable": "Monitoring reports HTTP 503 for every user, directly supporting current unavailability.",
+      "handling_mode": "An all-user wiki outage supports an incident type label; no on-call team or causal link to the earlier deploy is provided, and the case-specific objective is unavailable.",
+      "user_impact": "Every wiki user is affected, though the outage is limited to one service and its duration and workarounds are unknown."
+    }
+  }
+}

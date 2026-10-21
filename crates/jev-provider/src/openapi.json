@@ -1,0 +1,966 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "jev-provider gateway API",
+    "version": "__CARGO_PKG_VERSION__",
+    "license": { "name": "MIT", "identifier": "MIT" },
+    "description": "Jev/System One compatible decision gateway. It translates a bounded Jev request into one structured-output call to a configured upstream provider (Responses API or Messages API) and maps the result back to Jev answers.\n\nEvery response, success or error, carries `Cache-Control: no-store` and the same `gw_<16 hex>` request ID in `x-request-id` and `x-typesafe-request-id`.\n\nGateway limits. These are gateway policy, not official System One limits. The numbers in this document are the gateway defaults; operators can change each one, and `GET /api/system-one/config` reports the values in effect:\n- request body: 524288 bytes (`MAX_BODY_BYTES`)\n- questions per request: 1..=32 (`MAX_QUESTIONS`)\n- Choice options: 1..=255 (`MAX_CHOICE_OPTIONS`)\n- Score levels: 1..=10 (`MAX_SCORE_LEVELS`)\n- JSON nesting depth of `state`, `instructions` and each criteria value: 32 (`MAX_JSON_DEPTH`)\n- meaningful text: 3 words (`MIN_DESCRIPTION_WORDS`, at least 1; see Question and state rules)\n- time to receive the request headers and body: 10000 ms (`REQUEST_READ_TIMEOUT_MS`)\n- Idempotency-Key retention: 86400 s (`IDEMPOTENCY_TTL_SECONDS`), about 100000 entries per process (`IDEMPOTENCY_MAX_ENTRIES`)\n\nFixed limits (not configurable): question and option names 1..=128 characters and not blank; `model` 1..=128 characters, not blank, no control characters; `Idempotency-Key` 1..=255 visible ASCII bytes.\n\nQuestion and state rules. Gateway policy, stricter than the official API: a question or `state` without real text returns `422 invalid_request` with a message naming the question (or `state`) and the rule. Text is counted in units over every object key and string value at any depth: each Han, Hiragana, Katakana or Thai character is one unit, other text counts runs of word characters (like the regex `\\w+`), and numbers, booleans and null count nothing. Text is meaningful at `MIN_DESCRIPTION_WORDS` units (default 3).\n- Noul: meaningful `instructions`, or `criteria` that is one positive/negative pair with both descriptions meaningful.\n- Choice: meaningful `instructions`, or a meaningful description for every option.\n- Score: meaningful `instructions`, or a meaningful description for every level.\n- `state`: not `null`, a number, a boolean, or an array holding only those (at any depth), and at least `MIN_DESCRIPTION_WORDS` units.\n\nThe gateway does not count tokens; the upstream provider's own limits apply."
+  },
+  "tags": [
+    { "name": "System One", "description": "Official System One routes." },
+    { "name": "Gateway", "description": "Gateway extensions with no official System One counterpart." }
+  ],
+  "paths": {
+    "/v1/systemone": {
+      "description": "Any method other than POST returns `405 method_not_allowed` with `\"detail\": \"Method Not Allowed\"` and `Allow: POST` (see `components.responses.MethodNotAllowed`). This is the only route that answers 405.",
+      "post": {
+        "tags": ["System One"],
+        "operationId": "evaluate",
+        "summary": "Evaluate typed questions against caller state",
+        "description": "Checks run in this order: authentication (401/403), `Content-Type` (415), a declared `Content-Length` over the body limit (413), `Idempotency-Key` syntax (422), body read (408, 413), JSON parsing (400), the Jev contract and its bounds (422), the idempotency cache (409), then the upstream call. A failed upstream attempt is retried up to the provider's `max_retries` (at most 3) for retryable statuses; the caller sees the last error.",
+        "security": [{ "gatewayBearer": [] }, {}],
+        "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }],
+        "requestBody": {
+          "required": true,
+          "description": "`Content-Type` must start with `application/json` (any case; parameters such as `charset` are allowed). The body must be UTF-8 JSON without duplicate object keys, at most 524288 bytes by default (`MAX_BODY_BYTES`, configurable).",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/JevRequest" },
+              "examples": {
+                "routing": {
+                  "summary": "examples/request.json",
+                  "value": {
+                    "model": "jev-latest",
+                    "state": {
+                      "ticket": "A customer reports that production payouts have failed for three days.",
+                      "customer_tier": "enterprise",
+                      "region": "SG"
+                    },
+                    "user_instructions": {
+                      "domain": "b2b_support",
+                      "locale": "en-SG",
+                      "objective": "routing",
+                      "risk_posture": "conservative",
+                      "uncertainty_policy": "abstain_biased",
+                      "terminology": [
+                        {"term": "P1", "definition": "Production-blocking incident requiring immediate human review."}
+                      ],
+                      "constraints": [
+                        {"kind": "must", "statement": "Treat active production outage evidence as operationally significant."},
+                        {"kind": "must_not", "statement": "Infer account-specific facts that are absent from state."}
+                      ],
+                      "reference_facts": [
+                        {"name": "enterprise_sla", "value": "Production-blocking payout incidents are reviewed by incident response.", "authority": "policy"}
+                      ],
+                      "decision_rules": [
+                        {"priority": 90, "when": "State explicitly reports an ongoing production-blocking payout failure.", "then": "Increase probability of incident_response routing."}
+                      ],
+                      "tags": ["payments", "support"]
+                    },
+                    "questions": {
+                      "team": {
+                        "type": "choice",
+                        "instructions": "Choose the appropriate reviewing team.",
+                        "criteria": {
+                          "incident_response": "Production outage or active business-critical incident.",
+                          "billing": "Billing, invoices, or payment-account administration.",
+                          "general_support": "Non-critical general support request."
+                        }
+                      },
+                      "urgency": {
+                        "type": "score",
+                        "instructions": "Evaluate operational urgency.",
+                        "criteria": ["Routine", "Time-sensitive", "Immediate human attention"]
+                      },
+                      "is_blocking": {
+                        "type": "noul",
+                        "instructions": "Is normal business operation currently blocked?",
+                        "criteria": {
+                          "true": "The state describes an ongoing failure preventing normal operation.",
+                          "false": "The state describes a non-blocking issue or informational request."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Answers for every question. With a replayed `Idempotency-Key` the cached body is returned with its original request ID and `X-Idempotency-Replayed: true`.",
+            "headers": {
+              "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+              "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+              "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+              "X-System-One-Response-Mode": { "$ref": "#/components/headers/ResponseMode" },
+              "X-Idempotency-Replayed": { "$ref": "#/components/headers/IdempotencyReplayed" },
+              "X-Upstream-Provider": { "$ref": "#/components/headers/UpstreamProvider" },
+              "X-Upstream-Model": { "$ref": "#/components/headers/UpstreamModel" },
+              "X-Upstream-Request-Id": { "$ref": "#/components/headers/UpstreamRequestId" }
+            },
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/JevResponse" },
+                "examples": {
+                  "routing": {
+                    "summary": "A response to examples/request.json",
+                    "value": {
+                      "model": "jev-latest",
+                      "answers": {
+                        "team": {
+                          "type": "choice",
+                          "choice": "incident_response",
+                          "confidence": 0.85,
+                          "probabilities": { "incident_response": 0.9, "billing": 0.05, "general_support": 0.05 }
+                        },
+                        "urgency": {
+                          "type": "score",
+                          "score": 1.8,
+                          "confidence": 0.7,
+                          "legend": { "0": "Routine", "1": "Time-sensitive", "2": "Immediate human attention" },
+                          "probabilities": { "0": 0.0, "1": 0.2, "2": 0.8 }
+                        },
+                        "is_blocking": { "type": "noul", "noul": 0.93 }
+                      },
+                      "usage": { "input_tokens": 1214, "output_tokens": 86 }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "408": { "$ref": "#/components/responses/RequestTimeout" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "413": { "$ref": "#/components/responses/PayloadTooLarge" },
+          "415": { "$ref": "#/components/responses/UnsupportedMediaType" },
+          "422": { "$ref": "#/components/responses/UnprocessableEntity" },
+          "429": { "$ref": "#/components/responses/TooManyRequests" },
+          "500": { "$ref": "#/components/responses/InternalServerError" },
+          "502": { "$ref": "#/components/responses/BadGateway" },
+          "503": { "$ref": "#/components/responses/ServiceUnavailable" },
+          "504": { "$ref": "#/components/responses/GatewayTimeout" },
+          "5XX": { "$ref": "#/components/responses/UpstreamServerError" }
+        }
+      }
+    },
+    "/v1/models": {
+      "description": "Methods other than GET return `404 not_found`.",
+      "get": {
+        "tags": ["System One"],
+        "operationId": "listModels",
+        "summary": "List public model aliases",
+        "description": "The configured public aliases, sorted by name. Upstream provider names and model IDs are never listed.",
+        "security": [{ "gatewayBearer": [] }, {}],
+        "responses": {
+          "200": {
+            "description": "Model catalog.",
+            "headers": {
+              "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+              "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+              "Cache-Control": { "$ref": "#/components/headers/CacheControl" }
+            },
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ModelList" },
+                "example": { "models": [{ "name": "jev-latest", "description": "", "release_date": "2026-10-13" }] }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
+        }
+      }
+    },
+    "/api/system-one/config": {
+      "description": "Methods other than GET return `404 not_found`.",
+      "get": {
+        "tags": ["Gateway"],
+        "operationId": "getConfig",
+        "summary": "Default model and gateway limits in effect",
+        "description": "Gateway extension. No authentication, even when `GATEWAY_API_KEYS` is set.",
+        "responses": {
+          "200": {
+            "description": "Configuration summary.",
+            "headers": {
+              "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+              "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+              "Cache-Control": { "$ref": "#/components/headers/CacheControl" }
+            },
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GatewayConfig" },
+                "example": {
+                  "defaultModel": "jev-latest",
+                  "ready": true,
+                  "limits": { "bytes": 524288, "questions": 32, "choiceOptions": 255, "scoreLevels": 10, "depth": 32 }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/healthz": {
+      "description": "Methods other than GET return `404 not_found`.",
+      "get": {
+        "tags": ["Gateway"],
+        "operationId": "health",
+        "summary": "Process health",
+        "description": "Gateway extension. No authentication. Does not contact upstream providers.",
+        "responses": {
+          "200": {
+            "description": "The process is serving requests.",
+            "headers": {
+              "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+              "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+              "Cache-Control": { "$ref": "#/components/headers/CacheControl" }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status"],
+                  "properties": { "status": { "const": "ok" } }
+                },
+                "example": { "status": "ok" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi.json": {
+      "description": "Methods other than GET return `404 not_found`.",
+      "get": {
+        "tags": ["Gateway"],
+        "operationId": "openapi",
+        "summary": "This OpenAPI document",
+        "description": "Gateway extension. No authentication, even when `GATEWAY_API_KEYS` is set: the document is static apart from `info.version` and contains no secrets or configured values. Limits shown are gateway defaults.",
+        "responses": {
+          "200": {
+            "description": "OpenAPI 3.1.0 document.",
+            "headers": {
+              "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+              "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+              "Cache-Control": { "$ref": "#/components/headers/CacheControl" }
+            },
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "gatewayBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer <key>`. Required on `POST /v1/systemone` and `GET /v1/models` only when the gateway is configured with `GATEWAY_API_KEYS`; otherwise the header is ignored. The scheme name is case-insensitive (RFC 7235), so `bearer <key>` also works. A missing header, another scheme (such as `Basic`), or an empty token returns `403` with message `Must supply an API key! Check your request and try again.`; a well-formed Bearer token that is not configured returns `401` with message `Cannot authenticate with the server. Please check your API key and try again.`. Both use `error.code` `invalid_api_key` and `detail.error_type` `authentication_error`. The key also scopes the idempotency cache."
+      }
+    },
+    "parameters": {
+      "IdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": false,
+        "description": "Gateway extension. 1..=255 visible ASCII bytes (0x21-0x7E); otherwise `422 invalid_idempotency_key`. Scoped to the caller's gateway key, kept in a process-local cache for `IDEMPOTENCY_TTL_SECONDS` (default 86400). The same key with the same body bytes replays the cached 200; with a different body it returns `409 idempotency_conflict`; while the first request runs it returns `409 request_in_progress` with `retry-after: 1`; after the first request failed it returns `409 idempotency_failed`. Use a new key for each logical retry.",
+        "schema": { "type": "string", "minLength": 1, "maxLength": 255, "pattern": "^[!-~]+$" }
+      }
+    },
+    "headers": {
+      "XRequestId": {
+        "description": "Gateway request ID, `gw_` followed by 16 lowercase hex digits. On every response.",
+        "schema": { "$ref": "#/components/schemas/RequestId" }
+      },
+      "XTypesafeRequestId": {
+        "description": "Same value as `x-request-id`. On every response.",
+        "schema": { "$ref": "#/components/schemas/RequestId" }
+      },
+      "CacheControl": {
+        "description": "Always `no-store`.",
+        "schema": { "const": "no-store" }
+      },
+      "ResponseMode": {
+        "description": "Gateway extension. Provider type that produced the answers: `responses-adapted` (Responses API) or `messages-adapted` (Messages API). Successful decisions only.",
+        "schema": { "enum": ["responses-adapted", "messages-adapted"] }
+      },
+      "IdempotencyReplayed": {
+        "description": "Gateway extension. `true` when the body was replayed from the idempotency cache; absent otherwise.",
+        "schema": { "const": "true" }
+      },
+      "UpstreamProvider": {
+        "description": "Gateway extension, off by default. Provider registry name. Sent only when `EXPOSE_UPSTREAM_HEADERS=true`.",
+        "schema": { "type": "string" }
+      },
+      "UpstreamModel": {
+        "description": "Gateway extension, off by default. Upstream model ID. Sent only when `EXPOSE_UPSTREAM_HEADERS=true`.",
+        "schema": { "type": "string" }
+      },
+      "UpstreamRequestId": {
+        "description": "Gateway extension, off by default. Upstream request ID (from the upstream `x-request-id`, `request-id` or `x-typesafe-request-id` header). Sent only when `EXPOSE_UPSTREAM_HEADERS=true` and the upstream returned one.",
+        "schema": { "type": "string" }
+      },
+      "ErrorSource": {
+        "description": "Gateway extension. `platform` for errors the gateway raised itself, `upstream` for errors caused by the upstream provider (unreachable, timed out, non-2xx status, refusal, truncated output).",
+        "schema": { "enum": ["platform", "upstream"] }
+      },
+      "ErrorCode": {
+        "description": "Gateway extension. Same value as `error.code`.",
+        "schema": { "$ref": "#/components/schemas/ErrorCode" }
+      },
+      "RetryAfter": {
+        "description": "`1` on `409 request_in_progress`. On errors mapped from an upstream non-2xx status, the upstream `retry-after` value when it sent one.",
+        "schema": { "type": "string" }
+      },
+      "Allow": {
+        "description": "`POST`, on `405` from `/v1/systemone`.",
+        "schema": { "const": "POST" }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "`invalid_json`: the body is not UTF-8 JSON, contains duplicate object keys, or failed while being read.",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorBody" } } }
+      },
+      "Unauthorized": {
+        "description": "`invalid_api_key`: a well-formed Bearer token that is not configured. Only when `GATEWAY_API_KEYS` is set.",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" }
+        },
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorBody" },
+            "example": {
+              "detail": { "error_type": "authentication_error", "message": "Cannot authenticate with the server. Please check your API key and try again." },
+              "error": { "code": "invalid_api_key", "message": "Cannot authenticate with the server. Please check your API key and try again.", "request_id": "gw_0000000000000001" },
+              "request_id": "gw_0000000000000001"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "`invalid_api_key`: no `Authorization` header, a non-Bearer scheme, or an empty Bearer token. Only when `GATEWAY_API_KEYS` is set.",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" }
+        },
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorBody" },
+            "example": {
+              "detail": { "error_type": "authentication_error", "message": "Must supply an API key! Check your request and try again." },
+              "error": { "code": "invalid_api_key", "message": "Must supply an API key! Check your request and try again.", "request_id": "gw_0000000000000001" },
+              "request_id": "gw_0000000000000001"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "`not_found`: unknown path, or a method other than GET on a GET route. `detail` is the string `Not Found`.",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" }
+        },
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorBody" },
+            "example": {
+              "detail": "Not Found",
+              "error": { "code": "not_found", "message": "endpoint not found", "request_id": "gw_0000000000000001" },
+              "request_id": "gw_0000000000000001"
+            }
+          }
+        }
+      },
+      "MethodNotAllowed": {
+        "description": "`method_not_allowed`: a method other than POST on `/v1/systemone`. `detail` is the string `Method Not Allowed`.",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" },
+          "Allow": { "$ref": "#/components/headers/Allow" }
+        },
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorBody" },
+            "example": {
+              "detail": "Method Not Allowed",
+              "error": { "code": "method_not_allowed", "message": "use POST /v1/systemone", "request_id": "gw_0000000000000001" },
+              "request_id": "gw_0000000000000001"
+            }
+          }
+        }
+      },
+      "RequestTimeout": {
+        "description": "`request_timeout`: the body was not fully received within `REQUEST_READ_TIMEOUT_MS` (default 10000, configurable). A connection that does not send complete request headers in time is closed without a response.",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorBody" } } }
+      },
+      "Conflict": {
+        "description": "Idempotency conflicts (only with `Idempotency-Key`): `request_in_progress` (the first request with this key is still running; `retry-after: 1`), `idempotency_conflict` (same key, different body), `idempotency_failed` (the first request with this key failed).",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" },
+          "retry-after": { "$ref": "#/components/headers/RetryAfter" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorBody" } } }
+      },
+      "PayloadTooLarge": {
+        "description": "`request_too_large`: the declared `Content-Length` or the bytes received exceed `MAX_BODY_BYTES` (default 524288, configurable).",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorBody" } } }
+      },
+      "UnsupportedMediaType": {
+        "description": "`unsupported_media_type`: `Content-Type` is missing or does not start with `application/json`.",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorBody" } } }
+      },
+      "UnprocessableEntity": {
+        "description": "`invalid_request`: the JSON does not match the Jev contract, breaks a bound, fails the question and state rules (see the API description), or names an unknown `model` alias. `invalid_idempotency_key`: malformed `Idempotency-Key`. `provider_refused` (source `upstream`): the upstream returned 200 with a refusal; not retried.",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" }
+        },
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorBody" },
+            "example": {
+              "detail": { "error_type": "invalid_request", "message": "questions must contain 1..=32 entries" },
+              "error": { "code": "invalid_request", "message": "questions must contain 1..=32 entries", "request_id": "gw_0000000000000001" },
+              "request_id": "gw_0000000000000001"
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "`provider_busy` (source `upstream`): the upstream returned 429. The upstream `retry-after` is forwarded when present.",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" },
+          "retry-after": { "$ref": "#/components/headers/RetryAfter" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorBody" } } }
+      },
+      "InternalServerError": {
+        "description": "`internal_error`: the gateway failed to serialize or build a message. `provider_unavailable` (source `upstream`): the upstream returned 500.",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" },
+          "retry-after": { "$ref": "#/components/headers/RetryAfter" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorBody" } } }
+      },
+      "BadGateway": {
+        "description": "Source `upstream`: `provider_unavailable` (upstream unreachable, failed mid-response, or returned 502), `provider_rejected_request` (any upstream status other than 429, 529 and 5xx, including 400, 401, 403, 404 and 422; the upstream status appears only in the message and the upstream body is never echoed; not retried), `provider_output_truncated` (upstream 200 cut off at its token limit; not retried). Source `platform`: `invalid_provider_response` (upstream 200 with unusable output: not JSON, no text, wrong shape, or over `MAX_UPSTREAM_BYTES`, default 1048576).",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" },
+          "retry-after": { "$ref": "#/components/headers/RetryAfter" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorBody" } } }
+      },
+      "ServiceUnavailable": {
+        "description": "Source `platform`: `provider_busy` (no provider concurrency permit within `ADMISSION_WAIT_MS`, default 5), `provider_not_configured` (the route's provider is not configured), `provider_unavailable` (admission closed). Source `upstream`: `provider_unavailable` (the upstream returned 503).",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" },
+          "retry-after": { "$ref": "#/components/headers/RetryAfter" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorBody" } } }
+      },
+      "GatewayTimeout": {
+        "description": "Source `upstream`: `provider_timeout` (an attempt exceeded the provider's `timeout_ms`; default 20000 for `responses-api`, 60000 for `messages-api`) or `provider_unavailable` (the upstream returned 504).",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" },
+          "retry-after": { "$ref": "#/components/headers/RetryAfter" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorBody" } } }
+      },
+      "UpstreamServerError": {
+        "description": "Source `upstream`: any other upstream 5xx status keeps its status with `provider_unavailable`; upstream 529 keeps its status with `provider_busy`. The upstream `retry-after` is forwarded when present.",
+        "headers": {
+          "x-request-id": { "$ref": "#/components/headers/XRequestId" },
+          "x-typesafe-request-id": { "$ref": "#/components/headers/XTypesafeRequestId" },
+          "Cache-Control": { "$ref": "#/components/headers/CacheControl" },
+          "X-System-One-Error-Source": { "$ref": "#/components/headers/ErrorSource" },
+          "X-System-One-Error-Code": { "$ref": "#/components/headers/ErrorCode" },
+          "retry-after": { "$ref": "#/components/headers/RetryAfter" }
+        },
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorBody" } } }
+      }
+    },
+    "schemas": {
+      "RequestId": {
+        "type": "string",
+        "pattern": "^gw_[0-9a-f]{16}$",
+        "examples": ["gw_0000000000000001"]
+      },
+      "AnyJson": {
+        "description": "Any JSON value. Arrays and objects may nest at most `MAX_JSON_DEPTH` levels (default 32, configurable)."
+      },
+      "Name": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128,
+        "description": "Question or option name: 1..=128 characters, not blank (whitespace-only is rejected)."
+      },
+      "JevRequest": {
+        "type": "object",
+        "description": "Jev decision request. Unknown top-level fields are ignored.",
+        "required": ["state", "questions"],
+        "properties": {
+          "model": {
+            "type": ["string", "null"],
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Gateway extension: optional. Public model alias; absent or `null` uses `DEFAULT_JEV_MODEL` (default `jev-latest`). 1..=128 characters, not blank, no control characters. An unknown alias returns `422 invalid_request` unless the gateway sets `ALLOW_PASSTHROUGH_MODEL=true`, which sends it to the default provider as an upstream model ID."
+          },
+          "state": {
+            "$ref": "#/components/schemas/AnyJson",
+            "description": "Required. Caller evidence, treated as untrusted data. Gateway policy (stricter than the official API): it must be an object, a string, or an array that holds a string or an object somewhere; `null`, a number, a boolean, or an array of only numbers, booleans and nulls (at any depth, e.g. `[1, true, [2]]`) returns `422 invalid_request`. Its keys and string values must hold at least `MIN_DESCRIPTION_WORDS` text units (default 3), so `\"\"`, `{}`, `[]` and `{\"temp\": 38.5, \"fever\": true}` (2 units) are rejected. Nesting depth at most `MAX_JSON_DEPTH` (default 32, configurable)."
+          },
+          "questions": {
+            "type": "object",
+            "description": "Question name to question. 1..=`MAX_QUESTIONS` entries (default 32, configurable).",
+            "minProperties": 1,
+            "maxProperties": 32,
+            "propertyNames": { "$ref": "#/components/schemas/Name" },
+            "additionalProperties": { "$ref": "#/components/schemas/Question" }
+          },
+          "user_instructions": {
+            "description": "Gateway extension: optional, closed and typed domain context (`schema/user-instructions.schema.json`). Unknown fields return `422 invalid_request`. Beyond the schema, text fields must not be blank (whitespace-only is rejected). `null` is the same as absent.",
+            "anyOf": [
+              { "$ref": "#/components/schemas/UserInstructions" },
+              { "type": "null" }
+            ]
+          }
+        }
+      },
+      "Question": {
+        "description": "A typed question, selected by `type`. `instructions` and every criteria value are any JSON value within the depth limit. Each question needs meaningful text: `instructions` of at least `MIN_DESCRIPTION_WORDS` text units (default 3), or descriptions as described for each type. This is gateway policy, stricter than the official API; a question that fails returns `422 invalid_request`.",
+        "oneOf": [
+          { "$ref": "#/components/schemas/NoulQuestion" },
+          { "$ref": "#/components/schemas/ChoiceQuestion" },
+          { "$ref": "#/components/schemas/ScoreQuestion" }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "noul": "#/components/schemas/NoulQuestion",
+            "choice": "#/components/schemas/ChoiceQuestion",
+            "score": "#/components/schemas/ScoreQuestion"
+          }
+        }
+      },
+      "NoulQuestion": {
+        "type": "object",
+        "description": "Probability that a statement is true. Needs meaningful `instructions` or a positive/negative `criteria` pair with two meaningful descriptions.",
+        "required": ["type"],
+        "properties": {
+          "type": { "const": "noul" },
+          "instructions": { "$ref": "#/components/schemas/AnyJson" },
+          "criteria": {
+            "description": "Optional: `null`, a string, or one positive/negative pair object. A pair object has exactly two keys, a positive and a negative key from the same row of `x-criteria-pairs` (true/false, yes/no, agree/disagree, accept/reject, approve/deny, allow/block, pass/fail, positive/negative), matched case-insensitively; each value is that answer's description. With meaningful `instructions` the pair descriptions may be anything (even empty), and a string is passed to the model as context. Without meaningful `instructions`, `criteria` must be a pair whose two descriptions each have at least `MIN_DESCRIPTION_WORDS` units; a string is then rejected. Other objects (wrong keys, keys from two rows, extra keys), arrays, numbers and booleans return `422 invalid_request`. The model sees a pair as `{\"true\": <positive>, \"false\": <negative>}` and returns P(true).",
+            "anyOf": [
+              { "type": "null" },
+              { "type": "string" },
+              { "type": "object", "minProperties": 2, "maxProperties": 2 }
+            ],
+            "x-criteria-pairs": [
+              ["true", "false"], ["yes", "no"], ["agree", "disagree"], ["accept", "reject"],
+              ["approve", "deny"], ["allow", "block"], ["pass", "fail"], ["positive", "negative"]
+            ]
+          }
+        }
+      },
+      "ChoiceQuestion": {
+        "type": "object",
+        "description": "Probability distribution over named options.",
+        "required": ["type", "criteria"],
+        "properties": {
+          "type": { "const": "choice" },
+          "instructions": { "$ref": "#/components/schemas/AnyJson" },
+          "criteria": {
+            "type": "object",
+            "description": "Option name to its description (any JSON value). 1..=`MAX_CHOICE_OPTIONS` options (default 255, configurable). Without meaningful `instructions`, every description needs at least `MIN_DESCRIPTION_WORDS` text units; with them, descriptions are optional (`\"\"` or `null` is fine). Option names are shown to the model and carry meaning.",
+            "minProperties": 1,
+            "maxProperties": 255,
+            "propertyNames": { "$ref": "#/components/schemas/Name" },
+            "additionalProperties": { "$ref": "#/components/schemas/AnyJson" }
+          }
+        }
+      },
+      "ScoreQuestion": {
+        "type": "object",
+        "description": "Probability distribution over ordered levels; level `i` is `criteria[i]`.",
+        "required": ["type", "criteria"],
+        "properties": {
+          "type": { "const": "score" },
+          "instructions": { "$ref": "#/components/schemas/AnyJson" },
+          "criteria": {
+            "type": "array",
+            "description": "Level descriptions (any JSON values), lowest first. 1..=`MAX_SCORE_LEVELS` levels (default 10, configurable). Without meaningful `instructions`, every level needs at least `MIN_DESCRIPTION_WORDS` text units; with them, descriptions are optional. With one level the answer is `score` 0, `confidence` 1 and probability 1, as TypeSafe does.",
+            "minItems": 1,
+            "maxItems": 10,
+            "items": { "$ref": "#/components/schemas/AnyJson" }
+          }
+        }
+      },
+      "UserInstructions": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://example.invalid/jev-provider/user-instructions.schema.json",
+        "title": "Jev Gateway Domain User Instructions",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["domain", "objective"],
+        "properties": {
+          "domain": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "locale": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35,
+            "pattern": "^[A-Za-z0-9._:-]+$"
+          },
+          "objective": {
+            "enum": ["classification", "routing", "gating", "scoring", "ranking", "compliance", "quality_control", "risk_assessment"]
+          },
+          "risk_posture": {
+            "enum": ["conservative", "balanced", "permissive"],
+            "default": "balanced"
+          },
+          "uncertainty_policy": {
+            "enum": ["calibrated", "conservative", "abstain_biased"],
+            "default": "calibrated"
+          },
+          "terminology": {
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["term", "definition"],
+              "properties": {
+                "term": {"type": "string", "minLength": 1, "maxLength": 64},
+                "definition": {"type": "string", "minLength": 1, "maxLength": 256}
+              }
+            }
+          },
+          "constraints": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["kind", "statement"],
+              "properties": {
+                "kind": {"enum": ["must", "must_not", "prefer", "avoid"]},
+                "statement": {"type": "string", "minLength": 1, "maxLength": 256}
+              }
+            }
+          },
+          "reference_facts": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "value", "authority"],
+              "properties": {
+                "name": {"type": "string", "minLength": 1, "maxLength": 64},
+                "value": {"type": "string", "minLength": 1, "maxLength": 256},
+                "authority": {"enum": ["contract", "policy", "taxonomy", "product", "regulatory", "domain_convention"]}
+              }
+            }
+          },
+          "decision_rules": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["priority", "when", "then"],
+              "properties": {
+                "priority": {"type": "integer", "minimum": 0, "maximum": 100},
+                "when": {"type": "string", "minLength": 1, "maxLength": 160},
+                "then": {"type": "string", "minLength": 1, "maxLength": 160}
+              }
+            }
+          },
+          "tags": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 48,
+              "pattern": "^[A-Za-z0-9._:-]+$"
+            }
+          }
+        }
+      },
+      "JevResponse": {
+        "type": "object",
+        "description": "Decision result. Keys serialize in a fixed order: top-level `model`, `answers`, `usage`; `answers` in the order the questions appear in the request body; within each answer the official field order (Noul `type`, `noul`; Choice `type`, `choice`, `confidence`, `probabilities`; Score `type`, `score`, `confidence`, `legend`, `probabilities`).",
+        "required": ["model", "answers", "usage"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "The route's `response_model` when configured, otherwise the public alias that served the request."
+          },
+          "answers": {
+            "type": "object",
+            "description": "One answer per request question, keyed by the caller's question name, in request order.",
+            "propertyNames": { "$ref": "#/components/schemas/Name" },
+            "additionalProperties": { "$ref": "#/components/schemas/Answer" }
+          },
+          "usage": { "$ref": "#/components/schemas/Usage" }
+        }
+      },
+      "Answer": {
+        "description": "Answer of the same `type` as its question. Every number (`noul`, `score`, probabilities, `confidence`) is rounded to 2 decimal places, as TypeSafe does. `score`, `confidence` and `choice` are computed from the normalized probabilities before rounding, so the rounded probabilities need not sum to exactly 1.",
+        "oneOf": [
+          { "$ref": "#/components/schemas/NoulAnswer" },
+          { "$ref": "#/components/schemas/ChoiceAnswer" },
+          { "$ref": "#/components/schemas/ScoreAnswer" }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "noul": "#/components/schemas/NoulAnswer",
+            "choice": "#/components/schemas/ChoiceAnswer",
+            "score": "#/components/schemas/ScoreAnswer"
+          }
+        }
+      },
+      "Probability": { "type": "number", "minimum": 0, "maximum": 1 },
+      "NoulAnswer": {
+        "type": "object",
+        "required": ["type", "noul"],
+        "properties": {
+          "type": { "const": "noul" },
+          "noul": { "$ref": "#/components/schemas/Probability", "description": "Probability that the statement is true." }
+        }
+      },
+      "ChoiceAnswer": {
+        "type": "object",
+        "required": ["type", "choice", "confidence", "probabilities"],
+        "properties": {
+          "type": { "const": "choice" },
+          "choice": { "type": "string", "description": "Option with the highest probability, compared before rounding; on an exact tie, the smallest name in byte order." },
+          "probabilities": {
+            "type": "object",
+            "description": "Every declared option name to its probability, normalized to sum to 1 before rounding. Keys in the order the options appear in the request's `criteria`.",
+            "additionalProperties": { "$ref": "#/components/schemas/Probability" }
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/Probability",
+            "description": "`(p_max - 1/n) / (1 - 1/n)` for `n` options; 1 when there is a single option."
+          }
+        }
+      },
+      "ScoreAnswer": {
+        "type": "object",
+        "required": ["type", "score", "confidence", "legend", "probabilities"],
+        "properties": {
+          "type": { "const": "score" },
+          "score": { "type": "number", "minimum": 0, "description": "Expected level, `sum(i * p_i)`, between 0 and n-1, rounded to 2 decimals." },
+          "probabilities": {
+            "type": "object",
+            "description": "Level index (`\"0\"`..`\"n-1\"`) to probability, normalized to sum to 1 before rounding. Keys in numeric order (`\"10\"` follows `\"9\"`).",
+            "propertyNames": { "pattern": "^(0|[1-9][0-9]*)$" },
+            "additionalProperties": { "$ref": "#/components/schemas/Probability" }
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/Probability",
+            "description": "`max(0, 1 - MAD_m / MAD_unif)`: `MAD_m` is the mean absolute level distance from the most likely level (the first maximum in level order), `MAD_unif` the uniform distribution's mean absolute deviation from the center level; 1 when there is a single level."
+          },
+          "legend": {
+            "type": "object",
+            "description": "Level index (`\"0\"`..`\"n-1\"`) to the caller's `criteria[i]` value, unchanged. Keys in numeric order.",
+            "propertyNames": { "pattern": "^(0|[1-9][0-9]*)$" },
+            "additionalProperties": { "$ref": "#/components/schemas/AnyJson" }
+          }
+        }
+      },
+      "Usage": {
+        "type": "object",
+        "description": "Upstream token counts. Always present; a count the upstream did not report is `null`.",
+        "required": ["input_tokens", "output_tokens"],
+        "properties": {
+          "input_tokens": { "type": ["integer", "null"], "minimum": 0 },
+          "output_tokens": { "type": ["integer", "null"], "minimum": 0 }
+        }
+      },
+      "ModelList": {
+        "type": "object",
+        "required": ["models"],
+        "properties": {
+          "models": {
+            "type": "array",
+            "description": "Public aliases sorted by name.",
+            "items": {
+              "type": "object",
+              "required": ["name", "description", "release_date"],
+              "properties": {
+                "name": { "type": "string", "description": "Public alias, usable as the request `model`." },
+                "description": { "type": "string", "description": "From the route; default empty string." },
+                "release_date": { "type": "string", "format": "date", "description": "`YYYY-MM-DD` from the route; defaults to the gateway release date." }
+              }
+            }
+          }
+        }
+      },
+      "GatewayConfig": {
+        "type": "object",
+        "required": ["defaultModel", "ready", "limits"],
+        "properties": {
+          "defaultModel": { "type": "string", "description": "`DEFAULT_JEV_MODEL`." },
+          "ready": { "const": true },
+          "limits": {
+            "type": "object",
+            "description": "Limits in effect.",
+            "required": ["bytes", "questions", "choiceOptions", "scoreLevels", "depth"],
+            "properties": {
+              "bytes": { "type": "integer", "description": "`MAX_BODY_BYTES`." },
+              "questions": { "type": "integer", "description": "`MAX_QUESTIONS`." },
+              "choiceOptions": { "type": "integer", "description": "`MAX_CHOICE_OPTIONS`." },
+              "scoreLevels": { "type": "integer", "description": "`MAX_SCORE_LEVELS`." },
+              "depth": { "type": "integer", "description": "`MAX_JSON_DEPTH`." }
+            }
+          }
+        }
+      },
+      "ErrorBody": {
+        "type": "object",
+        "description": "Error envelope. `detail` follows the official System One shape; `error` and `request_id` are gateway extensions.",
+        "required": ["detail", "error", "request_id"],
+        "properties": {
+          "detail": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": ["error_type", "message"],
+                "properties": {
+                  "error_type": {
+                    "type": "string",
+                    "description": "`authentication_error` for `invalid_api_key`; otherwise the same value as `error.code`."
+                  },
+                  "message": { "type": "string" }
+                }
+              },
+              {
+                "enum": ["Not Found", "Method Not Allowed"],
+                "description": "`Not Found` for `not_found`, `Method Not Allowed` for `method_not_allowed`."
+              }
+            ]
+          },
+          "error": {
+            "type": "object",
+            "required": ["code", "message", "request_id"],
+            "properties": {
+              "code": { "$ref": "#/components/schemas/ErrorCode" },
+              "message": { "type": "string", "description": "Human-readable; never contains upstream error bodies or secrets." },
+              "request_id": { "$ref": "#/components/schemas/RequestId" }
+            }
+          },
+          "request_id": { "$ref": "#/components/schemas/RequestId" }
+        }
+      },
+      "ErrorCode": {
+        "description": "Gateway error code, also sent in `X-System-One-Error-Code`. See the per-status responses for when each occurs.",
+        "enum": [
+          "invalid_api_key",
+          "not_found",
+          "method_not_allowed",
+          "unsupported_media_type",
+          "request_too_large",
+          "request_timeout",
+          "invalid_json",
+          "invalid_request",
+          "invalid_idempotency_key",
+          "request_in_progress",
+          "idempotency_conflict",
+          "idempotency_failed",
+          "provider_busy",
+          "provider_unavailable",
+          "provider_not_configured",
+          "provider_timeout",
+          "provider_rejected_request",
+          "provider_refused",
+          "provider_output_truncated",
+          "invalid_provider_response",
+          "internal_error"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "case": "ecommerce-L5",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "fault_account_consistent": {
+        "type": "noul",
+        "noul": 0.7
+      },
+      "next_action": {
+        "type": "choice",
+        "probabilities": {
+          "refund_now": 0.0,
+          "refund_after_return_received": 0.05,
+          "replacement_same_sku": 0.0,
+          "replacement_after_inspection": 0.01,
+          "hold_for_warehouse_audit": 0.72,
+          "request_more_photos": 0.04,
+          "request_return_and_test": 0.12,
+          "partial_refund": 0.01,
+          "store_credit": 0.01,
+          "escalate_fraud_review": 0.02,
+          "decline_refund": 0.02
+        }
+      },
+      "evidence_conflict_level": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.01,
+          "2": 0.03,
+          "3": 0.08,
+          "4": 0.22,
+          "5": 0.24,
+          "6": 0.18,
+          "7": 0.12,
+          "8": 0.07,
+          "9": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "fault_account_consistent": "The dead-right-earbud report is untested but nothing in the state contradicts it; the serial discrepancy is explained by the batch's known label misprints.",
+      "next_action": "The serial mismatch on batch B-0917 with a documented label-misprint issue triggers the priority-90 rule: hold for a warehouse audit before any refund or replacement.",
+      "evidence_conflict_level": "Warehouse scan and photo OCR serials disagree on the case's main point, but the conflict is reconcilable via the batch misprint note and 0.71 OCR confidence."
+    }
+  }
+}

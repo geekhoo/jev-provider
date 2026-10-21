@@ -1,0 +1,31 @@
+{
+  "state": "A user posted the same promotional link to twelve different community threads within five minutes, each time with the text 'Great deal, click here'. The account is two days old.",
+  "user_instructions": {
+    "domain": "community_moderation",
+    "objective": "quality_control"
+  },
+  "questions": {
+    "repeated_promotion": {
+      "type": "noul",
+      "instructions": "Is this user repeating the same promotional message across many threads?"
+    },
+    "handling_mode": {
+      "type": "choice",
+      "instructions": "Choose the kind of output the team needs for this case. Follow the objective given in the user instructions.",
+      "criteria": {
+        "audit_for_quality": "Record the case so moderator decisions can be checked later.",
+        "classify_content_type": "Label the post with a content category.",
+        "remove_or_keep_now": "Give a final remove or keep decision."
+      }
+    },
+    "spam_likelihood": {
+      "type": "score",
+      "instructions": "Rate how likely it is that this is spam.",
+      "criteria": [
+        "Unlikely",
+        "Possible",
+        "Very likely"
+      ]
+    }
+  }
+}

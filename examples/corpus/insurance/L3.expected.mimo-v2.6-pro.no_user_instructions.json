@@ -1,0 +1,36 @@
+{
+ "case": "insurance-L3",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "notes_match_photos": {
+    "type": "noul",
+    "noul": 0.97
+   },
+   "settlement_path": {
+    "type": "choice",
+    "probabilities": {
+     "repair": 0.42,
+     "total_loss": 0.38,
+     "partial_settlement": 0.12,
+     "investigate_further": 0.08
+    }
+   },
+   "documentation_quality": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.02,
+     "1": 0.08,
+     "2": 0.35,
+     "3": 0.42,
+     "4": 0.13
+    }
+   }
+  },
+  "reasons": {
+   "notes_match_photos": "Adjuster notes list front bumper, bonnet and left headlight; photo captions cover exactly those areas.",
+   "settlement_path": "Repair estimate of EUR 6200 is about 73% of the EUR 8500 market value, near or above common total-loss thresholds, but no policy threshold is given so repair and total loss both remain plausible.",
+   "documentation_quality": "Itemized repair estimate, adjuster notes and captioned photos cover the loss well, though driver statement, third-party details and odometer/VIN evidence are absent."
+  }
+ }
+}

@@ -1,0 +1,96 @@
+{
+  "state": {
+    "sender": {
+      "id": "ACC-5530",
+      "country": "NL",
+      "kyc_status": "verified",
+      "kyc_verified_on": "2025-11-02",
+      "account_type": "individual"
+    },
+    "receiver": {
+      "id": "ACC-9917",
+      "country": "Northmark",
+      "relationship": "unknown",
+      "first_seen": "2026-10-08"
+    },
+    "recent_transfers": [
+      {
+        "date": "2026-10-10",
+        "amount_eur": 9400
+      },
+      {
+        "date": "2026-10-11",
+        "amount_eur": 9600
+      },
+      {
+        "date": "2026-10-12",
+        "amount_eur": 9700
+      }
+    ],
+    "current_transfer": {
+      "id": "TR-70112",
+      "amount_eur": 9800,
+      "stated_purpose": "family support",
+      "date": "2026-10-13"
+    },
+    "risk_lists": {
+      "sanctions_match": false,
+      "adverse_media": false
+    },
+    "noise": {
+      "app_version": "5.14.2",
+      "ui_theme": "light",
+      "push_notifications": "on",
+      "referral_code": "FRIEND25"
+    }
+  },
+  "user_instructions": {
+    "domain": "payment_compliance",
+    "objective": "risk_assessment",
+    "locale": "en-GB",
+    "risk_posture": "balanced",
+    "uncertainty_policy": "calibrated",
+    "terminology": [
+      {
+        "term": "enhanced review",
+        "definition": "Required when one sender moves a cumulative 9000 EUR or more to one receiver within any 7-day window."
+      },
+      {
+        "term": "structuring",
+        "definition": "Splitting a large amount into smaller transfers to avoid a review or reporting threshold."
+      }
+    ]
+  },
+  "questions": {
+    "sender_identity_checked": {
+      "type": "noul",
+      "criteria": {
+        "accept": "The state shows the sender's identity checks are complete and valid.",
+        "reject": "The state shows the sender's identity checks are incomplete, expired or failed."
+      }
+    },
+    "compliance_action": {
+      "type": "choice",
+      "instructions": "Choose the compliance action for the current transfer.",
+      "criteria": {
+        "release_transfer": "",
+        "monitor_only": "",
+        "request_information": "",
+        "hold_for_enhanced_review": "",
+        "file_suspicious_activity_report": ""
+      }
+    },
+    "pattern_suspicion": {
+      "type": "score",
+      "instructions": "Rate how suspicious the pattern of transfers looks in the state.",
+      "criteria": [
+        "Not suspicious",
+        "Slightly odd",
+        "Somewhat suspicious",
+        "Suspicious",
+        "Highly suspicious",
+        "Almost certainly deliberate"
+      ]
+    }
+  }
+}

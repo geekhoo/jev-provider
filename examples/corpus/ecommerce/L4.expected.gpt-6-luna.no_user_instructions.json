@@ -1,0 +1,42 @@
+{
+  "case": "ecommerce-L4",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "refund_claim_supported": {
+        "type": "noul",
+        "noul": 0.58
+      },
+      "claim_handling": {
+        "type": "choice",
+        "probabilities": {
+          "refund_in_full_now": 0.04,
+          "refund_after_investigation": 0.20,
+          "open_carrier_investigation": 0.50,
+          "request_more_evidence": 0.20,
+          "send_replacement": 0.01,
+          "partial_goodwill_credit": 0.01,
+          "decline_claim": 0.04
+        }
+      },
+      "fraud_risk": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.04,
+          "1": 0.08,
+          "2": 0.14,
+          "3": 0.17,
+          "4": 0.25,
+          "5": 0.16,
+          "6": 0.11,
+          "7": 0.05
+        }
+      }
+    },
+    "reasons": {
+      "refund_claim_supported": "The delivery scan conflicts with the report, but the 140 m GPS gap and unidentified neighbor signature leave nonreceipt plausible; the manager has not confirmed receipt.",
+      "claim_handling": "A formal carrier trace can clarify the delivery location and signer while the case remains open; current evidence is insufficient for an immediate refund or decline.",
+      "fraud_risk": "Two recent claims refunded without investigation and unresolved delivery details raise some concern, while the account history and lack of direct contradictory evidence leave the allegation uncertain."
+    }
+  }
+}

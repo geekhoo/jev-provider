@@ -1,0 +1,112 @@
+{
+  "case": "insurance-L2",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "policy_recently_started": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "claim_route": {
+        "type": "choice",
+        "choice": "standard_adjuster",
+        "confidence": 0.47,
+        "probabilities": {
+          "fast_track_payout": 0.02,
+          "standard_adjuster": 0.6,
+          "special_investigations": 0.28,
+          "request_documents": 0.1
+        }
+      },
+      "loss_severity": {
+        "type": "score",
+        "score": 1.75,
+        "confidence": 0.45,
+        "legend": {
+          "0": "Small",
+          "1": "Moderate",
+          "2": "Large",
+          "3": "Very large"
+        },
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.3,
+          "2": 0.5,
+          "3": 0.15
+        }
+      }
+    },
+    "reasons": {
+      "claim_route": "12,000 EUR water claim 12 days after inception with no inspection; conservative posture favours adjuster inspection, with some SIU weight for early-policy loss.",
+      "loss_severity": "12,000 EUR is sizable for a home water claim; most likely large, possibly moderate.",
+      "policy_recently_started": "days_since_policy_start is 12, within 30 days."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "policy_recently_started": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "claim_route": {
+        "type": "choice",
+        "choice": "standard_adjuster",
+        "confidence": 0.44,
+        "probabilities": {
+          "fast_track_payout": 0.03,
+          "standard_adjuster": 0.58,
+          "special_investigations": 0.22,
+          "request_documents": 0.17
+        }
+      },
+      "loss_severity": {
+        "type": "score",
+        "score": 1.53,
+        "confidence": 0.37,
+        "legend": {
+          "0": "Small",
+          "1": "Moderate",
+          "2": "Large",
+          "3": "Very large"
+        },
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.45,
+          "2": 0.42,
+          "3": 0.08
+        }
+      }
+    },
+    "reasons": {
+      "claim_route": "12k loss, no inspection yet and a 12-day-old policy favour adjuster inspection, with some SIU risk.",
+      "loss_severity": "12,000 EUR is moderate-to-large for a home water claim.",
+      "policy_recently_started": "days_since_policy_start is 12, within 30 days."
+    }
+  },
+  "ui_dependent_question": "claim_route",
+  "ui_dependence": "The conservative risk posture tells the model to prefer closer scrutiny when a claim is large and the policy is new, which moves the route relative to a balanced reading.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "standard_adjuster",
+      "confidence": 0.47,
+      "probabilities": {
+        "fast_track_payout": 0.02,
+        "standard_adjuster": 0.6,
+        "special_investigations": 0.28,
+        "request_documents": 0.1
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "standard_adjuster",
+      "confidence": 0.44,
+      "probabilities": {
+        "fast_track_payout": 0.03,
+        "standard_adjuster": 0.58,
+        "special_investigations": 0.22,
+        "request_documents": 0.17
+      }
+    }
+  }
+}

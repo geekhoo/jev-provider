@@ -1,0 +1,45 @@
+{
+  "case": "it_ops-L3",
+  "source": "gateway route jev-deep",
+  "with_user_instructions": {
+    "answers": {
+      "latency_after_deploy": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "next_action": {
+        "type": "choice",
+        "choice": "roll_back_deploy",
+        "confidence": 0.38,
+        "probabilities": {
+          "roll_back_deploy": 0.5,
+          "ship_hotfix": 0.06,
+          "restart_service": 0.04,
+          "wait_and_monitor": 0.35,
+          "escalate_to_change_board": 0.05
+        }
+      },
+      "customer_impact": {
+        "type": "score",
+        "score": 2.54,
+        "confidence": 0.45,
+        "legend": {
+          "0": "None",
+          "1": "Barely noticeable",
+          "2": "Mild",
+          "3": "Moderate",
+          "4": "Serious",
+          "5": "Severe"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.1,
+          "2": 0.38,
+          "3": 0.35,
+          "4": 0.12,
+          "5": 0.03
+        }
+      }
+    }
+  }
+}

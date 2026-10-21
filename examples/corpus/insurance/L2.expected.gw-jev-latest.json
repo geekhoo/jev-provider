@@ -1,0 +1,40 @@
+{
+  "case": "insurance-L2",
+  "source": "gateway route jev-latest",
+  "with_user_instructions": {
+    "answers": {
+      "policy_recently_started": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "claim_route": {
+        "type": "choice",
+        "choice": "standard_adjuster",
+        "confidence": 0.67,
+        "probabilities": {
+          "fast_track_payout": 0.05,
+          "standard_adjuster": 0.75,
+          "special_investigations": 0.05,
+          "request_documents": 0.15
+        }
+      },
+      "loss_severity": {
+        "type": "score",
+        "score": 1.6,
+        "confidence": 0.3,
+        "legend": {
+          "0": "Small",
+          "1": "Moderate",
+          "2": "Large",
+          "3": "Very large"
+        },
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.45,
+          "2": 0.35,
+          "3": 0.15
+        }
+      }
+    }
+  }
+}

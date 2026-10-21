@@ -1,0 +1,31 @@
+{
+  "state": "Card payment PAY-2201 for 20 USD at a coffee-subscription shop was flagged only because the returning cardholder typed the billing postcode wrongly on the first try. The card, device and city all match the account history.",
+  "user_instructions": {
+    "domain": "payment_fraud",
+    "objective": "gating"
+  },
+  "questions": {
+    "matches_account_history": {
+      "type": "noul",
+      "instructions": "Do the card, device and city match the account history?"
+    },
+    "handling_mode": {
+      "type": "choice",
+      "instructions": "Choose the kind of output the team needs for this case. Follow the objective given in the user instructions.",
+      "criteria": {
+        "approve_or_decline_now": "Give a final approve or decline answer for the payment.",
+        "score_fraud_risk": "Give a numeric fraud risk score for the analysts.",
+        "route_to_analyst": "Send the payment to an analyst queue."
+      }
+    },
+    "fraud_signal_strength": {
+      "type": "score",
+      "instructions": "Rate how strong the fraud signals are.",
+      "criteria": [
+        "Very weak",
+        "Some signs",
+        "Strong signs"
+      ]
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "case": "it_ops-L5",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "with_user_instructions": {
+    "answers": {
+      "regional_outage": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "response_plan": {
+        "type": "choice",
+        "choice": "declare_sev1_page_commander",
+        "confidence": 1.0,
+        "probabilities": {
+          "declare_sev1_page_commander": 1.0,
+          "declare_sev2_notify_team": 0.0,
+          "roll_back_release_only": 0.0,
+          "fail_over_region_traffic": 0.0,
+          "scale_up_capacity": 0.0,
+          "restart_payment_services": 0.0,
+          "disable_new_feature_flag": 0.0,
+          "monitor_for_15_minutes": 0.0,
+          "open_vendor_support_case": 0.0,
+          "close_as_resolved": 0.0,
+          "request_more_diagnostics": 0.0
+        }
+      },
+      "technical_spread": {
+        "type": "score",
+        "score": 5.84,
+        "confidence": 0.94,
+        "legend": {
+          "0": "No fault anywhere",
+          "1": "Faint signals in one place",
+          "2": "Faint signals in a few places",
+          "3": "One component slightly off",
+          "4": "One component clearly off",
+          "5": "One region clearly degraded",
+          "6": "One region badly degraded",
+          "7": "One region down, others stressed",
+          "8": "Several regions degraded",
+          "9": "All regions down"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.15,
+          "6": 0.85,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.0
+        }
+      }
+    }
+  }
+}

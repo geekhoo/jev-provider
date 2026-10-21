@@ -1,0 +1,125 @@
+{
+  "case": "it_ops-L3",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "latency_after_deploy": {
+        "type": "noul",
+        "noul": 0.92
+      },
+      "next_action": {
+        "type": "choice",
+        "choice": "roll_back_deploy",
+        "confidence": 0.5,
+        "probabilities": {
+          "roll_back_deploy": 0.6,
+          "ship_hotfix": 0.03,
+          "restart_service": 0.05,
+          "wait_and_monitor": 0.12,
+          "escalate_to_change_board": 0.2
+        }
+      },
+      "customer_impact": {
+        "type": "score",
+        "score": 2.49,
+        "confidence": 0.51,
+        "legend": {
+          "0": "None",
+          "1": "Barely noticeable",
+          "2": "Mild",
+          "3": "Moderate",
+          "4": "Serious",
+          "5": "Severe"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.1,
+          "2": 0.4,
+          "3": 0.38,
+          "4": 0.1,
+          "5": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "customer_impact": "Latency tripled with unchanged errors and six customer reports: mild to moderate impact.",
+      "latency_after_deploy": "D-771 deployed 14:20 and symptoms first seen 14:31, 11 minutes later.",
+      "next_action": "Rollback of the suspect deploy is best and allowed as an emergency change if within 60 minutes; the freeze timing is uncertain, so change-board escalation is the main alternative."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "latency_after_deploy": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "next_action": {
+        "type": "choice",
+        "choice": "roll_back_deploy",
+        "confidence": 0.5,
+        "probabilities": {
+          "roll_back_deploy": 0.6,
+          "ship_hotfix": 0.04,
+          "restart_service": 0.04,
+          "wait_and_monitor": 0.12,
+          "escalate_to_change_board": 0.2
+        }
+      },
+      "customer_impact": {
+        "type": "score",
+        "score": 2.64,
+        "confidence": 0.52,
+        "legend": {
+          "0": "None",
+          "1": "Barely noticeable",
+          "2": "Mild",
+          "3": "Moderate",
+          "4": "Serious",
+          "5": "Severe"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.07,
+          "2": 0.37,
+          "3": 0.4,
+          "4": 0.12,
+          "5": 0.03
+        }
+      }
+    },
+    "reasons": {
+      "customer_impact": "Checkout p95 latency tripled with 6 customer reports but errors unchanged; mild-to-moderate impact.",
+      "latency_after_deploy": "D-771 deployed 14:20 and symptoms first seen 14:31, 11 minutes later.",
+      "next_action": "Latency began right after D-771, so rollback is the strongest action; the active change freeze makes change-board escalation a real alternative, hotfix and restart weak."
+    },
+    "note": "The raw reference output was missing its final closing brace (invalid JSON); one '}' was appended before mapping. Values unchanged."
+  },
+  "ui_dependent_question": "next_action",
+  "ui_dependence": "The terminology defines which rollbacks count as allowed emergency changes during a freeze; without it the freeze may look like a blocker for the obvious fix.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "roll_back_deploy",
+      "confidence": 0.5,
+      "probabilities": {
+        "roll_back_deploy": 0.6,
+        "ship_hotfix": 0.03,
+        "restart_service": 0.05,
+        "wait_and_monitor": 0.12,
+        "escalate_to_change_board": 0.2
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "roll_back_deploy",
+      "confidence": 0.5,
+      "probabilities": {
+        "roll_back_deploy": 0.6,
+        "ship_hotfix": 0.04,
+        "restart_service": 0.04,
+        "wait_and_monitor": 0.12,
+        "escalate_to_change_board": 0.2
+      }
+    }
+  }
+}

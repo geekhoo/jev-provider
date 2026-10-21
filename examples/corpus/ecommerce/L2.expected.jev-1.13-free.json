@@ -1,0 +1,42 @@
+{
+  "case": "ecommerce-L2",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "with_user_instructions": {
+    "answers": {
+      "window_exceeded": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "return_outcome": {
+        "type": "choice",
+        "choice": "approve_refund",
+        "confidence": 0.31,
+        "probabilities": {
+          "approve_refund": 0.48,
+          "offer_store_credit": 0.07,
+          "escalate_to_supervisor": 0.26,
+          "decline_return": 0.19
+        }
+      },
+      "goodwill_case_strength": {
+        "type": "score",
+        "score": 2.99,
+        "confidence": 0.76,
+        "legend": {
+          "0": "No case",
+          "1": "Weak case",
+          "2": "Moderate case",
+          "3": "Strong case",
+          "4": "Very strong case"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.01,
+          "2": 0.13,
+          "3": 0.72,
+          "4": 0.14
+        }
+      }
+    }
+  }
+}

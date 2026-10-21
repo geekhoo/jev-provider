@@ -1,0 +1,26 @@
+{
+  "case": "moderation-L1",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "repeated_promotion": { "type": "noul", "noul": 0.99 },
+      "handling_mode": {
+        "type": "choice",
+        "probabilities": {
+          "audit_for_quality": 0.98,
+          "classify_content_type": 0.01,
+          "remove_or_keep_now": 0.01
+        }
+      },
+      "spam_likelihood": {
+        "type": "score",
+        "probabilities": { "0": 0.00, "1": 0.02, "2": 0.98 }
+      }
+    },
+    "reasons": {
+      "repeated_promotion": "The same link and text appeared in twelve threads within five minutes, matching the repeated-promotion description.",
+      "handling_mode": "The quality_control objective calls for recording the case so moderator decisions can be reviewed.",
+      "spam_likelihood": "Twelve rapid posts of identical promotion from a two-day-old account strongly support the highest spam-likelihood level."
+    }
+  }
+}

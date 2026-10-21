@@ -1,0 +1,16 @@
+{
+  "domain": "payments",
+  "level": 3,
+  "description": "Repeated just-under-limit transfers to a new receiver by a verified sender; nested state with unrelated app noise.",
+  "ui_dependent_question": "compliance_action",
+  "ui_dependence": "The terminology sets the company's own cumulative enhanced-review trigger; without that definition the model has no basis for the specific hold action.",
+  "features": [
+    "nested state",
+    "irrelevant noise",
+    "accept/reject pair",
+    "label-only choice",
+    "6-level score",
+    "terminology",
+    "uncertainty_policy"
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "state": {
+    "claim": {
+      "id": "CLM-9044",
+      "type": "motor collision",
+      "date_of_loss": "2026-09-30",
+      "policy_number": "POL-22817"
+    },
+    "vehicle": {
+      "make": "Corvale",
+      "model": "Trek 3",
+      "year": 2021,
+      "market_value_eur": 8500
+    },
+    "repair_estimate": {
+      "workshop": "Harbor Auto Repair",
+      "total_eur": 6200,
+      "parts_eur": 4100,
+      "labour_eur": 2100
+    },
+    "adjuster_notes": "Damage to the front bumper, bonnet and left headlight. Airbags did not deploy.",
+    "photo_metadata": [
+      {
+        "file": "p1.jpg",
+        "caption": "front bumper and bonnet"
+      },
+      {
+        "file": "p2.jpg",
+        "caption": "left headlight"
+      }
+    ],
+    "noise": {
+      "policyholder_birthday_month": "March",
+      "marketing_consent": true,
+      "preferred_contact_hour": "evening",
+      "agent_office": "Cork"
+    }
+  },
+  "user_instructions": {
+    "domain": "motor_claims",
+    "objective": "quality_control",
+    "locale": "en-IE",
+    "risk_posture": "balanced",
+    "uncertainty_policy": "calibrated",
+    "terminology": [
+      {
+        "term": "total loss",
+        "definition": "A vehicle is a total loss when the repair cost is 70 percent or more of its market value."
+      },
+      {
+        "term": "partial settlement",
+        "definition": "A payment for the undisputed part of a claim while the rest is still under investigation."
+      }
+    ]
+  },
+  "questions": {
+    "notes_match_photos": {
+      "type": "noul",
+      "criteria": {
+        "yes": "The adjuster notes and the photo captions describe the same damaged areas.",
+        "no": "The adjuster notes and the photo captions describe different damaged areas."
+      }
+    },
+    "settlement_path": {
+      "type": "choice",
+      "instructions": "Choose the settlement path for this claim.",
+      "criteria": {
+        "repair": "",
+        "total_loss": "",
+        "partial_settlement": "",
+        "investigate_further": ""
+      }
+    },
+    "documentation_quality": {
+      "type": "score",
+      "instructions": "Rate how complete the claim documentation is.",
+      "criteria": [
+        "Very poor",
+        "Poor",
+        "Adequate",
+        "Good",
+        "Very good"
+      ]
+    }
+  }
+}

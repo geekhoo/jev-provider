@@ -1,0 +1,140 @@
+{
+  "case": "moderation-L4",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "aimed_at_specific_person": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "penalty": {
+        "type": "choice",
+        "choice": "private_warning",
+        "confidence": 0.42,
+        "probabilities": {
+          "no_action": 0.03,
+          "remove_comment_only": 0.2,
+          "private_warning": 0.5,
+          "public_warning_note": 0.06,
+          "mute_in_thread_24h": 0.1,
+          "three_day_suspension": 0.03,
+          "refer_to_senior_moderator": 0.08
+        }
+      },
+      "harassment_severity": {
+        "type": "score",
+        "score": 3.95,
+        "confidence": 0.53,
+        "legend": {
+          "0": "None",
+          "1": "Barely any",
+          "2": "Very mild",
+          "3": "Mild",
+          "4": "Mild to moderate",
+          "5": "Moderate",
+          "6": "Serious",
+          "7": "Severe"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.02,
+          "2": 0.07,
+          "3": 0.25,
+          "4": 0.33,
+          "5": 0.22,
+          "6": 0.08,
+          "7": 0.02
+        }
+      }
+    },
+    "reasons": {
+      "aimed_at_specific_person": "'People like you... Nobody wants you here' is a direct reply aimed at Lena.",
+      "harassment_severity": "Exclusionary targeted remark but no threats or slurs, and a mutual heated exchange mitigates: mild to moderate.",
+      "penalty": "Only one warning is within 90 days, so no third-warning suspension; mutual exchange mitigates and lowest effective penalty is preferred, favouring a private warning."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "aimed_at_specific_person": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "penalty": {
+        "type": "choice",
+        "choice": "refer_to_senior_moderator",
+        "confidence": 0.15,
+        "probabilities": {
+          "no_action": 0.02,
+          "remove_comment_only": 0.12,
+          "private_warning": 0.2,
+          "public_warning_note": 0.04,
+          "mute_in_thread_24h": 0.22,
+          "three_day_suspension": 0.13,
+          "refer_to_senior_moderator": 0.27
+        }
+      },
+      "harassment_severity": {
+        "type": "score",
+        "score": 4.19,
+        "confidence": 0.54,
+        "legend": {
+          "0": "None",
+          "1": "Barely any",
+          "2": "Very mild",
+          "3": "Mild",
+          "4": "Mild to moderate",
+          "5": "Moderate",
+          "6": "Serious",
+          "7": "Severe"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.02,
+          "2": 0.05,
+          "3": 0.17,
+          "4": 0.33,
+          "5": 0.3,
+          "6": 0.1,
+          "7": 0.02
+        }
+      }
+    },
+    "reasons": {
+      "aimed_at_specific_person": "A direct reply to Lena saying 'People like you... Nobody wants you here' is hostility aimed at one person.",
+      "harassment_severity": "Targeted exclusionary hostility, but no threats or slurs, within a mutual heated exchange; mild-to-moderate.",
+      "penalty": "Two prior warnings argue for escalating penalty, but mutual conflict, a frequent reporter and an incomplete context file make the case uncertain; senior referral, mute or warning most plausible."
+    }
+  },
+  "ui_dependent_question": "penalty",
+  "ui_dependence": "A reference fact limits escalation to warnings inside a 90-day window and sets the third-warning penalty, which determines whether the earlier warnings count; without it the model must guess the escalation rule.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "private_warning",
+      "confidence": 0.42,
+      "probabilities": {
+        "no_action": 0.03,
+        "remove_comment_only": 0.2,
+        "private_warning": 0.5,
+        "public_warning_note": 0.06,
+        "mute_in_thread_24h": 0.1,
+        "three_day_suspension": 0.03,
+        "refer_to_senior_moderator": 0.08
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "refer_to_senior_moderator",
+      "confidence": 0.15,
+      "probabilities": {
+        "no_action": 0.02,
+        "remove_comment_only": 0.12,
+        "private_warning": 0.2,
+        "public_warning_note": 0.04,
+        "mute_in_thread_24h": 0.22,
+        "three_day_suspension": 0.13,
+        "refer_to_senior_moderator": 0.27
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "case": "it_ops-L5",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "regional_outage": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "response_plan": {
+        "type": "choice",
+        "probabilities": {
+          "declare_sev1_page_commander": 0.32,
+          "declare_sev2_notify_team": 0.08,
+          "roll_back_release_only": 0.46,
+          "fail_over_region_traffic": 0.05,
+          "scale_up_capacity": 0.01,
+          "restart_payment_services": 0.01,
+          "disable_new_feature_flag": 0.03,
+          "monitor_for_15_minutes": 0.00,
+          "open_vendor_support_case": 0.00,
+          "close_as_resolved": 0.00,
+          "request_more_diagnostics": 0.04
+        }
+      },
+      "technical_spread": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.00,
+          "2": 0.00,
+          "3": 0.01,
+          "4": 0.08,
+          "5": 0.57,
+          "6": 0.29,
+          "7": 0.04,
+          "8": 0.01,
+          "9": 0.00
+        }
+      }
+    },
+    "reasons": {
+      "regional_outage": "Ap-northeast has a 14.2% payment API error rate with customer-visible impact and an estimated 310 merchants affected.",
+      "response_plan": "Failures are confined to ap-northeast and began shortly after REL-2210 reached full regional rollout, making a targeted rollback the most direct first mitigation.",
+      "technical_spread": "Ap-northeast is explicitly degraded with failing checkout tests and a rising queue, while the other regions and database are healthy."
+    }
+  }
+}

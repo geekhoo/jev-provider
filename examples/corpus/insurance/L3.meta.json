@@ -1,0 +1,16 @@
+{
+  "domain": "insurance",
+  "level": 3,
+  "description": "Collision claim whose repair estimate is close to a threshold; nested state with irrelevant noise.",
+  "ui_dependent_question": "settlement_path",
+  "ui_dependence": "The terminology sets the total-loss threshold as a percentage of market value; without it the model must guess whether the estimate is high enough to count.",
+  "features": [
+    "nested state",
+    "irrelevant noise",
+    "yes/no pair",
+    "label-only choice",
+    "5-level score",
+    "terminology",
+    "uncertainty_policy"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "case": "it_ops-L5",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "regional_outage": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "response_plan": {
+        "type": "choice",
+        "probabilities": {
+          "declare_sev1_page_commander": 0.78,
+          "declare_sev2_notify_team": 0.04,
+          "roll_back_release_only": 0.07,
+          "fail_over_region_traffic": 0.01,
+          "scale_up_capacity": 0.01,
+          "restart_payment_services": 0.01,
+          "disable_new_feature_flag": 0.01,
+          "monitor_for_15_minutes": 0.02,
+          "open_vendor_support_case": 0.01,
+          "close_as_resolved": 0.01,
+          "request_more_diagnostics": 0.03
+        }
+      },
+      "technical_spread": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.00,
+          "2": 0.01,
+          "3": 0.01,
+          "4": 0.03,
+          "5": 0.34,
+          "6": 0.42,
+          "7": 0.13,
+          "8": 0.04,
+          "9": 0.02
+        }
+      }
+    },
+    "reasons": {
+      "regional_outage": "ap-northeast shows 14.2 percent payment API errors since 14:05 marked customer visible, with the synthetic checkout test failing and queue depth rising there.",
+      "response_plan": "The priority 95 decision rule fires: customer-visible payment errors persist in one region, so declare SEV1 and page the incident commander; the matched release explains the timing and rollback likely follows within that plan.",
+      "technical_spread": "The fault is concentrated in a single region while eu-west and us-east are healthy at 0.3 and 0.5 percent and the database is normal, which fits one region clearly degraded rather than multi-region spread."
+    }
+  }
+}

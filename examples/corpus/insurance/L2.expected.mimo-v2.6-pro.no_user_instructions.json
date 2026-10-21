@@ -1,0 +1,35 @@
+{
+ "case": "insurance-L2",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "policy_recently_started": {
+    "type": "noul",
+    "noul": 0.98
+   },
+   "claim_route": {
+    "type": "choice",
+    "probabilities": {
+     "fast_track_payout": 0.08,
+     "standard_adjuster": 0.55,
+     "special_investigations": 0.25,
+     "request_documents": 0.12
+    }
+   },
+   "loss_severity": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.05,
+     "1": 0.35,
+     "2": 0.45,
+     "3": 0.15
+    }
+   }
+  },
+  "reasons": {
+   "policy_recently_started": "State reports days_since_policy_start = 12, directly within the 30-day window, so P(true) is near 1.",
+   "claim_route": "A 12000 EUR loss with no adjuster inspection yet fits a standard adjuster; the 12-day-old policy warrants some investigations weight, while documents are already supplied and fast-track payout is unsafe without inspection.",
+   "loss_severity": "A reported 12000 EUR home water damage is plausibly Large but could be Moderate or Very large depending on scope, so the mass centers on Large with spread."
+  }
+ }
+}

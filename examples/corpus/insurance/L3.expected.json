@@ -1,0 +1,116 @@
+{
+  "case": "insurance-L3",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "notes_match_photos": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "settlement_path": {
+        "type": "choice",
+        "choice": "total_loss",
+        "confidence": 0.73,
+        "probabilities": {
+          "repair": 0.1,
+          "total_loss": 0.8,
+          "partial_settlement": 0.03,
+          "investigate_further": 0.07
+        }
+      },
+      "documentation_quality": {
+        "type": "score",
+        "score": 2.94,
+        "confidence": 0.53,
+        "legend": {
+          "0": "Very poor",
+          "1": "Poor",
+          "2": "Adequate",
+          "3": "Good",
+          "4": "Very good"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.04,
+          "2": 0.2,
+          "3": 0.5,
+          "4": 0.25
+        }
+      }
+    },
+    "reasons": {
+      "documentation_quality": "Adjuster notes, matching photos, itemised estimate and vehicle value present; no police report or statement, so good rather than certain very good.",
+      "notes_match_photos": "Notes list bumper, bonnet and left headlight; photo captions cover exactly those areas.",
+      "settlement_path": "Repair 6,200 EUR is about 73% of the 8,500 EUR market value, meeting the 70% total-loss definition."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "notes_match_photos": {
+        "type": "noul",
+        "noul": 0.92
+      },
+      "settlement_path": {
+        "type": "choice",
+        "choice": "repair",
+        "confidence": 0.63,
+        "probabilities": {
+          "repair": 0.72,
+          "total_loss": 0.12,
+          "partial_settlement": 0.06,
+          "investigate_further": 0.1
+        }
+      },
+      "documentation_quality": {
+        "type": "score",
+        "score": 2.84,
+        "confidence": 0.53,
+        "legend": {
+          "0": "Very poor",
+          "1": "Poor",
+          "2": "Adequate",
+          "3": "Good",
+          "4": "Very good"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.04,
+          "2": 0.25,
+          "3": 0.5,
+          "4": 0.2
+        }
+      }
+    },
+    "reasons": {
+      "documentation_quality": "Adjuster notes, photos, itemised estimate and vehicle value present; no police report or statement.",
+      "notes_match_photos": "Notes and captions both cover bumper, bonnet and left headlight.",
+      "settlement_path": "Estimate 6,200 EUR is below the 8,500 EUR market value, so repair is likely though near total-loss thresholds."
+    }
+  },
+  "ui_dependent_question": "settlement_path",
+  "ui_dependence": "The terminology sets the total-loss threshold as a percentage of market value; without it the model must guess whether the estimate is high enough to count.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "total_loss",
+      "confidence": 0.73,
+      "probabilities": {
+        "repair": 0.1,
+        "total_loss": 0.8,
+        "partial_settlement": 0.03,
+        "investigate_further": 0.07
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "repair",
+      "confidence": 0.63,
+      "probabilities": {
+        "repair": 0.72,
+        "total_loss": 0.12,
+        "partial_settlement": 0.06,
+        "investigate_further": 0.1
+      }
+    }
+  }
+}

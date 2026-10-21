@@ -1,0 +1,10 @@
+{"case":"moderation-L2","source":"mimo-v2.6-pro, blind",
+ "no_user_instructions":{"answers":{
+  "insults_others_generally":{"type":"noul","noul":0.90},
+  "moderation_action":{"type":"choice","probabilities":{"leave_up":0.25,"add_warning_label":0.55,"remove_post":0.12,"escalate_to_senior":0.08}},
+  "rudeness_level":{"type":"score","probabilities":{"0":0.02,"1":0.18,"2":0.42,"3":0.28,"4":0.10}}
+ },"reasons":{
+  "insults_others_generally":"The post calls everyone who disagrees 'clueless', a general insult to other users despite naming no specific person.",
+  "moderation_action":"A mild general insult with 2 reports and no prior warnings fits a civility note best; removal/escalation are outsized for this content.",
+  "rudeness_level":"Telling disagreeers they are clueless and should stop cooking is dismissive and mildly-to-moderately rude, not polite but not severe."
+ }}}

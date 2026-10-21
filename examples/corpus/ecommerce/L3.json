@@ -1,0 +1,88 @@
+{
+  "state": {
+    "case": {
+      "id": "CS-61820",
+      "channel": "chat",
+      "opened": "2026-10-11"
+    },
+    "customer": {
+      "id": "CUS-1907",
+      "tier": "standard",
+      "returns_last_12m": 3,
+      "marketing_opt_in": true
+    },
+    "order": {
+      "id": "ORD-60244",
+      "delivered": "2026-10-07",
+      "items": [
+        {
+          "sku": "SP-GLASS-9",
+          "name": "Phone screen protector",
+          "price_usd": 14.0,
+          "sale_type": "final sale"
+        },
+        {
+          "sku": "CB-USB-2",
+          "name": "USB cable 2 m",
+          "price_usd": 9.0,
+          "sale_type": "regular"
+        }
+      ]
+    },
+    "customer_message": "The screen protector is cracked. I dropped my phone on the pavement yesterday and the protector cracked across the middle. I want my money back.",
+    "photo_description": "Phone with a cracked protector, fine cracks radiating from one corner.",
+    "noise": {
+      "warehouse_bin": "D-02-7",
+      "carrier": "FastParcel",
+      "newsletter_segment": "autumn_sale",
+      "agent_shift": "evening"
+    }
+  },
+  "user_instructions": {
+    "domain": "ecommerce_returns",
+    "objective": "classification",
+    "locale": "en-US",
+    "risk_posture": "balanced",
+    "uncertainty_policy": "calibrated",
+    "terminology": [
+      {
+        "term": "final sale",
+        "definition": "An item marked final sale cannot be returned or refunded, except when it is defective on arrival."
+      },
+      {
+        "term": "defective",
+        "definition": "Broken or not working when delivered. Damage caused by the customer after delivery is not defective."
+      }
+    ]
+  },
+  "questions": {
+    "damage_after_delivery": {
+      "type": "noul",
+      "criteria": {
+        "agree": "The customer's own account says the damage happened after the item was delivered.",
+        "disagree": "The customer's own account does not say the damage happened after delivery."
+      }
+    },
+    "resolution": {
+      "type": "choice",
+      "instructions": "Choose the resolution for this case.",
+      "criteria": {
+        "full_refund": "",
+        "replacement": "",
+        "goodwill_credit": "",
+        "decline": ""
+      }
+    },
+    "customer_distress": {
+      "type": "score",
+      "instructions": "Rate how upset the customer sounds in the message.",
+      "criteria": [
+        "Calm",
+        "Slightly annoyed",
+        "Annoyed",
+        "Clearly upset",
+        "Very upset"
+      ]
+    }
+  }
+}

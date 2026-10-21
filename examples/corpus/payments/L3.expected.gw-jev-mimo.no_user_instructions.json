@@ -1,0 +1,45 @@
+{
+  "case": "payments-L3",
+  "source": "gateway route jev-mimo",
+  "no_user_instructions": {
+    "answers": {
+      "sender_identity_checked": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "compliance_action": {
+        "type": "choice",
+        "choice": "file_suspicious_activity_report",
+        "confidence": 0.31,
+        "probabilities": {
+          "release_transfer": 0.03,
+          "monitor_only": 0.07,
+          "request_information": 0.1,
+          "hold_for_enhanced_review": 0.35,
+          "file_suspicious_activity_report": 0.45
+        }
+      },
+      "pattern_suspicion": {
+        "type": "score",
+        "score": 3.59,
+        "confidence": 0.46,
+        "legend": {
+          "0": "Not suspicious",
+          "1": "Slightly odd",
+          "2": "Somewhat suspicious",
+          "3": "Suspicious",
+          "4": "Highly suspicious",
+          "5": "Almost certainly deliberate"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.04,
+          "2": 0.1,
+          "3": 0.25,
+          "4": 0.4,
+          "5": 0.2
+        }
+      }
+    }
+  }
+}

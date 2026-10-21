@@ -1,0 +1,42 @@
+{
+  "case": "ecommerce-L3",
+  "source": "gateway route jev-deep",
+  "with_user_instructions": {
+    "answers": {
+      "damage_after_delivery": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "resolution": {
+        "type": "choice",
+        "choice": "decline",
+        "confidence": 0.63,
+        "probabilities": {
+          "full_refund": 0.04,
+          "replacement": 0.03,
+          "goodwill_credit": 0.21,
+          "decline": 0.72
+        }
+      },
+      "customer_distress": {
+        "type": "score",
+        "score": 1.18,
+        "confidence": 0.02,
+        "legend": {
+          "0": "Calm",
+          "1": "Slightly annoyed",
+          "2": "Annoyed",
+          "3": "Clearly upset",
+          "4": "Very upset"
+        },
+        "probabilities": {
+          "0": 0.35,
+          "1": 0.3,
+          "2": 0.2,
+          "3": 0.12,
+          "4": 0.03
+        }
+      }
+    }
+  }
+}

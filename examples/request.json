@@ -1,0 +1,53 @@
+{
+  "model": "jev-latest",
+  "state": {
+    "ticket": "A customer reports that production payouts have failed for three days.",
+    "customer_tier": "enterprise",
+    "region": "SG"
+  },
+  "user_instructions": {
+    "domain": "b2b_support",
+    "locale": "en-SG",
+    "objective": "routing",
+    "risk_posture": "conservative",
+    "uncertainty_policy": "abstain_biased",
+    "terminology": [
+      {"term": "P1", "definition": "Production-blocking incident requiring immediate human review."}
+    ],
+    "constraints": [
+      {"kind": "must", "statement": "Treat active production outage evidence as operationally significant."},
+      {"kind": "must_not", "statement": "Infer account-specific facts that are absent from state."}
+    ],
+    "reference_facts": [
+      {"name": "enterprise_sla", "value": "Production-blocking payout incidents are reviewed by incident response.", "authority": "policy"}
+    ],
+    "decision_rules": [
+      {"priority": 90, "when": "State explicitly reports an ongoing production-blocking payout failure.", "then": "Increase probability of incident_response routing."}
+    ],
+    "tags": ["payments", "support"]
+  },
+  "questions": {
+    "team": {
+      "type": "choice",
+      "instructions": "Choose the appropriate reviewing team.",
+      "criteria": {
+        "incident_response": "Production outage or active business-critical incident.",
+        "billing": "Billing, invoices, or payment-account administration.",
+        "general_support": "Non-critical general support request."
+      }
+    },
+    "urgency": {
+      "type": "score",
+      "instructions": "Evaluate operational urgency.",
+      "criteria": ["Routine", "Time-sensitive", "Immediate human attention"]
+    },
+    "is_blocking": {
+      "type": "noul",
+      "instructions": "Is normal business operation currently blocked?",
+      "criteria": {
+        "true": "The state describes an ongoing failure preventing normal operation.",
+        "false": "The state describes a non-blocking issue or informational request."
+      }
+    }
+  }
+}

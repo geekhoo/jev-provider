@@ -1,0 +1,37 @@
+{
+  "case": "insurance-L1",
+  "source": "gateway route jev-deep",
+  "with_user_instructions": {
+    "answers": {
+      "glass_damage_covered": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "score_claim_complexity",
+        "confidence": 0.82,
+        "probabilities": {
+          "score_claim_complexity": 0.88,
+          "route_to_adjuster": 0.04,
+          "gate_payment": 0.08
+        }
+      },
+      "claim_complexity": {
+        "type": "score",
+        "score": 0.43,
+        "confidence": 0.35,
+        "legend": {
+          "0": "Very simple",
+          "1": "Some checking needed",
+          "2": "Complex"
+        },
+        "probabilities": {
+          "0": 0.62,
+          "1": 0.33,
+          "2": 0.05
+        }
+      }
+    }
+  }
+}

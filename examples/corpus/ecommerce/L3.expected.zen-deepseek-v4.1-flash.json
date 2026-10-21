@@ -1,0 +1,16 @@
+{
+  "case": "ecommerce-L3",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "damage_after_delivery": {"type": "noul", "noul": 0.97},
+      "resolution": {"type": "choice", "probabilities": {"full_refund": 0.02, "replacement": 0.02, "goodwill_credit": 0.05, "decline": 0.91}},
+      "customer_distress": {"type": "score", "probabilities": {"0": 0.45, "1": 0.38, "2": 0.13, "3": 0.03, "4": 0.01}}
+    },
+    "reasons": {
+      "damage_after_delivery": "Delivered 2026-10-07 and the customer states she dropped the phone on the pavement yesterday (2026-10-10), an event after delivery.",
+      "resolution": "The cracked protector is final sale and the damage is customer-caused rather than defective on arrival, so the stated policy yields decline, with a small residual for goodwill.",
+      "customer_distress": "The message is a brief factual statement of the damage plus a refund demand, with no anger, escalation, or emotional language."
+    }
+  }
+}

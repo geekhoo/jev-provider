@@ -1,0 +1,45 @@
+{
+  "state": {
+    "alert": "Disk usage is at 94 percent on db-replica-3",
+    "service": "orders database read replica",
+    "environment": "production",
+    "primary_database_healthy": true,
+    "replication_lag_seconds": 3,
+    "on_call_team": "database",
+    "local_time": "02:10 on a Sunday",
+    "disk_growth_per_hour_percent": 0.4
+  },
+  "user_instructions": {
+    "domain": "it_incidents",
+    "objective": "routing",
+    "locale": "en-GB",
+    "risk_posture": "conservative"
+  },
+  "questions": {
+    "primary_healthy": {
+      "type": "noul",
+      "instructions": "Does the state say the primary database is healthy?"
+    },
+    "page_decision": {
+      "type": "choice",
+      "instructions": "Decide how the on-call team should be notified.",
+      "criteria": {
+        "page_now": "Wake the on-call engineer immediately.",
+        "ticket_for_morning": "Create a ticket for the next working shift.",
+        "auto_cleanup_job": "Trigger the automatic cleanup job and watch the result.",
+        "ignore_known_noise": "Treat the alert as known noise and take no action."
+      }
+    },
+    "disk_urgency": {
+      "type": "score",
+      "instructions": "Rate how urgent the disk alert is.",
+      "criteria": [
+        "Not urgent",
+        "Low",
+        "Moderate",
+        "High",
+        "Critical"
+      ]
+    }
+  }
+}

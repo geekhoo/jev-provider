@@ -1,0 +1,36 @@
+{
+  "case": "insurance-L3",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "notes_match_photos": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "settlement_path": {
+        "type": "choice",
+        "probabilities": {
+          "repair": 0.58,
+          "total_loss": 0.12,
+          "partial_settlement": 0.08,
+          "investigate_further": 0.22
+        }
+      },
+      "documentation_quality": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.09,
+          "2": 0.55,
+          "3": 0.31,
+          "4": 0.04
+        }
+      }
+    },
+    "reasons": {
+      "notes_match_photos": "The adjuster notes and photo captions identify the same three damaged areas.",
+      "settlement_path": "The €6,200 repair estimate is below the €8,500 stated market value, but no policy terms or total-loss threshold are supplied.",
+      "documentation_quality": "Claim identifiers, an itemized estimate, adjuster notes, and photo captions are present; underlying photos and coverage or liability records are not supplied."
+    }
+  }
+}

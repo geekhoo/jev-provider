@@ -1,0 +1,97 @@
+{
+  "state": {
+    "claim": "Customer says a 640 USD pair of headphones (order ORD-71502) never arrived and asks for a full refund.",
+    "carrier_record": {
+      "status": "delivered",
+      "time": "2026-10-09T14:22",
+      "signature": "N. Reyes (neighbour)",
+      "gps_distance_from_address_m": 140
+    },
+    "customer_account": {
+      "claims_last_6_months": 2,
+      "both_previous_claims": "refunded without investigation",
+      "account_age_days": 520,
+      "lifetime_orders": 31
+    },
+    "customer_statement": "I was at work all day and nobody named Reyes lives near me. I checked with the building manager and nobody has seen it.",
+    "building_manager_reply": "Not received yet from the manager.",
+    "door_camera_footage": "Customer says the camera was offline that week; no log provided.",
+    "address_history": "Customer moved to this address 5 weeks ago; previous address on file is in the same city.",
+    "agent_note": "The signer name could not be matched to any resident list; the neighbour lookup returned nothing either way."
+  },
+  "user_instructions": {
+    "domain": "ecommerce_support",
+    "objective": "risk_assessment",
+    "locale": "en-US",
+    "risk_posture": "balanced",
+    "uncertainty_policy": "conservative",
+    "terminology": [
+      {
+        "term": "carrier investigation",
+        "definition": "A formal trace request to the carrier, usually answered within 5 working days."
+      }
+    ],
+    "constraints": [
+      {
+        "kind": "must",
+        "statement": "Open a carrier investigation before refunding any non-delivery claim above the cap."
+      },
+      {
+        "kind": "must_not",
+        "statement": "Treat repeat claims alone as proof of fraud."
+      },
+      {
+        "kind": "prefer",
+        "statement": "Prefer actions that can be reversed if later evidence changes the picture."
+      }
+    ],
+    "reference_facts": [
+      {
+        "name": "non_delivery_refund_cap_usd",
+        "value": "500",
+        "authority": "policy"
+      },
+      {
+        "name": "carrier_investigation_days",
+        "value": "5 working days",
+        "authority": "contract"
+      }
+    ]
+  },
+  "questions": {
+    "refund_claim_supported": {
+      "type": "noul",
+      "criteria": {
+        "approve": "The evidence supports the customer's claim that the parcel was not received.",
+        "deny": "The evidence contradicts or does not support the customer's claim that the parcel was not received."
+      }
+    },
+    "claim_handling": {
+      "type": "choice",
+      "instructions": "Choose the handling step for this non-delivery claim.",
+      "criteria": {
+        "refund_in_full_now": "Refund the full amount immediately and close the case.",
+        "refund_after_investigation": "Hold the refund until the carrier investigation ends, then pay if the claim stands.",
+        "open_carrier_investigation": "Open a formal carrier trace and keep the case open without paying yet.",
+        "request_more_evidence": "Ask the customer for further proof such as footage or a building statement.",
+        "send_replacement": "Ship a replacement pair and recover the original if it turns up.",
+        "partial_goodwill_credit": "Offer a partial credit as a compromise.",
+        "decline_claim": "Decline the claim because the carrier shows delivery."
+      }
+    },
+    "fraud_risk": {
+      "type": "score",
+      "instructions": "Rate the likelihood that the claim is not genuine, based only on the evidence.",
+      "criteria": [
+        "Almost certainly genuine",
+        "Probably genuine",
+        "Leaning genuine",
+        "Leaning genuine, with doubts",
+        "Evenly uncertain",
+        "Leaning not genuine",
+        "Probably not genuine",
+        "Almost certainly not genuine"
+      ]
+    }
+  }
+}

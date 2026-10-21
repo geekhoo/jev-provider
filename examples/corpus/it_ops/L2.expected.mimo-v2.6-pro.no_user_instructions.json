@@ -1,0 +1,36 @@
+{
+ "case": "it_ops-L2",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "primary_healthy": {
+    "type": "noul",
+    "noul": 0.98
+   },
+   "page_decision": {
+    "type": "choice",
+    "probabilities": {
+     "page_now": 0.27,
+     "ticket_for_morning": 0.52,
+     "auto_cleanup_job": 0.17,
+     "ignore_known_noise": 0.04
+    }
+   },
+   "disk_urgency": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.05,
+     "1": 0.18,
+     "2": 0.45,
+     "3": 0.25,
+     "4": 0.07
+    }
+   }
+  },
+  "reasons": {
+   "primary_healthy": "STATE explicitly records primary_database_healthy as true, so P(true) is near 1.",
+   "page_decision": "94% disk with slow 0.4%/h growth (~15h to full) on a Sunday favors a ticket for the morning shift, with paging plausible if growth spikes.",
+   "disk_urgency": "Production replica disk at 94% warrants moderate urgency given healthy primary, 3s lag, and slow growth, with a tail toward high."
+  }
+ }
+}

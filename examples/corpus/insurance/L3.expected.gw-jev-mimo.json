@@ -1,0 +1,42 @@
+{
+  "case": "insurance-L3",
+  "source": "gateway route jev-mimo",
+  "with_user_instructions": {
+    "answers": {
+      "notes_match_photos": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "settlement_path": {
+        "type": "choice",
+        "choice": "total_loss",
+        "confidence": 0.67,
+        "probabilities": {
+          "repair": 0.2,
+          "total_loss": 0.75,
+          "partial_settlement": 0.02,
+          "investigate_further": 0.03
+        }
+      },
+      "documentation_quality": {
+        "type": "score",
+        "score": 2.73,
+        "confidence": 0.44,
+        "legend": {
+          "0": "Very poor",
+          "1": "Poor",
+          "2": "Adequate",
+          "3": "Good",
+          "4": "Very good"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.08,
+          "2": 0.25,
+          "3": 0.45,
+          "4": 0.2
+        }
+      }
+    }
+  }
+}

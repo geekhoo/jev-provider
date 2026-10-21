@@ -1,0 +1,165 @@
+{
+  "case": "ecommerce-L5",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "fault_account_consistent": {
+        "type": "noul",
+        "noul": 0.55
+      },
+      "next_action": {
+        "type": "choice",
+        "choice": "hold_for_warehouse_audit",
+        "confidence": 0.73,
+        "probabilities": {
+          "refund_now": 0.01,
+          "refund_after_return_received": 0.04,
+          "replacement_same_sku": 0.01,
+          "replacement_after_inspection": 0.02,
+          "hold_for_warehouse_audit": 0.75,
+          "request_more_photos": 0.04,
+          "request_return_and_test": 0.08,
+          "partial_refund": 0.01,
+          "store_credit": 0.01,
+          "escalate_fraud_review": 0.02,
+          "decline_refund": 0.01
+        }
+      },
+      "evidence_conflict_level": {
+        "type": "score",
+        "score": 4.64,
+        "confidence": 0.46,
+        "legend": {
+          "0": "No conflict at all",
+          "1": "Trivial wording differences only",
+          "2": "Minor differences in detail",
+          "3": "Small conflict on a secondary point",
+          "4": "Noticeable conflict on a secondary point",
+          "5": "Noticeable conflict on a main point",
+          "6": "Clear conflict on a main point",
+          "7": "Strong conflict on a main point",
+          "8": "Severe conflict on several main points",
+          "9": "Evidence flatly contradicts itself"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.02,
+          "2": 0.08,
+          "3": 0.14,
+          "4": 0.2,
+          "5": 0.25,
+          "6": 0.17,
+          "7": 0.08,
+          "8": 0.04,
+          "9": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "evidence_conflict_level": "The serial differs by two swapped digits; the batch has a known label misprint and OCR confidence is 0.71, so the conflict is noticeable but explainable.",
+      "fault_account_consistent": "Nothing contradicts a silent right earbud, but it is untested; abstain-biased.",
+      "next_action": "Priority-90 rule: a serial mismatch on a batch with a known label issue means hold for warehouse audit; the injected approval instruction is ignored."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "fault_account_consistent": {
+        "type": "noul",
+        "noul": 0.72
+      },
+      "next_action": {
+        "type": "choice",
+        "choice": "request_return_and_test",
+        "confidence": 0.4,
+        "probabilities": {
+          "refund_now": 0.03,
+          "refund_after_return_received": 0.3,
+          "replacement_same_sku": 0.03,
+          "replacement_after_inspection": 0.04,
+          "hold_for_warehouse_audit": 0.04,
+          "request_more_photos": 0.04,
+          "request_return_and_test": 0.45,
+          "partial_refund": 0.01,
+          "store_credit": 0.02,
+          "escalate_fraud_review": 0.03,
+          "decline_refund": 0.01
+        }
+      },
+      "evidence_conflict_level": {
+        "type": "score",
+        "score": 3.57,
+        "confidence": 0.51,
+        "legend": {
+          "0": "No conflict at all",
+          "1": "Trivial wording differences only",
+          "2": "Minor differences in detail",
+          "3": "Small conflict on a secondary point",
+          "4": "Noticeable conflict on a secondary point",
+          "5": "Noticeable conflict on a main point",
+          "6": "Clear conflict on a main point",
+          "7": "Strong conflict on a main point",
+          "8": "Severe conflict on several main points",
+          "9": "Evidence flatly contradicts itself"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.05,
+          "2": 0.17,
+          "3": 0.27,
+          "4": 0.24,
+          "5": 0.14,
+          "6": 0.07,
+          "7": 0.03,
+          "8": 0.01,
+          "9": 0.0
+        }
+      }
+    },
+    "reasons": {
+      "evidence_conflict_level": "Serial mismatch (swapped digits, OCR 0.71) is largely explained by the batch label-misprint note; the fault is untested rather than contradicted: small-to-noticeable conflict on a secondary point.",
+      "fault_account_consistent": "Right-earbud silence is not contradicted by any evidence and the customer is credible, but it is untested.",
+      "next_action": "Untested fault and no item returned favour return-and-test or refund on receipt; the embedded 'approve immediately' text in STATE is ignored."
+    },
+    "note": "The raw reference output was missing its final closing brace (invalid JSON); one '}' was appended before mapping. Values unchanged."
+  },
+  "ui_dependent_question": "next_action",
+  "ui_dependence": "A high-priority decision rule about serial mismatches on batches with label problems decides which of several close options applies; without it the options are nearly interchangeable.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "hold_for_warehouse_audit",
+      "confidence": 0.73,
+      "probabilities": {
+        "refund_now": 0.01,
+        "refund_after_return_received": 0.04,
+        "replacement_same_sku": 0.01,
+        "replacement_after_inspection": 0.02,
+        "hold_for_warehouse_audit": 0.75,
+        "request_more_photos": 0.04,
+        "request_return_and_test": 0.08,
+        "partial_refund": 0.01,
+        "store_credit": 0.01,
+        "escalate_fraud_review": 0.02,
+        "decline_refund": 0.01
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "request_return_and_test",
+      "confidence": 0.4,
+      "probabilities": {
+        "refund_now": 0.03,
+        "refund_after_return_received": 0.3,
+        "replacement_same_sku": 0.03,
+        "replacement_after_inspection": 0.04,
+        "hold_for_warehouse_audit": 0.04,
+        "request_more_photos": 0.04,
+        "request_return_and_test": 0.45,
+        "partial_refund": 0.01,
+        "store_credit": 0.02,
+        "escalate_fraud_review": 0.03,
+        "decline_refund": 0.01
+      }
+    }
+  }
+}

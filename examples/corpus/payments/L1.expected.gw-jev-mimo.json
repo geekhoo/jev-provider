@@ -1,0 +1,37 @@
+{
+  "case": "payments-L1",
+  "source": "gateway route jev-mimo",
+  "with_user_instructions": {
+    "answers": {
+      "matches_account_history": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "approve_or_decline_now",
+        "confidence": 0.63,
+        "probabilities": {
+          "approve_or_decline_now": 0.75,
+          "score_fraud_risk": 0.1,
+          "route_to_analyst": 0.15
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "score": 0.17,
+        "confidence": 0.74,
+        "legend": {
+          "0": "Very weak",
+          "1": "Some signs",
+          "2": "Strong signs"
+        },
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.13,
+          "2": 0.02
+        }
+      }
+    }
+  }
+}

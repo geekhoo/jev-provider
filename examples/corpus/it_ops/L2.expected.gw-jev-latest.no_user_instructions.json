@@ -1,0 +1,42 @@
+{
+  "case": "it_ops-L2",
+  "source": "gateway route jev-latest",
+  "no_user_instructions": {
+    "answers": {
+      "primary_healthy": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "page_decision": {
+        "type": "choice",
+        "choice": "page_now",
+        "confidence": 0.29,
+        "probabilities": {
+          "page_now": 0.47,
+          "ticket_for_morning": 0.25,
+          "auto_cleanup_job": 0.25,
+          "ignore_known_noise": 0.03
+        }
+      },
+      "disk_urgency": {
+        "type": "score",
+        "score": 2.51,
+        "confidence": 0.34,
+        "legend": {
+          "0": "Not urgent",
+          "1": "Low",
+          "2": "Moderate",
+          "3": "High",
+          "4": "Critical"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.1,
+          "2": 0.38,
+          "3": 0.35,
+          "4": 0.15
+        }
+      }
+    }
+  }
+}

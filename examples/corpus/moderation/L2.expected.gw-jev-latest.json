@@ -1,0 +1,42 @@
+{
+  "case": "moderation-L2",
+  "source": "gateway route jev-latest",
+  "with_user_instructions": {
+    "answers": {
+      "insults_others_generally": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "moderation_action": {
+        "type": "choice",
+        "choice": "add_warning_label",
+        "confidence": 0.4,
+        "probabilities": {
+          "leave_up": 0.3,
+          "add_warning_label": 0.55,
+          "remove_post": 0.1,
+          "escalate_to_senior": 0.05
+        }
+      },
+      "rudeness_level": {
+        "type": "score",
+        "score": 2.48,
+        "confidence": 0.32,
+        "legend": {
+          "0": "Polite",
+          "1": "Blunt",
+          "2": "Mildly rude",
+          "3": "Rude",
+          "4": "Very rude"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.13,
+          "2": 0.35,
+          "3": 0.35,
+          "4": 0.15
+        }
+      }
+    }
+  }
+}

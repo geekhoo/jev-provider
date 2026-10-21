@@ -1,0 +1,16 @@
+{
+  "domain": "it_ops",
+  "level": 4,
+  "description": "Schema-migration change request with a pending backup, a possible clash with a sales event, and approvals that carry a condition; the record is incomplete.",
+  "ui_dependent_question": "change_decision",
+  "ui_dependence": "A constraint bars schema migrations during a sales event and a reference fact names the quiet window, which moves the gate decision from a general reading of the evidence to a specific rescheduling outcome.",
+  "features": [
+    "partly contradictory state",
+    "allow/block pair",
+    "7-option choice with descriptions",
+    "8-level score",
+    "constraints",
+    "reference_facts",
+    "uncertainty_policy"
+  ]
+}

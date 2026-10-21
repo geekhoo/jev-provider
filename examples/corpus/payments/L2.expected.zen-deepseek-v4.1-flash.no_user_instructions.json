@@ -1,0 +1,16 @@
+{
+  "case": "payments-L2",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "connection_differs_from_card": { "type": "noul", "noul": 0.99 },
+      "payment_action": { "type": "choice", "probabilities": { "approve": 0.05, "step_up_verification": 0.25, "manual_review": 0.45, "decline": 0.25 } },
+      "fraud_signal_strength": { "type": "score", "probabilities": { "0": 0.03, "1": 0.12, "2": 0.35, "3": 0.38, "4": 0.12 } }
+    },
+    "reasons": {
+      "connection_differs_from_card": "State lists card_country US and connection_country RO, so the two countries plainly differ.",
+      "payment_action": "New account, high-value electronics, foreign connection and no 3DS raise risk but with no risk posture supplied the choice stays spread across review, step-up and decline.",
+      "fraud_signal_strength": "Three-day-old account, cross-border connection and un-attempted 3DS are real but not conclusive signals, so mass sits at moderate to strong."
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "state": "At 09:12 monitoring shows the internal wiki returning HTTP 503 for every user. The last deploy was two hours earlier and no other service is affected.",
+  "user_instructions": {
+    "domain": "it_incidents",
+    "objective": "classification"
+  },
+  "questions": {
+    "wiki_unavailable": {
+      "type": "noul",
+      "instructions": "Is the wiki currently unavailable to users?"
+    },
+    "handling_mode": {
+      "type": "choice",
+      "instructions": "Choose the kind of output the team needs for this case. Follow the objective given in the user instructions.",
+      "criteria": {
+        "label_incident_type": "Give the incident a type label for the record.",
+        "route_to_oncall": "Send the incident to a named on-call team.",
+        "gate_next_deploy": "Decide whether further deploys may go ahead."
+      }
+    },
+    "user_impact": {
+      "type": "score",
+      "instructions": "Rate how much the outage disrupts staff work.",
+      "criteria": [
+        "Minor inconvenience",
+        "Noticeable disruption",
+        "Major disruption"
+      ]
+    }
+  }
+}

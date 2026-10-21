@@ -1,0 +1,40 @@
+{
+  "case": "insurance-L2",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "with_user_instructions": {
+    "answers": {
+      "policy_recently_started": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "claim_route": {
+        "type": "choice",
+        "choice": "standard_adjuster",
+        "confidence": 0.79,
+        "probabilities": {
+          "fast_track_payout": 0.0,
+          "standard_adjuster": 0.84,
+          "special_investigations": 0.09,
+          "request_documents": 0.07
+        }
+      },
+      "loss_severity": {
+        "type": "score",
+        "score": 1.37,
+        "confidence": 0.59,
+        "legend": {
+          "0": "Small",
+          "1": "Moderate",
+          "2": "Large",
+          "3": "Very large"
+        },
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.6,
+          "2": 0.37,
+          "3": 0.01
+        }
+      }
+    }
+  }
+}

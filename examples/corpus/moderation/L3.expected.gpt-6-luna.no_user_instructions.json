@@ -1,0 +1,36 @@
+{
+  "case": "moderation-L3",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "offers_item_for_sale": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "post_action": {
+        "type": "choice",
+        "probabilities": {
+          "remove_post": 0.63,
+          "soft_hold": 0.26,
+          "leave_up": 0.02,
+          "escalate_trust_and_safety": 0.09
+        }
+      },
+      "scam_likelihood": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.01,
+          "2": 0.04,
+          "3": 0.25,
+          "4": 0.70
+        }
+      }
+    },
+    "reasons": {
+      "offers_item_for_sale": "The text explicitly offers 1,000 followers for $5, so it is a paid service offer.",
+      "post_action": "The follower-selling pitch, gift-card-only payment, no-refund claim, new account, and three reports support removal; the lack of prior actions or independent verification leaves some uncertainty.",
+      "scam_likelihood": "Gift-card-only payment, no refunds, and a very new account alongside follower sales are strong scam indicators; the offer is not independently verified."
+    }
+  }
+}

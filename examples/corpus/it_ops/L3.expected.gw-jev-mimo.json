@@ -1,0 +1,45 @@
+{
+  "case": "it_ops-L3",
+  "source": "gateway route jev-mimo",
+  "with_user_instructions": {
+    "answers": {
+      "latency_after_deploy": {
+        "type": "noul",
+        "noul": 0.87
+      },
+      "next_action": {
+        "type": "choice",
+        "choice": "roll_back_deploy",
+        "confidence": 0.65,
+        "probabilities": {
+          "roll_back_deploy": 0.72,
+          "ship_hotfix": 0.04,
+          "restart_service": 0.09,
+          "wait_and_monitor": 0.12,
+          "escalate_to_change_board": 0.03
+        }
+      },
+      "customer_impact": {
+        "type": "score",
+        "score": 3.1,
+        "confidence": 0.57,
+        "legend": {
+          "0": "None",
+          "1": "Barely noticeable",
+          "2": "Mild",
+          "3": "Moderate",
+          "4": "Serious",
+          "5": "Severe"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.03,
+          "2": 0.18,
+          "3": 0.47,
+          "4": 0.25,
+          "5": 0.06
+        }
+      }
+    }
+  }
+}

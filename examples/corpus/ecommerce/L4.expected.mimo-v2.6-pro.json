@@ -1,0 +1,42 @@
+{
+  "case": "ecommerce-L4",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "refund_claim_supported": {
+        "type": "noul",
+        "noul": 0.35
+      },
+      "claim_handling": {
+        "type": "choice",
+        "probabilities": {
+          "refund_in_full_now": 0.02,
+          "refund_after_investigation": 0.25,
+          "open_carrier_investigation": 0.45,
+          "request_more_evidence": 0.15,
+          "send_replacement": 0.05,
+          "partial_goodwill_credit": 0.05,
+          "decline_claim": 0.03
+        }
+      },
+      "fraud_risk": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.12,
+          "2": 0.18,
+          "3": 0.22,
+          "4": 0.18,
+          "5": 0.13,
+          "6": 0.08,
+          "7": 0.04
+        }
+      }
+    },
+    "reasons": {
+      "refund_claim_supported": "Carrier shows delivery but the signature is unmatched and GPS sits 140 m off, so evidence only weakly supports non-receipt amid conflicting signals.",
+      "claim_handling": "At 640 USD the claim exceeds the 500 USD cap, so a carrier trace is mandatory first and an open, reversible investigation best fits the evidence gap.",
+      "fraud_risk": "Two prior uninvestigated refunds and an unverified camera story add doubt, but repeat claims alone cannot prove fraud, keeping the balance near genuine-with-doubts."
+    }
+  }
+}

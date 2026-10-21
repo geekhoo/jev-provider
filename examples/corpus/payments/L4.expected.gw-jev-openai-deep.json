@@ -1,0 +1,51 @@
+{
+  "case": "payments-L4",
+  "source": "gateway route jev-openai-deep",
+  "with_user_instructions": {
+    "answers": {
+      "likely_authorized": {
+        "type": "noul",
+        "noul": 0.72
+      },
+      "dispute_outcome": {
+        "type": "choice",
+        "choice": "senior_analyst_review",
+        "confidence": 0.98,
+        "probabilities": {
+          "accept_chargeback": 0.0,
+          "represent_with_evidence": 0.0,
+          "senior_analyst_review": 0.98,
+          "request_cardholder_documents": 0.0,
+          "request_issuer_3ds_log": 0.01,
+          "split_liability": 0.0,
+          "close_no_action": 0.0
+        }
+      },
+      "unauthorized_likelihood": {
+        "type": "score",
+        "score": 2.14,
+        "confidence": 0.28,
+        "legend": {
+          "0": "Very unlikely",
+          "1": "Unlikely",
+          "2": "Somewhat unlikely",
+          "3": "Slightly less likely than not",
+          "4": "Slightly more likely than not",
+          "5": "Somewhat likely",
+          "6": "Likely",
+          "7": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.15,
+          "1": 0.27,
+          "2": 0.25,
+          "3": 0.13,
+          "4": 0.09,
+          "5": 0.06,
+          "6": 0.04,
+          "7": 0.02
+        }
+      }
+    }
+  }
+}

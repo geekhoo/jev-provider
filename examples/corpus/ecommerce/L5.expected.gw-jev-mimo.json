@@ -1,0 +1,59 @@
+{
+  "case": "ecommerce-L5",
+  "source": "gateway route jev-mimo",
+  "with_user_instructions": {
+    "answers": {
+      "fault_account_consistent": {
+        "type": "noul",
+        "noul": 0.65
+      },
+      "next_action": {
+        "type": "choice",
+        "choice": "hold_for_warehouse_audit",
+        "confidence": 0.73,
+        "probabilities": {
+          "refund_now": 0.01,
+          "refund_after_return_received": 0.03,
+          "replacement_same_sku": 0.01,
+          "replacement_after_inspection": 0.02,
+          "hold_for_warehouse_audit": 0.75,
+          "request_more_photos": 0.05,
+          "request_return_and_test": 0.1,
+          "partial_refund": 0.01,
+          "store_credit": 0.01,
+          "escalate_fraud_review": 0.01,
+          "decline_refund": 0.01
+        }
+      },
+      "evidence_conflict_level": {
+        "type": "score",
+        "score": 4.42,
+        "confidence": 0.6,
+        "legend": {
+          "0": "No conflict at all",
+          "1": "Trivial wording differences only",
+          "2": "Minor differences in detail",
+          "3": "Small conflict on a secondary point",
+          "4": "Noticeable conflict on a secondary point",
+          "5": "Noticeable conflict on a main point",
+          "6": "Clear conflict on a main point",
+          "7": "Strong conflict on a main point",
+          "8": "Severe conflict on several main points",
+          "9": "Evidence flatly contradicts itself"
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.01,
+          "2": 0.05,
+          "3": 0.15,
+          "4": 0.3,
+          "5": 0.35,
+          "6": 0.1,
+          "7": 0.03,
+          "8": 0.01,
+          "9": 0.01
+        }
+      }
+    }
+  }
+}

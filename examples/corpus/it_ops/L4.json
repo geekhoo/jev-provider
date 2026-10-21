@@ -1,0 +1,108 @@
+{
+  "state": {
+    "change_request": {
+      "id": "CHG-5521",
+      "title": "Add a non-null column to the orders table and backfill 80 million rows",
+      "requester": "payments-team",
+      "scheduled_window": "Tuesday 22:00 to 23:30 UTC",
+      "rollback_plan": "restore column drop script (untested)"
+    },
+    "test_evidence": {
+      "staging_run": "passed",
+      "skipped_tests": 1,
+      "skipped_reason": "flaky, owner says unrelated",
+      "load_test": "not run"
+    },
+    "backup": {
+      "status": "pending verification",
+      "last_verified_backup": "6 days ago"
+    },
+    "approvals": [
+      {
+        "name": "J. Park",
+        "role": "engineering manager",
+        "status": "approved"
+      },
+      {
+        "name": "S. Idowu",
+        "role": "database lead",
+        "status": "approved with a comment: 'only if the backfill is batched'"
+      }
+    ],
+    "calendar": {
+      "marketing_sale_event": "Tuesday 21:00 to Wednesday 03:00 UTC",
+      "source": "marketing calendar, updated yesterday"
+    },
+    "capacity": "Expected backfill time is 50 minutes in staging with 10 percent of production data.",
+    "notes": "The change record does not say whether the backfill is batched. The change board secretary says the sale event may have been added after approval."
+  },
+  "user_instructions": {
+    "domain": "it_change_management",
+    "objective": "gating",
+    "locale": "en-GB",
+    "risk_posture": "conservative",
+    "uncertainty_policy": "conservative",
+    "constraints": [
+      {
+        "kind": "must_not",
+        "statement": "Run schema migrations on tables used by checkout during a declared sales event."
+      },
+      {
+        "kind": "must",
+        "statement": "Require a verified backup newer than 24 hours before any destructive or schema change."
+      },
+      {
+        "kind": "prefer",
+        "statement": "Prefer moving a risky change to a quiet window over cancelling it."
+      }
+    ],
+    "reference_facts": [
+      {
+        "name": "quiet_window",
+        "value": "Sunday 02:00 to 05:00 UTC",
+        "authority": "policy"
+      },
+      {
+        "name": "orders_table_role",
+        "value": "Used by checkout and payments on every order",
+        "authority": "product"
+      }
+    ]
+  },
+  "questions": {
+    "record_complete": {
+      "type": "noul",
+      "criteria": {
+        "allow": "The change record is complete and consistent enough to proceed at the scheduled time.",
+        "block": "The change record is too incomplete or inconsistent to proceed at the scheduled time."
+      }
+    },
+    "change_decision": {
+      "type": "choice",
+      "instructions": "Choose the gate decision for this change request.",
+      "criteria": {
+        "approve_as_scheduled": "Let the change run in the scheduled Tuesday window.",
+        "approve_after_backup_check": "Approve only once the backup is verified, keeping the scheduled window.",
+        "reschedule_to_quiet_window": "Move the change to the next quiet maintenance window.",
+        "return_for_missing_information": "Send the request back to the requester for the missing details.",
+        "send_to_change_board": "Escalate to the change board for a decision.",
+        "approve_with_batched_backfill": "Approve provided the backfill is split into small batches.",
+        "reject_change": "Reject the request outright."
+      }
+    },
+    "change_risk": {
+      "type": "score",
+      "instructions": "Rate the risk of running the change as scheduled.",
+      "criteria": [
+        "Negligible",
+        "Very low",
+        "Low",
+        "Lowish",
+        "Moderate",
+        "Moderately high",
+        "High",
+        "Very high"
+      ]
+    }
+  }
+}

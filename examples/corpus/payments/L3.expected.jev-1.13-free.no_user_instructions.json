@@ -1,0 +1,45 @@
+{
+  "case": "payments-L3",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "no_user_instructions": {
+    "answers": {
+      "sender_identity_checked": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "compliance_action": {
+        "type": "choice",
+        "choice": "hold_for_enhanced_review",
+        "confidence": 0.61,
+        "probabilities": {
+          "release_transfer": 0.01,
+          "monitor_only": 0.04,
+          "request_information": 0.17,
+          "hold_for_enhanced_review": 0.69,
+          "file_suspicious_activity_report": 0.09
+        }
+      },
+      "pattern_suspicion": {
+        "type": "score",
+        "score": 4.13,
+        "confidence": 0.59,
+        "legend": {
+          "0": "Not suspicious",
+          "1": "Slightly odd",
+          "2": "Somewhat suspicious",
+          "3": "Suspicious",
+          "4": "Highly suspicious",
+          "5": "Almost certainly deliberate"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.04,
+          "3": 0.16,
+          "4": 0.42,
+          "5": 0.38
+        }
+      }
+    }
+  }
+}

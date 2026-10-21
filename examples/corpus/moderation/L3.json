@@ -1,0 +1,76 @@
+{
+  "state": {
+    "report": {
+      "id": "REP-9921",
+      "reporter_reason": "scam or spam",
+      "reports_on_this_post": 3
+    },
+    "content": {
+      "type": "forum post",
+      "text": "Selling 1000 followers for only 5 dollars. Message me, payment through gift cards only, no refunds."
+    },
+    "author": {
+      "account_age_days": 2,
+      "followers": 3,
+      "prior_actions": 0,
+      "verified_email": false
+    },
+    "thread": {
+      "topic": "social media tips",
+      "replies": 4
+    },
+    "noise": {
+      "ui_language": "en",
+      "device": "phone",
+      "app_version": "8.2",
+      "reporter_account_age_days": 880
+    }
+  },
+  "user_instructions": {
+    "domain": "community_moderation",
+    "objective": "routing",
+    "locale": "en-US",
+    "risk_posture": "balanced",
+    "uncertainty_policy": "calibrated",
+    "terminology": [
+      {
+        "term": "soft hold",
+        "definition": "Content is hidden from the public and sent to a moderator who must review it within 24 hours."
+      },
+      {
+        "term": "first offence",
+        "definition": "A commercial post from an account with no earlier moderation action; use a soft hold rather than a removal."
+      }
+    ]
+  },
+  "questions": {
+    "offers_item_for_sale": {
+      "type": "noul",
+      "criteria": {
+        "yes": "The post offers a product or service in exchange for money.",
+        "no": "The post does not offer anything for sale."
+      }
+    },
+    "post_action": {
+      "type": "choice",
+      "instructions": "Choose the moderation action for this post.",
+      "criteria": {
+        "remove_post": "",
+        "soft_hold": "",
+        "leave_up": "",
+        "escalate_trust_and_safety": ""
+      }
+    },
+    "scam_likelihood": {
+      "type": "score",
+      "instructions": "Rate how likely the offer is to be a scam.",
+      "criteria": [
+        "Very unlikely",
+        "Unlikely",
+        "Possible",
+        "Likely",
+        "Very likely"
+      ]
+    }
+  }
+}

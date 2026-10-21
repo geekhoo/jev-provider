@@ -1,0 +1,42 @@
+{
+ "case": "moderation-L4",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "aimed_at_specific_person": {
+    "type": "noul",
+    "noul": 0.92
+   },
+   "penalty": {
+    "type": "choice",
+    "probabilities": {
+     "no_action": 0.05,
+     "remove_comment_only": 0.25,
+     "private_warning": 0.35,
+     "public_warning_note": 0.05,
+     "mute_in_thread_24h": 0.10,
+     "three_day_suspension": 0.05,
+     "refer_to_senior_moderator": 0.15
+    }
+   },
+   "harassment_severity": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.02,
+     "1": 0.03,
+     "2": 0.06,
+     "3": 0.14,
+     "4": 0.24,
+     "5": 0.28,
+     "6": 0.15,
+     "7": 0.08
+    }
+   }
+  },
+  "reasons": {
+   "aimed_at_specific_person": "The comment addresses one reply target directly ('People like you... Nobody wants you here'), so it is targeted hostility, not general criticism.",
+   "penalty": "Repeat hostile behavior after two documented warnings favors a private warning with a record, while mutual provocation, incomplete context, and the pending-senior note weigh against suspension.",
+   "harassment_severity": "A single exclusionary personal attack with prior warnings but mitigating mutual escalation lands around moderate, short of serious threats or slurs."
+  }
+ }
+}

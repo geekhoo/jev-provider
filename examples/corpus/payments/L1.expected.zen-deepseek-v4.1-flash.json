@@ -1,0 +1,16 @@
+{
+  "case": "payments-L1",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "matches_account_history": { "type": "noul", "noul": 0.97 },
+      "handling_mode": { "type": "choice", "probabilities": { "approve_or_decline_now": 0.85, "score_fraud_risk": 0.05, "route_to_analyst": 0.10 } },
+      "fraud_signal_strength": { "type": "score", "probabilities": { "0": 0.80, "1": 0.17, "2": 0.03 } }
+    },
+    "reasons": {
+      "matches_account_history": "State says card, device and city all match the account history.",
+      "handling_mode": "Objective is gating, so a final approve or decline decision is the needed output.",
+      "fraud_signal_strength": "Only a one-off mistyped billing postcode, with card, device and city matching."
+    }
+  }
+}

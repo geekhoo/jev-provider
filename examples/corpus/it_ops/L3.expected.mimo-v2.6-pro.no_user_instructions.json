@@ -1,0 +1,38 @@
+{
+ "case": "it_ops-L3",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "latency_after_deploy": {
+    "type": "noul",
+    "noul": 0.88
+   },
+   "next_action": {
+    "type": "choice",
+    "probabilities": {
+     "roll_back_deploy": 0.60,
+     "ship_hotfix": 0.07,
+     "restart_service": 0.08,
+     "wait_and_monitor": 0.12,
+     "escalate_to_change_board": 0.13
+    }
+   },
+   "customer_impact": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.02,
+     "1": 0.08,
+     "2": 0.25,
+     "3": 0.40,
+     "4": 0.20,
+     "5": 0.05
+    }
+   }
+  },
+  "reasons": {
+   "latency_after_deploy": "Deployment D-771 landed 14:20 and symptoms first appeared 14:31 (11 min later), so the rise most likely began after the checkout-api deploy, with residual timing uncertainty.",
+   "next_action": "A fresh deploy of a new tax library is the strongest suspect, so rolling it back is the fastest way to restore latency; hotfixing is slowed by the active change freeze and other options address weaker hypotheses.",
+   "customer_impact": "Latency tripled on checkout and six customers reported issues, but the error rate stayed at 0.2 percent, pointing to a moderate rather than severe impact."
+  }
+ }
+}

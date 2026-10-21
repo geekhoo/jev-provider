@@ -1,0 +1,48 @@
+{
+  "case": "insurance-L5",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "invoice_predates_loss": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "claim_decision": {
+        "type": "choice",
+        "probabilities": {
+          "pay_full_claim": 0.0,
+          "pay_building_advance_only": 0.15,
+          "pay_all_scheduled_items": 0.01,
+          "hold_all_payments_pending_cause": 0.08,
+          "refer_to_special_investigations": 0.12,
+          "refer_equipment_part_to_siu": 0.52,
+          "request_inventory_and_receipts": 0.05,
+          "appoint_forensic_engineer": 0.02,
+          "reserve_rights_letter": 0.02,
+          "decline_claim": 0.02,
+          "escalate_to_claims_director": 0.01
+        }
+      },
+      "scheduled_coverage_fit": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.07,
+          "2": 0.18,
+          "3": 0.3,
+          "4": 0.22,
+          "5": 0.11,
+          "6": 0.05,
+          "7": 0.03,
+          "8": 0.01,
+          "9": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "invoice_predates_loss": "Invoice dated 2026-09-20 versus loss date 2026-09-22, so it predates the loss by two days on the stated dates.",
+      "claim_decision": "The witness allegation of unscheduled equipment moved before the loss triggers the highest-priority rule (withhold equipment payment, SIU referral), while undetermined cause still permits a building-only advance, making an equipment-part SIU referral the best single fit.",
+      "scheduled_coverage_fit": "Documents show building, stock and part of the equipment claimed without schedule listing, equipment claimed above its EUR 60,000 sum insured, and an unscheduled old oven, so fit sits at poor-to-partial."
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "case": "insurance-L5",
+  "source": "zen/deepseek-v4.1-flash, blind, no user_instructions",
+  "without_user_instructions": {
+    "answers": {
+      "invoice_predates_loss": { "type": "noul", "noul": 0.98 },
+      "claim_decision": { "type": "choice", "probabilities": { "pay_full_claim": 0.02, "pay_building_advance_only": 0.05, "pay_all_scheduled_items": 0.02, "hold_all_payments_pending_cause": 0.14, "refer_to_special_investigations": 0.13, "refer_equipment_part_to_siu": 0.22, "request_inventory_and_receipts": 0.12, "appoint_forensic_engineer": 0.15, "reserve_rights_letter": 0.08, "decline_claim": 0.04, "escalate_to_claims_director": 0.03 } },
+      "scheduled_coverage_fit": { "type": "score", "probabilities": { "0": 0.00, "1": 0.01, "2": 0.01, "3": 0.03, "4": 0.06, "5": 0.12, "6": 0.24, "7": 0.27, "8": 0.16, "9": 0.10 } }
+    },
+    "reasons": {
+      "invoice_predates_loss": "Invoice dated 2026-09-20 is two days before the 2026-09-22 loss, so the statement is almost certainly true.",
+      "claim_decision": "Undeclared oven, invoice dated before the fire and unestablished cause point to referring the equipment element for investigation while other steps remain plausible.",
+      "scheduled_coverage_fit": "Claimed ovens, mixer and cooler broadly align with the schedule, but an undeclared oven and invoice anomalies keep the match from being complete."
+    }
+  }
+}

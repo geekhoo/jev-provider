@@ -1,0 +1,16 @@
+{
+  "domain": "moderation",
+  "level": 3,
+  "description": "Obvious follower-selling post from a brand-new account with gift-card-only payment; nested state with unrelated device noise.",
+  "ui_dependent_question": "post_action",
+  "ui_dependence": "The terminology defines a soft hold and a first-offence rule that favours it over removal; without those definitions removal is the more natural answer.",
+  "features": [
+    "nested state",
+    "irrelevant noise",
+    "yes/no pair",
+    "label-only choice",
+    "5-level score",
+    "terminology",
+    "uncertainty_policy"
+  ]
+}

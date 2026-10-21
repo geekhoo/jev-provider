@@ -1,0 +1,42 @@
+{
+  "case": "moderation-L2",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "no_user_instructions": {
+    "answers": {
+      "insults_others_generally": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "moderation_action": {
+        "type": "choice",
+        "choice": "add_warning_label",
+        "confidence": 0.59,
+        "probabilities": {
+          "leave_up": 0.04,
+          "add_warning_label": 0.69,
+          "remove_post": 0.26,
+          "escalate_to_senior": 0.01
+        }
+      },
+      "rudeness_level": {
+        "type": "score",
+        "score": 3.73,
+        "confidence": 0.77,
+        "legend": {
+          "0": "Polite",
+          "1": "Blunt",
+          "2": "Mildly rude",
+          "3": "Rude",
+          "4": "Very rude"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.27,
+          "4": 0.73
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "case": "moderation-L1",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "repeated_promotion": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "handling_mode": {
+        "type": "choice",
+        "probabilities": {
+          "audit_for_quality": 0.70,
+          "classify_content_type": 0.08,
+          "remove_or_keep_now": 0.22
+        }
+      },
+      "spam_likelihood": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.13,
+          "2": 0.85
+        }
+      }
+    },
+    "reasons": {
+      "repeated_promotion": "State shows the identical promotional link and text posted to twelve threads in five minutes, so repetition of a promotional message is near-certain.",
+      "handling_mode": "The question directs use of the user-instruction objective 'quality_control', whose closest declared output is recording the case for later moderator-decision checks (audit_for_quality).",
+      "spam_likelihood": "Cross-posted promo link, generic click-bait text, and a two-day-old account all strongly indicate spam, with only a small residual chance of legitimate promotion."
+    }
+  }
+}

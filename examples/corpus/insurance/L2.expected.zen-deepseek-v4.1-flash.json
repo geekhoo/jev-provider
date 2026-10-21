@@ -1,0 +1,16 @@
+{
+  "case": "insurance-L2",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "policy_recently_started": {"type": "noul", "noul": 0.99},
+      "claim_route": {"type": "choice", "probabilities": {"fast_track_payout": 0.05, "standard_adjuster": 0.55, "special_investigations": 0.18, "request_documents": 0.22}},
+      "loss_severity": {"type": "score", "probabilities": {"0": 0.04, "1": 0.42, "2": 0.46, "3": 0.08}}
+    },
+    "reasons": {
+      "policy_recently_started": "days_since_policy_start is 12, which is within the last 30 days, so the proposition holds with high confidence.",
+      "claim_route": "No adjuster inspection yet plus a moderate EUR 12k water-damage loss point to a standard adjuster, but a 12-day-old policy, no prior claims and a conservative risk posture keep requesting documents and an SIU referral plausible; a minimal-check fast-track payout is unlikely.",
+      "loss_severity": "EUR 12,000 home water damage sits at the moderate-to-large boundary: large relative to routine pipe repairs but well short of a catastrophic total-loss figure."
+    }
+  }
+}

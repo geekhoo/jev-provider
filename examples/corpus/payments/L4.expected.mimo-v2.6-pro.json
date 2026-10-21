@@ -1,0 +1,42 @@
+{
+  "case": "payments-L4",
+  "source": "mimo-v2.6-pro, blind",
+  "with_user_instructions": {
+    "answers": {
+      "likely_authorized": {
+        "type": "noul",
+        "noul": 0.72
+      },
+      "dispute_outcome": {
+        "type": "choice",
+        "probabilities": {
+          "accept_chargeback": 0.03,
+          "represent_with_evidence": 0.07,
+          "senior_analyst_review": 0.55,
+          "request_cardholder_documents": 0.10,
+          "request_issuer_3ds_log": 0.20,
+          "split_liability": 0.03,
+          "close_no_action": 0.02
+        }
+      },
+      "unauthorized_likelihood": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.08,
+          "1": 0.18,
+          "2": 0.26,
+          "3": 0.18,
+          "4": 0.12,
+          "5": 0.10,
+          "6": 0.05,
+          "7": 0.03
+        }
+      }
+    },
+    "reasons": {
+      "likely_authorized": "Transaction and redemption trace to the cardholder's usual home IP and a device fingerprint matching 6 prior purchases before the reported phone loss.",
+      "dispute_outcome": "The unresolved 3DS conflict (merchant claims frictionless auth, issuer log shows none) triggers the must-escalate decision rule to a senior analyst.",
+      "unauthorized_likelihood": "Device and IP evidence weighs against unauthorized use, but the unreconciled 3DS conflict and missing reports keep a meaningful unauthorized tail."
+    }
+  }
+}

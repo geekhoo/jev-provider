@@ -1,0 +1,106 @@
+{
+  "state": {
+    "claim": {
+      "id": "CLM-9713",
+      "type": "theft from vehicle",
+      "reported_item": "laptop worth about 1400 EUR",
+      "date_of_loss": "2026-10-04",
+      "claimant_statement": "I locked the car and left the laptop in the boot while I ate dinner. When I came back the boot lock was broken and the laptop was gone."
+    },
+    "police_report": {
+      "number": "PR-55-1042",
+      "filed_on": "2026-10-06",
+      "described_loss_date": "not stated",
+      "described_location": "restaurant car park, city centre",
+      "description_length": "two short lines"
+    },
+    "witness": {
+      "statement": "I saw something on the back seat of the car when I walked past around 8 pm.",
+      "reliability": "unknown, no contact details checked"
+    },
+    "evidence": {
+      "receipt_for_laptop": "not provided",
+      "serial_number": "provided by claimant",
+      "boot_lock_photo": "photo of a damaged boot lock, no timestamp",
+      "cctv": "restaurant says footage is overwritten after 3 days"
+    },
+    "policy": {
+      "cover_for_belongings_in_vehicle": true,
+      "excess_eur": 150,
+      "clause_summary": "See unattended-vehicle clause; the full text has not been attached to this file."
+    },
+    "history": {
+      "claims_last_5_years": 1,
+      "previous_claim": "windscreen, paid"
+    }
+  },
+  "user_instructions": {
+    "domain": "motor_claims",
+    "objective": "compliance",
+    "locale": "en-IE",
+    "risk_posture": "balanced",
+    "uncertainty_policy": "conservative",
+    "constraints": [
+      {
+        "kind": "must",
+        "statement": "Follow the unattended-vehicle clause exactly as stated in the reference facts."
+      },
+      {
+        "kind": "must_not",
+        "statement": "Treat the lack of a receipt alone as a reason to refuse."
+      },
+      {
+        "kind": "prefer",
+        "statement": "Prefer asking for missing evidence over refusing outright."
+      }
+    ],
+    "reference_facts": [
+      {
+        "name": "unattended_vehicle_clause",
+        "value": "Items visible inside an unattended vehicle are excluded; items in a locked boot are covered if forced entry is shown.",
+        "authority": "contract"
+      },
+      {
+        "name": "police_report_deadline_days",
+        "value": "Report must be filed within 3 days of the loss",
+        "authority": "policy"
+      }
+    ]
+  },
+  "questions": {
+    "police_report_adequate": {
+      "type": "noul",
+      "criteria": {
+        "approve": "The police report is dated and detailed enough to support the claim.",
+        "deny": "The police report lacks the dates or details needed to support the claim."
+      }
+    },
+    "claim_status": {
+      "type": "choice",
+      "instructions": "Choose the status decision for this claim.",
+      "criteria": {
+        "accept_and_pay": "Accept the claim and pay the amount less the excess.",
+        "accept_partial": "Pay part of the claim, such as a capped amount.",
+        "request_missing_evidence": "Ask the claimant for specific missing documents.",
+        "refer_to_investigator": "Pass the claim to a fraud investigator.",
+        "refer_to_legal_review": "Ask the legal team to interpret the policy clause.",
+        "decline_under_exclusion": "Decline the claim under the unattended-vehicle exclusion.",
+        "decline_for_late_report": "Decline because the police report was filed late."
+      }
+    },
+    "evidence_reliability": {
+      "type": "score",
+      "instructions": "Rate how reliable the evidence in the file is overall.",
+      "criteria": [
+        "Almost none",
+        "Very weak",
+        "Weak",
+        "Weak to fair",
+        "Fair",
+        "Fair to good",
+        "Good",
+        "Very good"
+      ]
+    }
+  }
+}

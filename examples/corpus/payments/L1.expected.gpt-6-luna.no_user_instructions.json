@@ -1,0 +1,33 @@
+{
+  "case": "payments-L1",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "matches_account_history": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "handling_mode": {
+        "type": "choice",
+        "probabilities": {
+          "approve_or_decline_now": 0.34,
+          "score_fraud_risk": 0.33,
+          "route_to_analyst": 0.33
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.91,
+          "1": 0.08,
+          "2": 0.01
+        }
+      }
+    },
+    "reasons": {
+      "matches_account_history": "The state says the card, device, and city all match the account history.",
+      "handling_mode": "The available case evidence does not distinguish among the three requested output modes.",
+      "fraud_signal_strength": "A first-try postcode error is the only stated concern, while the card, device, and city match account history."
+    }
+  }
+}

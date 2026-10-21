@@ -1,0 +1,16 @@
+{
+  "domain": "it_ops",
+  "level": 3,
+  "description": "Latency regression right after a deploy, during a change freeze; nested state with irrelevant noise and a second unrelated deployment.",
+  "ui_dependent_question": "next_action",
+  "ui_dependence": "The terminology defines which rollbacks count as allowed emergency changes during a freeze; without it the freeze may look like a blocker for the obvious fix.",
+  "features": [
+    "nested state",
+    "irrelevant noise",
+    "pass/fail pair",
+    "label-only choice",
+    "6-level score",
+    "terminology",
+    "uncertainty_policy"
+  ]
+}

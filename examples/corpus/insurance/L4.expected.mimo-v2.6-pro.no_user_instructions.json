@@ -1,0 +1,42 @@
+{
+  "case": "insurance-L4",
+  "source": "mimo-v2.6-pro, blind",
+  "no_user_instructions": {
+    "answers": {
+      "police_report_adequate": {
+        "type": "noul",
+        "noul": 0.12
+      },
+      "claim_status": {
+        "type": "choice",
+        "probabilities": {
+          "accept_and_pay": 0.08,
+          "accept_partial": 0.10,
+          "request_missing_evidence": 0.50,
+          "refer_to_investigator": 0.12,
+          "refer_to_legal_review": 0.12,
+          "decline_under_exclusion": 0.05,
+          "decline_for_late_report": 0.03
+        }
+      },
+      "evidence_reliability": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.15,
+          "2": 0.28,
+          "3": 0.24,
+          "4": 0.15,
+          "5": 0.07,
+          "6": 0.04,
+          "7": 0.02
+        }
+      }
+    },
+    "reasons": {
+      "police_report_adequate": "Report omits the loss date and gives only two short lines of detail, so it is not adequate as filed.",
+      "claim_status": "Core documents (receipt, dated report, CCTV, full clause text) are missing, so requesting specific evidence dominates while minor fraud/clause ambiguities keep alternatives live.",
+      "evidence_reliability": "Only a serial number and an undated lock photo support the claim; no receipt, no CCTV, and a contradictory unverified witness put overall reliability around Weak."
+    }
+  }
+}

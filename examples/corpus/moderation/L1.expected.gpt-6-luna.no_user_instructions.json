@@ -1,0 +1,33 @@
+{
+  "case": "moderation-L1",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "repeated_promotion": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "handling_mode": {
+        "type": "choice",
+        "probabilities": {
+          "audit_for_quality": 0.34,
+          "classify_content_type": 0.33,
+          "remove_or_keep_now": 0.33
+        }
+      },
+      "spam_likelihood": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.02,
+          "2": 0.98
+        }
+      }
+    },
+    "reasons": {
+      "repeated_promotion": "The same promotional message appears in twelve threads within five minutes.",
+      "handling_mode": "The available state and question do not identify the team's requested output mode, so probability remains spread across all declared choices.",
+      "spam_likelihood": "Repeated identical promotion across many threads and the account's recent creation strongly support the highest spam level."
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+ "case": "moderation-L1",
+ "source": "mimo-v2.6-pro, blind",
+ "no_user_instructions": {
+  "answers": {
+   "repeated_promotion": {
+    "type": "noul",
+    "noul": 0.95
+   },
+   "handling_mode": {
+    "type": "choice",
+    "probabilities": {
+     "audit_for_quality": 0.15,
+     "classify_content_type": 0.20,
+     "remove_or_keep_now": 0.65
+    }
+   },
+   "spam_likelihood": {
+    "type": "score",
+    "probabilities": {
+     "0": 0.03,
+     "1": 0.12,
+     "2": 0.85
+    }
+   }
+  },
+  "reasons": {
+   "repeated_promotion": "State shows the identical promotional link and text posted to twelve threads within five minutes.",
+   "handling_mode": "No user-instruction objective exists in this run, so the needed output is uncertain, but a final remove/keep decision is the most actionable moderation output for clear spam.",
+   "spam_likelihood": "Coordinated identical promotion across many threads from a two-day-old account is a classic spam pattern."
+  }
+ }
+}

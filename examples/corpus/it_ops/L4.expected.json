@@ -1,0 +1,140 @@
+{
+  "case": "it_ops-L4",
+  "source": "Reference answers from Claude Opus 5.5 (medium effort), answered blind. Each case was given exactly the system prompt, user message and output schema the gateway sends to a Messages API upstream (captured from the gateway at 75eed5c), then mapped back through the gateway itself (normalization, choice, score, confidence, 2-decimal rounding). The without_user_instructions answers come from a separate agent that never saw the user_instructions variant.",
+  "with_user_instructions": {
+    "answers": {
+      "record_complete": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "change_decision": {
+        "type": "choice",
+        "choice": "reschedule_to_quiet_window",
+        "confidence": 0.18,
+        "probabilities": {
+          "approve_as_scheduled": 0.01,
+          "approve_after_backup_check": 0.04,
+          "reschedule_to_quiet_window": 0.3,
+          "return_for_missing_information": 0.3,
+          "send_to_change_board": 0.15,
+          "approve_with_batched_backfill": 0.08,
+          "reject_change": 0.12
+        }
+      },
+      "change_risk": {
+        "type": "score",
+        "score": 6.27,
+        "confidence": 0.64,
+        "legend": {
+          "0": "Negligible",
+          "1": "Very low",
+          "2": "Low",
+          "3": "Lowish",
+          "4": "Moderate",
+          "5": "Moderately high",
+          "6": "High",
+          "7": "Very high"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.01,
+          "3": 0.01,
+          "4": 0.03,
+          "5": 0.1,
+          "6": 0.35,
+          "7": 0.5
+        }
+      }
+    },
+    "reasons": {
+      "change_decision": "Window falls inside the sale event on a checkout table, the backup is unverified, and batching and rollback are unclear; policy prefers rescheduling, but missing details argue for return.",
+      "change_risk": "Schema change on the orders table during a sale, with no verified backup, untested rollback and no load test, is very high risk.",
+      "record_complete": "Backup unverified, batching unspecified, rollback untested, and the approvals may predate the sale event."
+    }
+  },
+  "without_user_instructions": {
+    "answers": {
+      "record_complete": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "change_decision": {
+        "type": "choice",
+        "choice": "return_for_missing_information",
+        "confidence": 0.25,
+        "probabilities": {
+          "approve_as_scheduled": 0.01,
+          "approve_after_backup_check": 0.03,
+          "reschedule_to_quiet_window": 0.22,
+          "return_for_missing_information": 0.36,
+          "send_to_change_board": 0.25,
+          "approve_with_batched_backfill": 0.05,
+          "reject_change": 0.08
+        }
+      },
+      "change_risk": {
+        "type": "score",
+        "score": 5.97,
+        "confidence": 0.64,
+        "legend": {
+          "0": "Negligible",
+          "1": "Very low",
+          "2": "Low",
+          "3": "Lowish",
+          "4": "Moderate",
+          "5": "Moderately high",
+          "6": "High",
+          "7": "Very high"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.01,
+          "3": 0.02,
+          "4": 0.06,
+          "5": 0.16,
+          "6": 0.4,
+          "7": 0.35
+        }
+      }
+    },
+    "reasons": {
+      "change_decision": "Batching unstated, backup unverified, rollback untested and window overlaps the sale; returning for details leads, with change-board escalation and rescheduling close behind.",
+      "change_risk": "Window falls inside the sale event, backfill likely far exceeds 90 min (50 min on 10% data), untested rollback, unverified backup, no load test.",
+      "record_complete": "Record omits batching, has stale backup and untested rollback, and conflicts with the sale calendar."
+    }
+  },
+  "ui_dependent_question": "change_decision",
+  "ui_dependence": "A constraint bars schema migrations during a sales event and a reference fact names the quiet window, which moves the gate decision from a general reading of the evidence to a specific rescheduling outcome.",
+  "ui_effect": {
+    "with": {
+      "type": "choice",
+      "choice": "reschedule_to_quiet_window",
+      "confidence": 0.18,
+      "probabilities": {
+        "approve_as_scheduled": 0.01,
+        "approve_after_backup_check": 0.04,
+        "reschedule_to_quiet_window": 0.3,
+        "return_for_missing_information": 0.3,
+        "send_to_change_board": 0.15,
+        "approve_with_batched_backfill": 0.08,
+        "reject_change": 0.12
+      }
+    },
+    "without": {
+      "type": "choice",
+      "choice": "return_for_missing_information",
+      "confidence": 0.25,
+      "probabilities": {
+        "approve_as_scheduled": 0.01,
+        "approve_after_backup_check": 0.03,
+        "reschedule_to_quiet_window": 0.22,
+        "return_for_missing_information": 0.36,
+        "send_to_change_board": 0.25,
+        "approve_with_batched_backfill": 0.05,
+        "reject_change": 0.08
+      }
+    }
+  }
+}

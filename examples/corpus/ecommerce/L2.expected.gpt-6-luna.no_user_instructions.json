@@ -1,0 +1,36 @@
+{
+  "case": "ecommerce-L2",
+  "source": "gpt-6-luna, blind",
+  "no_user_instructions": {
+    "answers": {
+      "window_exceeded": {
+        "type": "noul",
+        "noul": 1.00
+      },
+      "return_outcome": {
+        "type": "choice",
+        "probabilities": {
+          "approve_refund": 0.18,
+          "offer_store_credit": 0.22,
+          "escalate_to_supervisor": 0.50,
+          "decline_return": 0.10
+        }
+      },
+      "goodwill_case_strength": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.00,
+          "1": 0.10,
+          "2": 0.30,
+          "3": 0.50,
+          "4": 0.10
+        }
+      }
+    },
+    "reasons": {
+      "window_exceeded": "The recorded 41 days since delivery exceeds the stated 30-day return window.",
+      "return_outcome": "The item is unopened and the customer reports a delivery delay, but the request is outside the window and no exception rule is supplied.",
+      "goodwill_case_strength": "The reported delay, unopened condition, and gold tier support an exception, while the delay is unverified and the stated window has passed."
+    }
+  }
+}

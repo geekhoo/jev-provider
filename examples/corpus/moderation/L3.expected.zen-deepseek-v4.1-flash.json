@@ -1,0 +1,33 @@
+{
+  "case": "moderation-L3",
+  "source": "zen/deepseek-v4.1-flash, blind",
+  "with_user_instructions": {
+    "answers": {
+      "offers_item_for_sale": { "type": "noul", "noul": 0.97 },
+      "post_action": {
+        "type": "choice",
+        "probabilities": {
+          "remove_post": 0.12,
+          "soft_hold": 0.62,
+          "leave_up": 0.06,
+          "escalate_trust_and_safety": 0.20
+        }
+      },
+      "scam_likelihood": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.03,
+          "2": 0.16,
+          "3": 0.42,
+          "4": 0.38
+        }
+      }
+    },
+    "reasons": {
+      "offers_item_for_sale": "Text explicitly offers 1000 followers for 5 dollars, so a paid sale is offered.",
+      "post_action": "Commercial post from a two-day-old account with no prior actions maps to first offence soft hold, but scam cues raise escalation and removal odds.",
+      "scam_likelihood": "Gift-card-only payment, no refunds, and a two-day-old account make a scam likely to very likely."
+    }
+  }
+}

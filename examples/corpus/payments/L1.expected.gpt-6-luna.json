@@ -1,0 +1,33 @@
+{
+  "case": "payments-L1",
+  "source": "gpt-6-luna, blind",
+  "with_user_instructions": {
+    "answers": {
+      "matches_account_history": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "handling_mode": {
+        "type": "choice",
+        "probabilities": {
+          "approve_or_decline_now": 0.98,
+          "score_fraud_risk": 0.01,
+          "route_to_analyst": 0.01
+        }
+      },
+      "fraud_signal_strength": {
+        "type": "score",
+        "probabilities": {
+          "0": 0.99,
+          "1": 0.01,
+          "2": 0.00
+        }
+      }
+    },
+    "reasons": {
+      "matches_account_history": "The state explicitly says the card, device, and city match the account history.",
+      "handling_mode": "The gating objective calls for a final payment decision, and the sole flag is a first-try postcode typo despite matching account signals.",
+      "fraud_signal_strength": "A first-try billing-postcode typo is a very weak signal given the returning cardholder and matching card, device, and city."
+    }
+  }
+}

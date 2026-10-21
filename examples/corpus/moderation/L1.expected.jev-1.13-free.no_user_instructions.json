@@ -1,0 +1,37 @@
+{
+  "case": "moderation-L1",
+  "source": "jev-1.13-free via LiteLLM /v1/systemone",
+  "no_user_instructions": {
+    "answers": {
+      "repeated_promotion": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "handling_mode": {
+        "type": "choice",
+        "choice": "remove_or_keep_now",
+        "confidence": 0.85,
+        "probabilities": {
+          "audit_for_quality": 0.04,
+          "classify_content_type": 0.06,
+          "remove_or_keep_now": 0.9
+        }
+      },
+      "spam_likelihood": {
+        "type": "score",
+        "score": 2.0,
+        "confidence": 1.0,
+        "legend": {
+          "0": "Unlikely",
+          "1": "Possible",
+          "2": "Very likely"
+        },
+        "probabilities": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 1.0
+        }
+      }
+    }
+  }
+}

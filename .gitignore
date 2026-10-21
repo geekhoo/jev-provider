@@ -1,0 +1,17 @@
+# Rust build output and rustfmt backups.
+/target/
+**/*.rs.bk
+
+# Local environment files; keep credential-free examples trackable.
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Local logs and operating-system metadata.
+*.log
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Keep Cargo.lock tracked: this repository builds an application binary.
