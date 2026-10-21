@@ -27,7 +27,7 @@ The 25 corpus cases (5 domains × 5 complexity levels) were each answered 20 tim
 | gw-openai | zen/gpt-6-luna, effort xhigh | Gateway route `jev-openai` | Gateway prompt, Responses json_schema |
 | gw-openai-deep | zen/gpt-6.1-sol, effort medium | Gateway route `jev-openai-deep` | Gateway prompt, Responses json_schema |
 
-The gateway routes ran on ubuntu2604 (image `v0.9.0`, code `75eed5c`), all upstream calls through LiteLLM. Files are `<domain>/L<n>.expected[.<set>][.no_user_instructions].json`. Every number below comes from:
+The gateway routes ran on ubuntu2604 (image `v0.9.0`, code `75eed5c`), all upstream calls through LiteLLM. Files are `<domain>/L<n>.expected[.<set>][.no_user_instructions].json`. Every number below comes from these commands, except the latencies in section 1, which come from the run logs:
 
 ```bash
 python examples/corpus/analyse.py                                    # all ten sets
